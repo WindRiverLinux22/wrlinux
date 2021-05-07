@@ -18,6 +18,8 @@ SRC_URI = "git://git.yoctoproject.org/poky;branch=dunfell \
            file://0001-get-vars-from-environment.patch \
            file://0001-wic-set-DEFAULT_OVERHEAD_FACTOR.patch \
            file://0001-wic-disable-psuedo-under-root.patch \
+           file://0001-isoimage-isohybrid.py-Support-adding-files-dirs.patch \
+           file://0001-support-to-generate-iso-out-of-yocto-build.patch \
            "
 
 S = "${WORKDIR}/git"
