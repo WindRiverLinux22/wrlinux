@@ -19,7 +19,11 @@ TOOLCHAIN_HOST_TASK_append = " \
     nativesdk-bootfs \
     nativesdk-appsdk \
 "
-TOOLCHAIN_TARGET_TASK_append = " qemuwrapper-cross"
+TOOLCHAIN_TARGET_TASK_append = " \
+    qemuwrapper-cross \
+    syslinux-misc \
+    syslinux-isolinux \
+"
 
 POPULATE_SDK_PRE_TARGET_COMMAND += "copy_pkgdata_to_sdk;"
 copy_pkgdata_to_sdk() {
