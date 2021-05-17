@@ -26,6 +26,7 @@ PNWHITELIST_networking-layer += " \
 
 PNWHITELIST_openembedded-layer += " \
     agent-proxy-native \
+    audit \
     bonnie++ \
     c-ares \
     fbset \
@@ -110,8 +111,4 @@ PNWHITELIST_security += " \
 PNWHITELIST_integrity += " \
     ima-inspect \
     ima-evm-utils \
-"
-
-PNWHITELIST_selinux += " \
-    audit \
 "
