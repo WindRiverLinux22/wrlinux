@@ -1,48 +1,51 @@
-commit cd9b09423cf6b3fec541340a9c3c3561c6616db5
-Author: Aws Ismail <aws.ismail@windriver.com>
-Date:   Fri Jan 18 17:39:40 2013 -0500
+From cd9b5c84e8c46b9c3a8fa42a48149b994eac9ee5 Mon Sep 17 00:00:00 2001
+From: Chen Qi <Qi.Chen@windriver.com>
+Date: Mon, 17 May 2021 19:27:35 -0700
+Subject: [PATCH] hdparm: handle fringe cases when -i and -c are not fully
+ supported
 
-    hdparm: handle fringe cases when -i and -c are not fully supported
-    
-    -i (HDIO_GET_IDENTITY) might not work very well on some old
-    hardware, so gracefully notify the user instead of failing.
-    
-    -c (HDIO_GET_32BIT) is irrelevant if DMA is being used or,
-    because of libata, default transfer width will always be
-    16-bit.
-    
-    Upstream-Status: Pending
-    
-    Signed-off-by: Aws Ismail <aws.ismail@windriver.com>
+-i (HDIO_GET_IDENTITY) might not work very well on some old
+hardware, so gracefully notify the user instead of failing.
+
+-c (HDIO_GET_32BIT) is irrelevant if DMA is being used or,
+because of libata, default transfer width will always be
+16-bit.
+
+Upstream-Status: Pending
+
+Signed-off-by: Aws Ismail <aws.ismail@windriver.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ hdparm.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/hdparm.c b/hdparm.c
-index 96a2db8..da66150 100644
+index 0699be0..f598290 100644
 --- a/hdparm.c
 +++ b/hdparm.c
-@@ -2064,9 +2064,10 @@ void process_dev (char *devname)
+@@ -2560,8 +2560,9 @@ void process_dev (char *devname)
  				default:printf("\?\?\?)\n");
  			}
-                } else if (get_io32bit) {
--                       err = errno;
--                       perror(" HDIO_GET_32BIT failed");
--		}
-+                    printf(" Could not check HDIO_GET_32BIT status value \n");
-+                    printf(" Please check that the device is not in DMA mode. \n" ); 
-+                    printf(" Otherwise, default is 16-bit \n");		
-+        }
+ 		} else if (get_io32bit) {
+-			err = errno;
+-			perror(" HDIO_GET_32BIT failed");
++			printf(" Could not check HDIO_GET_32BIT status value \n");
++			printf(" Please check that the device is not in DMA mode. \n" );
++			printf(" Otherwise, default is 16-bit \n");
+ 		}
  	}
  	if (do_defaults || get_unmask) {
- 		if (0 == ioctl(fd, HDIO_GET_UNMASKINTR, &parm)) {
-@@ -2180,8 +2181,10 @@ void process_dev (char *devname)
+@@ -2676,7 +2677,9 @@ void process_dev (char *devname)
  				id2[59] &= ~0x100;
  			}
  			dump_identity(id2);
 -		} else if (errno == -ENOMSG) {
--			printf(" no identification info available\n");
-+         } else if ((errno == -ENOMSG)                      
-+         || (errno == -EINVAL)
-+         || (errno == -ENOTTY)) {
-+             printf(" no identification info available\n");
++		} else if ((errno == -ENOMSG)
++			   || (errno == -EINVAL)
++			   || (errno == -ENOTTY)) {
+ 			printf(" no identification info available\n");
  		} else {
  			err = errno;
- 			perror(" HDIO_GET_IDENTITY failed");
+-- 
+2.30.2
+
