@@ -48,13 +48,13 @@ if not present.
     NOTE: The following u-boot.img is from WRLinux LAB, it isn't integrated into
     WRLinux because of the license issue. Here is the steps to create:
     $ mkdir path_to_your_project && cd path_to_your_project
-    $ git clone --branch WRLINUX_10_21_BASE --single-branch  https://github.com/WindRiver-Labs/wrlinux-x.git
+    $ git clone --branch WRLINUX_10_22_BASE --single-branch  https://github.com/WindRiver-Labs/wrlinux-x.git
     $ ./wrlinux-x/setup.sh --machines=axxiaarm64 --accept-eula=yes
     $ . ./environment-setup-x86_64-wrlinuxsdk-linux
     $ . ./oe-init-build-env
     $ cat << _EOF >> conf/local.conf
 MACHINE_FEATURES += " bootloader-axxia"
-PNWHITELIST_wr-axxiaarm += 'u-boot-axxia'
+WRL_RECIPES:wr-axxiaarm += 'u-boot-axxia'
 BB_NO_NETWORK = '0'
 _EOF
     $ bitbake u-boot-axxia
@@ -179,10 +179,10 @@ Publisher side:
 
 ## Sources
 Source code required to build the image is provided here:
-https://distro.windriver.com/dist/wrlinux/lts-21/sources
+https://distro.windriver.com/dist/wrlinux/lts-22/sources
 
 Open Source Compliance Artifacts:
-https://open.windriver.com/env/Linux/Binary/LTS/21/index.html
+https://open.windriver.com/env/Linux/Binary/LTS/22/index.html
 
 ## License
 The image is provided under the GPL-2.0 license.
@@ -202,7 +202,7 @@ this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307 USA
 
 The images include third party software which might be available under
-additional open source licenses, including the base Wind River Linux CD
+additional open source licenses, including the base Wind River Linux LTS22
 distribution along with third party dependencies.
 
 ## Legal Notices

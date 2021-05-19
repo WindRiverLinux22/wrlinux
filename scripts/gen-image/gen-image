@@ -180,8 +180,8 @@ class GenImage(object):
         parser.add_argument('--repo-url', '--rpm-url',
             default=None,
             help='Specify the url to download (rsync) rpm packages, these packages will be used by packagefeed-stability.bbclass, the RPM_URL is the prepfix of the url, e.g, rsync://RPM_URL/<machine>/repos/rpm/', action="store")
-        parser.add_argument('-p', '--product', choices=['lincd', 'lts-21'], required=False,
-            default='lincd',
+        parser.add_argument('-p', '--product', choices=['lincd', 'lts-21', 'lts-22'], required=False,
+            default='lts-22',
             help='Specify the product', action="store")
         parser.add_argument('-e', '--extra-patches',
             default=None,
@@ -230,6 +230,10 @@ class GenImage(object):
             self.handoff_name = 'WRLinux-CD-Images'
         elif self.args.product == 'lts-21':
             self.handoff_name = 'WRLinux-lts-21-Images'
+        elif self.args.product == 'lts-22':
+            self.handoff_name = 'WRLinux-lts-22-Images'
+        else:
+            self.handoff_name = self.args.product
 
         if self.args.outdir:
             self.outdir = self.args.outdir
@@ -825,7 +829,7 @@ class GenImage(object):
                             os.makedirs(self.handoff_dir_ws)
                         shutil.copy(tarname_path, self.handoff_dir_ws)
 
-        logger.info('Deploy files: %s and WRLinux-lts-21-Images-%s' % (os.path.join(self.handoff_dir, self.machine), self.machine))
+        logger.info('Deploy files: %s and WRLinux-lts-22-Images-%s' % (os.path.join(self.handoff_dir, self.machine), self.machine))
 
     def ip_review(self):
         logger.info('Generating sources for IP review')
