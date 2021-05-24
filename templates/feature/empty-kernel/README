@@ -5,5 +5,5 @@ Useful when the build does not require a kernel, such as
 when building containers, saving build time.
 
 #@TYPE: Wrtemplate
-#@NAME: dummy-kernel
+#@NAME: empty-kernel
 #@DESCRIPTION: This template allows the build to use the linux-dummy kernel, which provides no real kernel, but satisfies dependancies on virtual/kernel. This is useful when the build does not require a kernel, such as when building containers, saving build time as a result.
