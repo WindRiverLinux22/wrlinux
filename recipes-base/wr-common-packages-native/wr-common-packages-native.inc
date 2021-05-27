@@ -15,7 +15,6 @@ DEPENDS = "\
     binutils-native \
     bison-native \
     bmap-tools-native \
-    boost-build-native \
     btrfs-tools-native \
     bzip2-native \
     cairo-native \
@@ -136,7 +135,6 @@ DEPENDS = "\
     mesa-native \
     meson-native \
     mkfontscale-native \
-    mklibs-native \
     mpfr-native \
     mtd-utils-native \
     mtools-native \
