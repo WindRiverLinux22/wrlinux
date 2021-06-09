@@ -3,7 +3,7 @@ From: Hongxu Jia <hongxu.jia@windriver.com>
 Date: Mon, 11 May 2020 18:40:28 +0800
 Subject: [PATCH] get FAKEROOTCMD from environment
 
-Upstream-Status: Inappropriate [wrlinux specific]
+Upstream-Status: Inappropriate [LAT specific]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---

@@ -3,7 +3,7 @@ From: Hongxu Jia <hongxu.jia@windriver.com>
 Date: Thu, 8 Oct 2020 21:58:41 +0800
 Subject: [PATCH] set nativepython3 as python interpreter
 
-Upstream-Status: Inappropriate [wrlinux specific]
+Upstream-Status: Inappropriate [LAT specific]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---

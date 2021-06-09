@@ -6,7 +6,7 @@ Subject: [PATCH] wic: set DEFAULT_OVERHEAD_FACTOR
 Set DEFAULT_OVERHEAD_FACTOR to 3 to assure enough
 space for ostree image
 
-Upstream-Status: Inappropriate [wrlinux specific]
+Upstream-Status: Inappropriate [LAT specific]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---

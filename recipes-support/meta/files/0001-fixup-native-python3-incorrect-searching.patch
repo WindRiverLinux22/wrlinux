@@ -5,7 +5,7 @@ Subject: [PATCH] fixup native python3 incorrect searching
 
 No native sysroot in sdk
 
-Upstream-Status: Inappropriate [wrlinux specific]
+Upstream-Status: Inappropriate [LAT specific]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---

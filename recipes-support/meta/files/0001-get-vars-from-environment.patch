@@ -11,7 +11,7 @@ Set DEPLOY_DIR_IMAGE to bootimg_dir
 
 Support iso image generation out of Yocto build
 
-Upstream-Status: Inappropriate [wrlinux specific]
+Upstream-Status: Inappropriate [LAT specific]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
