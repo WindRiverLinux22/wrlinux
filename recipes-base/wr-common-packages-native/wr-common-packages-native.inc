@@ -151,6 +151,7 @@ DEPENDS = "\
     patch-native \
     pbzip2-native \
     perl-native \
+    perlcross-native \
     pigz-native \
     pixman-native \
     pkgconfig-native \
