@@ -145,7 +145,7 @@ IMAGE_INSTALL_remove = "\
 
 # Only need tar.bz2 for container image
 IMAGE_FSTYPES_remove = " \
-    live wic wic.bmap ostreepush otaimg \
+    live wic wic.bmap otaimg \
 "
 
 # No bsp packages for container

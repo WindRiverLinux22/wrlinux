@@ -12,7 +12,7 @@ CONTAINER_CORE_BOOT ?= " \
 
 # Only need tar.bz2 for container image
 IMAGE_FSTYPES_remove = " \
-    ${@bb.utils.contains('IMAGE_ENABLE_CONTAINER', '1', 'live wic wic.bmap ostreepush otaimg', '', d)} \
+    ${@bb.utils.contains('IMAGE_ENABLE_CONTAINER', '1', 'live wic wic.bmap otaimg', '', d)} \
 "
 
 # No bsp packages for container
