@@ -8,16 +8,18 @@ PROVIDES = "${@bb.utils.contains("KERNEL_HEADER_DIR", "/usr", "linux-libc-header
 includedir = "${KERNEL_HEADER_DIR}/include"
 
 # The version of the customized kernel should be specified here, for example,
-# LINUX_VERSION = "4.19-rc7"
+LINUX_VERSION ?= "5.15.48"
 LINUX_VERSION_EXTENSION:append = "-custom"
 
-KBRANCH ?= "v5.17/standard/base"
+KBRANCH ?= "v5.15/standard/base"
 SRCREV_machine = "${AUTOREV}"
 PV = "${LINUX_VERSION}+git${SRCPV}"
 
 # The location of the customized kernel should be specified here, for example,
-KSRC_linux_libc_headers_custom = "${THISDIR}/../../../git/linux-yocto-dev.git"
+KSRC_linux_libc_headers_custom = "${THISDIR}/../../../git/linux-yocto.git"
 SRC_URI = "git://${KSRC_linux_libc_headers_custom};protocol=file;branch=${KBRANCH};name=machine"
+
+LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
 
 S = "${WORKDIR}/git"
 
