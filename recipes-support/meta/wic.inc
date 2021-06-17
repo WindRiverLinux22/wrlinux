@@ -21,6 +21,7 @@ SRC_URI = "git://git.yoctoproject.org/poky;branch=dunfell \
            file://0001-isoimage-isohybrid.py-Support-adding-files-dirs.patch \
            file://0001-support-to-generate-iso-out-of-yocto-build.patch \
            file://0001-add-boot-menu-to-bios-boot.patch \
+           file://0001-use-enviroment-var-to-replace-yocto-var.patch \
            "
 
 S = "${WORKDIR}/git"
