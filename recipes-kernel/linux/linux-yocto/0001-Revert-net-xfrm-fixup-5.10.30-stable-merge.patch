@@ -1,0 +1,44 @@
+From c64a99f4a1c9d8a0753dd0a9d18a97a3001b2d2d Mon Sep 17 00:00:00 2001
+From: Yanfei Xu <yanfei.xu@windriver.com>
+Date: Thu, 17 Jun 2021 10:49:19 +0800
+Subject: [PATCH] Revert "net/xfrm: fixup 5.10.30 -stable merge"
+
+The commit b7a01a10d2f9 ("net: xfrm: Use sequence counter with
+associated spinlock") change the type of xfrm_state_hash_generation
+from "seqcount_t" to "seqcount_spinlock_t". Revert this commit
+for fixing compile failure of "incompatible pointer type".
+
+This reverts commit ac98a75ef2bc550f67454bd738ede581c8846ff3.
+
+Upstream-Status: Pending
+
+Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
+---
+ net/xfrm/xfrm_state.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/net/xfrm/xfrm_state.c b/net/xfrm/xfrm_state.c
+index 6dbb7a46c66a..e0152019db6f 100644
+--- a/net/xfrm/xfrm_state.c
++++ b/net/xfrm/xfrm_state.c
+@@ -44,6 +44,7 @@ static void xfrm_state_gc_task(struct work_struct *work);
+  */
+ 
+ static unsigned int xfrm_state_hashmax __read_mostly = 1 * 1024 * 1024;
++static __read_mostly seqcount_spinlock_t xfrm_state_hash_generation;
+ static struct kmem_cache *xfrm_state_cache __ro_after_init;
+ 
+ static DECLARE_WORK(xfrm_state_gc_work, xfrm_state_gc_task);
+@@ -2668,7 +2669,8 @@ int __net_init xfrm_state_init(struct net *net)
+ 	net->xfrm.state_num = 0;
+ 	INIT_WORK(&net->xfrm.state_hash_work, xfrm_hash_resize);
+ 	spin_lock_init(&net->xfrm.xfrm_state_lock);
+-	seqcount_init(&net->xfrm.xfrm_state_hash_generation);
++	seqcount_spinlock_init(&net->xfrm.xfrm_state_hash_generation,
++			       &net->xfrm.xfrm_state_lock);
+ 	return 0;
+ 
+ out_byspi:
+-- 
+2.27.0
+
