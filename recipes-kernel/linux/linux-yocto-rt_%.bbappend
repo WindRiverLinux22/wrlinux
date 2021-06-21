@@ -13,4 +13,5 @@ SRCREV_meta = "${AUTOREV}"
 FILESEXTRAPATHS_prepend := "${THISDIR}/linux-yocto:"
 SRC_URI_append = " \
     file://0001-Revert-net-xfrm-fixup-5.10.30-stable-merge.patch \
+    file://0001-aufs-fix-compile-failure-when-accessing-rw_sem.owner.patch \
 "

@@ -1,0 +1,59 @@
+From 436a7affde4581741469712bf3c0672daffa414c Mon Sep 17 00:00:00 2001
+From: Yanfei Xu <yanfei.xu@windriver.com>
+Date: Mon, 21 Jun 2021 18:09:15 +0800
+Subject: [PATCH] aufs: fix compile failure when accessing rw_sem.owner in
+ rt-kernel
+
+rw_semaphore is implemented with rt-mutex in rt-kernel which is
+different from the standard kernel. Compatible with these two
+implementations on aufs by adding a "#ifndef" statement.
+
+The compile failure log as blow:
+
+|   CC      drivers/char/hw_random/virtio-rng.o
+|   CC      kernel/task_work.o
+|
+/tmp-glibc/work-shared/intel-x86-64/kernel-source/fs/aufs/i_op.c:
+In function 'au_pin_hdir_set_owner':
+|
+/tmp-glibc/work-shared/intel-x86-64/kernel-source/fs/aufs/i_op.c:636:52:
+error: 'struct rw_semaphore' has no member named 'owne
+r'
+|   636 |         atomic_long_set(&p->hdir->hi_inode->i_rwsem.owner,
+(long)task);
+|       |                                                    ^
+|   CC      arch/x86/video/fbdev.o
+| make[3]: ***
+[/tmp-glibc/work-shared/intel-x86-64/kernel-source/scripts/Makefile.build:279:
+fs/aufs/i_op.o] Error 1
+| make[3]: *** Waiting for unfinished jobs....
+|   CC      drivers/acpi/acpica/nsinit.o
+|   CC      kernel/extable.o
+|   AR      net/ipv4/built-in.a
+
+Upstream-Status: Pending
+
+Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
+---
+ fs/aufs/i_op.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/fs/aufs/i_op.c b/fs/aufs/i_op.c
+index 2d09f80153b2..6c76562d3c80 100644
+--- a/fs/aufs/i_op.c
++++ b/fs/aufs/i_op.c
+@@ -633,7 +633,11 @@ int au_pin_hdir_relock(struct au_pin *p)
+ 
+ static void au_pin_hdir_set_owner(struct au_pin *p, struct task_struct *task)
+ {
++#ifndef CONFIG_PREEMPT_RT
+ 	atomic_long_set(&p->hdir->hi_inode->i_rwsem.owner, (long)task);
++#else
++	p->hdir->hi_inode->i_rwsem.rtmutex.owner = task;
++#endif
+ }
+ 
+ void au_pin_hdir_acquire_nest(struct au_pin *p)
+-- 
+2.27.0
+
