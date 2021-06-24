@@ -463,7 +463,7 @@ class GenImage(object):
         if self.image_minimal in ' '.join(files):
             copy_twice = True
         for f in files:
-            if subdir.endswith('/sdk') or subdir.endswith('/lat'):
+            if subdir.endswith('/sdk'):
                 do_copy(f, dst_dir_sdk)
             elif self.image_minimal in f:
                 do_copy(f, dst_dir_minimal)
@@ -496,30 +496,6 @@ class GenImage(object):
 
         deploy_files.append(self.get_configinfo_file())
         self.do_deploy('%s/sdk' % self.machine, deploy_files)
-
-    def gen_lat(self):
-        logger.info('Generating base reference container for Linux Assembly Tool...')
-        if not self.machine in ('intel-x86-64', 'bcm-2xxx-rpi4'):
-            logger.info('Skipping Linux Assembly Tool: Not supported')
-            return
-
-        self.do_build('container-base')
-
-        logger.info('Generating app sdk for Linux Assembly Tool...')
-        self.do_build('container-base -cpopulate_sdk')
-
-        deploy_files = self.get_deploy_files(type='tar.bz2', uboot=False, images=['container-base'])
-        deploy_dir = os.path.join(self.tmpdir, 'deploy/sdk')
-        suffixes = ['sdk.sh', 'sdk.host.manifest', 'sdk.target.manifest']
-        for f in suffixes:
-            wildcard = "%s/*-%s-container-base-%s" % (deploy_dir, self.machine.replace('-', '_'), f)
-            files = glob.glob(wildcard)
-            if len(files) != 1:
-                raise Exception("Should be only one %s file but found %s: \n%s" % (f, len(files), '\n'.join(files)))
-            deploy_files.append(files[0])
-
-        deploy_files.append(os.path.join(self.doc_dir, 'appsdk.README.md'))
-        self.do_deploy('%s/lat' % self.machine, deploy_files)
 
     def get_deploy_files(self, type='', uboot=True, images=[]):
         deploy_dir = os.path.join(self.tmpdir, 'deploy/images/%s' % self.machine)
@@ -706,7 +682,7 @@ class GenImage(object):
         # Create tarballs for target minimal/full and sdk directories
         if os.path.exists(file_prefix):
             for d in os.listdir(file_prefix):
-                if ('-minimal-' in d or '-full-' in d or 'sdk-' in d or 'lat-' in d) and not d.startswith('container-'):
+                if ('-minimal-' in d or '-full-' in d or 'sdk-' in d) and not d.startswith('container-'):
                     cmd = 'tar --numeric-owner -cjvf %s.tar.bz2 %s' % (d, d)
                     logger.debug('Running %s' % cmd)
                     subprocess.check_output(cmd, shell=True, cwd=file_prefix)
