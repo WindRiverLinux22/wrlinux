@@ -57,6 +57,7 @@ DEPENDS = "\
     glslang-native \
     gmp-native \
     gnu-config-native \
+    gnutls-native \
     gobject-introspection-native \
     gperf-native \
     gpgme-native \
@@ -90,7 +91,9 @@ DEPENDS = "\
     libgpg-error-native \
     libical-native \
     libice-native \
+    libidn2-native \
     libjpeg-turbo-native \
+    libmicrohttpd-native \
     libmodulemd-native \
     libmpc-native \
     libnsl2-native \
@@ -106,6 +109,7 @@ DEPENDS = "\
     libsolv-native \
     libtirpc-native \
     libtool-native \
+    libunistring-native \
     libx11-native \
     libxau-native \
     libxcb-native \
@@ -140,6 +144,7 @@ DEPENDS = "\
     mtools-native \
     nasm-native \
     ncurses-native \
+    nettle-native \
     ninja-native \
     openssl-native \
     opkg-native \
