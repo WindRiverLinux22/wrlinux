@@ -26,7 +26,7 @@ version="$1"
 echo "#"
 echo "# This file is generated based on:"
 if [ -n "$version" ]; then
-    echo "#     linux-yocto-${version}"
+	echo "#     linux-yocto-${version}"
 fi
 echo "#     yocto-kernel-cache"
 echo "#"
@@ -34,83 +34,83 @@ echo "# Any manual changes will be overwritten."
 echo "#"
 
 if [ -n "$version" ]; then
-    echo
-    echo "# linux-yocto-${version} entries"
-    echo "# This will cause SRCREV_machine_kb-<KBRANCH> take priority over SRCREV_machine_<machine>"
-    echo "MACHINEOVERRIDES .= \":kb-\${@d.getVar('KBRANCH', True).replace(\"/\", \"-\")}\""
-    echo
-    echo "# linux-yocto-${version} branch entries"
-    (
-     if [ -d linux-yocto-${version} ]; then
-       cd linux-yocto-${version}
-     elif [ -d linux-yocto-${version}.git ]; then
-       cd linux-yocto-${version}.git
-     elif [ -d linux-yocto ]; then
-       cd linux-yocto
-     elif [ -d linux-yocto.git ]; then
-       cd linux-yocto.git
-     else
-       echo "Unable to find linux-yocto-${version} or linux-yocto repository." >&2
-       exit 1
-     fi
-     for branch in `git for-each-ref --format='%(refname)' refs/heads` ; do
-       # Skip any branch with 'rebase' in the name, these are only useful
-       # for bisecting and should not be used by BSPs.
-       if [ ${branch/rebase//} != ${branch} ]; then
-         continue
-       fi
+	echo
+	echo "# linux-yocto-${version} entries"
+	echo "# This will cause SRCREV_machine_kb-<KBRANCH> take priority over SRCREV_machine_<machine>"
+	echo "MACHINEOVERRIDES .= \":kb-\${@d.getVar('KBRANCH', True).replace(\"/\", \"-\")}\""
+	echo
+	echo "# linux-yocto-${version} branch entries"
+	(
+		if [ -d linux-yocto-${version} ]; then
+			cd linux-yocto-${version}
+		elif [ -d linux-yocto-${version}.git ]; then
+			cd linux-yocto-${version}.git
+		elif [ -d linux-yocto ]; then
+			cd linux-yocto
+		elif [ -d linux-yocto.git ]; then
+			cd linux-yocto.git
+		else
+			echo "Unable to find linux-yocto-${version} or linux-yocto repository." >&2
+			exit 1
+		fi
+		for branch in `git for-each-ref --format='%(refname)' refs/heads` ; do
+			# Skip any branch with 'rebase' in the name, these are only useful
+			# for bisecting and should not be used by BSPs.
+			if [ ${branch/rebase//} != ${branch} ]; then
+				continue
+			fi
 
-       VERSION=$(git show $branch:Makefile | grep "^VERSION =" | sed s/.*=\ *//)
-       PATCHLEVEL=$(git show $branch:Makefile | grep "^PATCHLEVEL =" | sed s/.*=\ *//)
-       SUBLEVEL=$(git show $branch:Makefile | grep "^SUBLEVEL =" | sed s/.*=\ *//)
-       EXTRAVERSION=$(git show $branch:Makefile | grep "^EXTRAVERSION =" | sed s/.*=\ *//)
+			VERSION=$(git show $branch:Makefile | grep "^VERSION =" | sed s/.*=\ *//)
+			PATCHLEVEL=$(git show $branch:Makefile | grep "^PATCHLEVEL =" | sed s/.*=\ *//)
+			SUBLEVEL=$(git show $branch:Makefile | grep "^SUBLEVEL =" | sed s/.*=\ *//)
+			EXTRAVERSION=$(git show $branch:Makefile | grep "^EXTRAVERSION =" | sed s/.*=\ *//)
 
-       if [ -n "${version}" -a "${VERSION}.${PATCHLEVEL}" != "${version}" ]; then
-          # Only capture information on the version we care about
-          continue
-       fi
+			if [ -n "${version}" -a "${VERSION}.${PATCHLEVEL}" != "${version}" ]; then
+				# Only capture information on the version we care about
+				continue
+			fi
 
-       # Build a plain version string
-       vers="${VERSION}.${PATCHLEVEL}"
-       if [ -n "${SUBLEVEL}" ]; then
-               # Ignoring a SUBLEVEL of zero is fine
-               if [ "${SUBLEVEL}" != "0" ]; then
-                       vers="${vers}.${SUBLEVEL}"
-               fi
-       fi
-       vers="${vers}${EXTRAVERSION}"
+			# Build a plain version string
+			vers="${VERSION}.${PATCHLEVEL}"
+			if [ -n "${SUBLEVEL}" ]; then
+				# Ignoring a SUBLEVEL of zero is fine
+				if [ "${SUBLEVEL}" != "0" ]; then
+					vers="${vers}.${SUBLEVEL}"
+				fi
+			fi
+			vers="${vers}${EXTRAVERSION}"
 
-       echo SRCREV_machine_kb-$(echo $branch | sed 's,refs/heads/,,' | sed 's,/,-,g') ?= \"$(git rev-parse $branch)\"
-       echo LINUX_VERSION_kb-$(echo $branch | sed 's,refs/heads/,,' | sed 's,/,-,g') = \"${vers}\"
-     done
-    )
+			echo SRCREV_machine_kb-$(echo $branch | sed 's,refs/heads/,,' | sed 's,/,-,g') ?= \"$(git rev-parse $branch)\"
+			echo LINUX_VERSION_kb-$(echo $branch | sed 's,refs/heads/,,' | sed 's,/,-,g') = \"${vers}\"
+		done
+	)
 fi
 
 echo
 echo "# yocto-kernel-cache entries"
 (
- if [ -d yocto-kernel-cache ]; then
-   cd yocto-kernel-cache
- elif [ -d yocto-kernel-cache.git ]; then
-   cd yocto-kernel-cache.git
- else
-   echo "Unable to find yocto-kernel-cache repository." >&2
-   exit 1
- fi
+	if [ -d yocto-kernel-cache ]; then
+		cd yocto-kernel-cache
+	elif [ -d yocto-kernel-cache.git ]; then
+		cd yocto-kernel-cache.git
+	else
+		echo "Unable to find yocto-kernel-cache repository." >&2
+		exit 1
+	fi
 
- refs=`git for-each-ref --format='%(refname)' refs/heads`
- for branch in $refs ; do
-   base_branch=$(echo $branch | sed 's,refs/heads/,,')
-   if [[ $refs =~ "${base_branch}-wr" ]]; then
-      # We need the one with "-wr" if it exists
-      continue
-   fi
-   base_version=$(echo $base_branch | sed 's,yocto-,,' | sed 's,-wr,,')
-   if [ -n "${version}" -a "${base_version}" != "${version}" ]; then
-      # Not the version we care about...
-      continue
-   fi
-   echo KERNEL_CACHE_BRANCH_${base_version} = \"${base_branch}\"
-   echo SRCREV_meta_${base_version} = \"$(git rev-parse ${base_branch})\"
- done
+	refs=`git for-each-ref --format='%(refname)' refs/heads`
+	for branch in $refs ; do
+		base_branch=$(echo $branch | sed 's,refs/heads/,,')
+		if [[ $refs =~ "${base_branch}-wr" ]]; then
+			# We need the one with "-wr" if it exists
+			continue
+		fi
+		base_version=$(echo $base_branch | sed 's,yocto-,,' | sed 's,-wr,,')
+		if [ -n "${version}" -a "${base_version}" != "${version}" ]; then
+			# Not the version we care about...
+			continue
+		fi
+		echo KERNEL_CACHE_BRANCH_${base_version} = \"${base_branch}\"
+		echo SRCREV_meta_${base_version} = \"$(git rev-parse ${base_branch})\"
+	done
 )
