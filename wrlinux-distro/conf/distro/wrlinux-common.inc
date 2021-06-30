@@ -140,8 +140,15 @@ SDK_LAYERS_EXCLUDE_PATTERN ?= ".*-dl$ .*-dl-[0-9.]+$"
 TARGET_SUPPORTED_KTYPES ??= "standard"
 
 # Packages blacklisted by default for wrlinux.
+PNBLACKLIST[bsd-headers] ?= "only glibc is supported for wrlinux"
+PNBLACKLIST[fts] ?= "only glibc is supported for wrlinux"
+PNBLACKLIST[gcompat] ?= "only glibc is supported for wrlinux"
+PNBLACKLIST[libssp-nonshared] ?= "only glibc is supported for wrlinux"
+PNBLACKLIST[libucontext] ?= "only glibc is supported for wrlinux"
 PNBLACKLIST[musl] ?= "only glibc is supported for wrlinux"
+PNBLACKLIST[musl-obstack] ?= "only glibc is supported for wrlinux"
 PNBLACKLIST[musl-utils] ?= "only glibc is supported for wrlinux"
+PNBLACKLIST[newlib] ?= "only glibc is supported for wrlinux"
 
 # do_kernel_version_sanity_check in oe-core checks if the defined version in
 # metadata(LINUX_VERSION) matches the version written in the source code. For
