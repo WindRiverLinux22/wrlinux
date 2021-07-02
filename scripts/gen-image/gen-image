@@ -26,6 +26,7 @@ import time
 import hashlib
 import git
 import socket
+import datetime
 
 logger = logging.getLogger('gen-image')
 
@@ -424,7 +425,8 @@ class GenImage(object):
 
             # Regenerate wic image to support disk resize
             if os.path.exists(ostreerepo_dir):
-                cmd = "%s/layers/wr-ostree/scripts/bootfs.sh -L -b %s -s 0 -a 'instdate=BUILD_DATE instw=60'" % (self.project, image)
+                date_since_epoch = datetime.datetime.now().strftime('%s')
+                cmd = "%s/layers/wr-ostree/scripts/bootfs.sh -L -b %s -s 0 -a 'instdate=%s instw=60'" % (self.project, image, date_since_epoch)
                 run_cmd(cmd, logger)
 
             new_image = ""
