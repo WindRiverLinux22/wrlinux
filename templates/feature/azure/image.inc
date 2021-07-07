@@ -1,1 +1,1 @@
-IMAGE_INSTALL += "azure-iot-sdk-c"
+IMAGE_INSTALL += "packagegroup-cloud-azure"
