@@ -1,6 +1,6 @@
-From ff2a6b3fca8e8bc16025705e7bfc139fc5b1df7c Mon Sep 17 00:00:00 2001
+From 134d6f72f2084b3663a82c940f2688c50f5aee96 Mon Sep 17 00:00:00 2001
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Date: Thu, 24 Jun 2021 03:24:34 +0000
+Date: Wed, 7 Jul 2021 08:44:46 +0000
 Subject: [PATCH] iommu/arm-smmu-v3: Ratelimit event dump
 
 When a device or driver misbehaves, it is possible to receive DMA fault
@@ -20,10 +20,10 @@ Signed-off-by: Zqiang <qiang.zhang@windriver.com>
  1 file changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index 7067b7c11626..1a772405515e 100644
+index 02f4c4112e12..6af45f04befd 100644
 --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
 +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -1357,16 +1357,19 @@ static irqreturn_t arm_smmu_evtq_thread(int irq, void *dev)
+@@ -1450,16 +1450,19 @@ static irqreturn_t arm_smmu_evtq_thread(int irq, void *dev)
  	struct arm_smmu_device *smmu = dev;
  	struct arm_smmu_queue *q = &smmu->evtq.q;
  	struct arm_smmu_ll_queue *llq = &q->llq;
@@ -44,9 +44,9 @@ index 7067b7c11626..1a772405515e 100644
 +					dev_info(smmu->dev, "\t0x%016llx\n",
 +						(unsigned long long)evt[i]);
 +			}
- 
  		}
- 
+ 		/*
+ 		 * Not much we can do on overflow, so scream and pretend we're
 -- 
 2.29.2
 
