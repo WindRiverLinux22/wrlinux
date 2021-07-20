@@ -56,7 +56,6 @@ PNWHITELIST_META_NETWORKING = " \
     libmaxminddb \
     libtdb \
     libtevent \
-    lksctp-tools \
     ndpi \
     netkit-rsh \
     netkit-telnet \
