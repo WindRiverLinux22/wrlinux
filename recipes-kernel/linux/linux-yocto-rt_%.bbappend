@@ -9,8 +9,3 @@ TARGET_SUPPORTED_KTYPES_remove_qemuarma9 = "preempt-rt"
 
 SRCREV_machine = "${AUTOREV}"
 SRCREV_meta = "${AUTOREV}"
-
-FILESEXTRAPATHS_prepend := "${THISDIR}/linux-yocto:"
-SRC_URI_append = " \
-    file://0001-xfrm-fix-up-warning-introduced-by-pseudo-revert.patch \
-"
