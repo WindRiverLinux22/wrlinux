@@ -26,6 +26,7 @@ TOOLCHAIN_TARGET_TASK_append = " \
 TOOLCHAIN_TARGET_TASK_append_x86-64 = " \
     syslinux-misc \
     syslinux-isolinux \
+    syslinux-pxelinux \
 "
 POPULATE_SDK_PRE_TARGET_COMMAND += "copy_pkgdata_to_sdk;"
 copy_pkgdata_to_sdk() {
