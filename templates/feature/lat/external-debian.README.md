@@ -66,6 +66,9 @@ $ appsdk --log-dir log genimage exampleyamls/debian-image-base-intel-x86-64.yaml
 5.4.2 Create ISO image
 $ appsdk --log-dir log genimage exampleyamls/debian-image-base-intel-x86-64.yaml --type iso
 
+5.4.3 Create PXE TFTP files
+$ appsdk --log-dir log genimage exampleyamls/debian-image-base-intel-x86-64.yaml --type pxe
+
 ## License
 The sdk is provided under the GPL-2.0 license.
 
