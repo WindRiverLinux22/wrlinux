@@ -12,7 +12,7 @@ Signed-off-by: Vu Tran <vu.tran@windriver.com>
 Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 
-Update fuzzy patch.
+Update context of the patch on 20210727.
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
@@ -29,13 +29,13 @@ index 0000000000..c2f7317aac
 @@ -0,0 +1 @@
 +KERNEL=="kvm", GROUP="kvm", MODE="0660"
 diff --git a/rules.d/meson.build b/rules.d/meson.build
-index b4640ab9d4..8387996d62 100644
+index 598649a562..94d3270ff1 100644
 --- a/rules.d/meson.build
 +++ b/rules.d/meson.build
-@@ -22,6 +22,7 @@ rules = files('''
-         75-probe_mtd.rules
+@@ -27,6 +27,7 @@ rules = files('''
          78-sound-card.rules
          80-net-setup-link.rules
+         81-net-dhcp.rules
 +        99-kvm.rules
  '''.split())
  
