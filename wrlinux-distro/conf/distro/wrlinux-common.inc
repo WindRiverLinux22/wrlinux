@@ -173,3 +173,10 @@ SANITY_TESTED_DISTROS ?= " \
             rhel-8.2 \n \
             sled-15 \n \
             "
+
+#
+# This is a workaround for new override syntax transition.
+# Old bitbake + new override syntax has some problem on file-rdeps QA check
+# This needs to be removed once the transition is finished.
+#
+INSANE_SKIP = "file-rdeps"
