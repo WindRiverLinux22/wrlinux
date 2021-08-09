@@ -27,7 +27,7 @@ TARGET_VENDOR = "-wrs"
 # Append 'osv-wrlinux' to the DISTROOVERRIDE
 DISTROOVERRIDES_append = "${@['', ':'][(d.getVar('DISTRO', True) != '')]}osv-wrlinux"
 
-LOCALCONF_VERSION = "1"
+LOCALCONF_VERSION = "2"
 
 SDK_NAME = "${DISTRO}-${TCLIBC}-${SDK_ARCH}-${TARGET_ARCH}"
 SDK_PS1 = "${SDK_NAME}${SDK_VENDOR}:\\$ "
