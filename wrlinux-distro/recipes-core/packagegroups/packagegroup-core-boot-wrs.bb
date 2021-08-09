@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-ALLOW_EMPTY_${PN} = "1"
+ALLOW_EMPTY:${PN} = "1"
 PR = "r1"
 
 # Distro can override the following VIRTUAL-RUNTIME providers:
@@ -26,7 +26,7 @@ PACKAGES = "\
     packagegroup-core-boot-wrs-dev \
 "
 
-RDEPENDS_packagegroup-core-boot-wrs = "\
+RDEPENDS:packagegroup-core-boot-wrs = "\
     base-files \
     base-passwd \
     busybox \

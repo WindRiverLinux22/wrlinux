@@ -16,9 +16,9 @@ LIC_FILES_CHKSUM = "\
 
 PACKAGES = "${PN}"
 
-ALLOW_EMPTY_${PN} = "1"
+ALLOW_EMPTY:${PN} = "1"
 
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
         cyclictest \
         gen-coredump \
         ipsec-test \

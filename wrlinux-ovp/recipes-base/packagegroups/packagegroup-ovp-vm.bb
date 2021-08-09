@@ -11,14 +11,14 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 inherit packagegroup
 
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
     qemu \
 "
 
-RRECOMMENDS_${PN} = " \
+RRECOMMENDS:${PN} = " \
     kernel-module-kvm \
     kernel-module-kvm-intel \
     kernel-module-kvm-amd \
 "
 
-COMPATIBLE_HOST_mips64 = "null"
+COMPATIBLE_HOST:mips64 = "null"

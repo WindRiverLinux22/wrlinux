@@ -31,5 +31,5 @@ do_install() {
 	install -m 0755 ${S}/memtrace ${D}/opt/cut/bin
 }
 
-FILES_${PN} += "/opt/cut/*"
-FILES_${PN}-dbg += "/opt/cut/bin/.debug"
+FILES:${PN} += "/opt/cut/*"
+FILES:${PN}-dbg += "/opt/cut/bin/.debug"

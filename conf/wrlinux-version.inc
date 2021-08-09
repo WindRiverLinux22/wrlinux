@@ -17,4 +17,4 @@ WRLINUX_VARIANT        = ""
 WRLINUX_BRANCH       ??= "${@'development' if d.getVar('WRLINUX_UPDATE_VERSION') == '0' else 'Base'}"
 
 # Make sure that WRLINUX_VERSION and WRLINUX_BRANCH are printed to logs
-BUILDCFG_VARS_prepend = "WRLINUX_VERSION WRLINUX_BRANCH "
+BUILDCFG_VARS:prepend = "WRLINUX_VERSION WRLINUX_BRANCH "

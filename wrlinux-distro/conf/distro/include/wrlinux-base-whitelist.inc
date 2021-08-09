@@ -2,15 +2,15 @@
 # distributions are enabled.  Please keep the lists below sorted.
 
 # Whitelist the whole wrlinux-distro layer
-PNWHITELIST_LAYERS_remove = "wrlinux-distro"
+PNWHITELIST_LAYERS:remove = "wrlinux-distro"
 
 # Define supported items from meta-openembedded
-PNWHITELIST_filesystems-layer += ""
+PNWHITELIST:filesystems-layer += ""
 
-PNWHITELIST_meta-initramfs += ""
-PNWHITELIST_multimedia-layer += ""
+PNWHITELIST:meta-initramfs += ""
+PNWHITELIST:multimedia-layer += ""
 
-PNWHITELIST_networking-layer += " \
+PNWHITELIST:networking-layer += " \
     freeradius \
     libldb \
     libtalloc \
@@ -25,7 +25,7 @@ PNWHITELIST_networking-layer += " \
     strongswan \
 "
 
-PNWHITELIST_openembedded-layer += " \
+PNWHITELIST:openembedded-layer += " \
     agent-proxy-native \
     audit \
     bonnie++ \
@@ -65,7 +65,7 @@ PNWHITELIST_openembedded-layer += " \
     libp11 \
 "
 
-PNWHITELIST_perl-layer += " \
+PNWHITELIST:perl-layer += " \
     adduser \
     libipc-signal-perl \
     libmime-types-perl \
@@ -74,7 +74,7 @@ PNWHITELIST_perl-layer += " \
     mime-construct \
 "
 
-PNWHITELIST_meta-python += " \
+PNWHITELIST:meta-python += " \
     python3-django \
     python3-django-south \
     python3-pytz \
@@ -91,14 +91,14 @@ PNWHITELIST_meta-python += " \
     python3-cython \
 "
 
-PNWHITELIST_webserver += " \
+PNWHITELIST:webserver += " \
     phpmyadmin \
     xdebug \
 "
 
-PNWHITELIST_xfce-layer += ""
+PNWHITELIST:xfce-layer += ""
 
-PNWHITELIST_security += " \
+PNWHITELIST:security += " \
     ding-libs \
     ecryptfs-utils \
     libgssglue \
@@ -109,7 +109,7 @@ PNWHITELIST_security += " \
     sssd \
 "
 
-PNWHITELIST_integrity += " \
+PNWHITELIST:integrity += " \
     ima-inspect \
     ima-evm-utils \
 "

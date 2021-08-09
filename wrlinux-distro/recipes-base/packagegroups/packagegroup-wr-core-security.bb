@@ -19,18 +19,18 @@ PACKAGES = "${PN}-utils ${PN}-trust \
             ${PN}-access ${PN}-detection \
             ${PN}-crypto ${PN}-auth ${PN}"
 
-ALLOW_EMPTY_${PN}-utils = "1"
-ALLOW_EMPTY_${PN}-trust = "1"
-ALLOW_EMPTY_${PN}-access = "1"
-ALLOW_EMPTY_${PN}-detection = "1"
-ALLOW_EMPTY_${PN}-crypto = "1"
-ALLOW_EMPTY_${PN}-auth = "1"
-ALLOW_EMPTY_${PN} = "1"
+ALLOW_EMPTY:${PN}-utils = "1"
+ALLOW_EMPTY:${PN}-trust = "1"
+ALLOW_EMPTY:${PN}-access = "1"
+ALLOW_EMPTY:${PN}-detection = "1"
+ALLOW_EMPTY:${PN}-crypto = "1"
+ALLOW_EMPTY:${PN}-auth = "1"
+ALLOW_EMPTY:${PN} = "1"
 
 # afong: These two were originally in the package list, no apps were using them, removed.
 # 	libgssglue
 # 	libmhash
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
 	${PN}-utils \
 	${PN}-trust \
 	${PN}-access \
@@ -39,31 +39,31 @@ RDEPENDS_${PN} = "\
 	${PN}-auth \
         "
 
-RDEPENDS_${PN}-utils = "\
+RDEPENDS:${PN}-utils = "\
 	${@bb.utils.contains('BBFILE_COLLECTIONS', 'integrity', 'keyutils', '', d)} \
 	nspr \
 	${@bb.utils.contains('BBFILE_COLLECTIONS', 'security', 'xmlsec1', '', d)} \
         "
 
-RDEPENDS_${PN}-trust = "\
+RDEPENDS:${PN}-trust = "\
 	gnupg \
         "
 
-RDEPENDS_${PN}-access = "\
+RDEPENDS:${PN}-access = "\
 	${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'audit auditd', '', d)} \
         "
 
-RDEPENDS_${PN}-detection = "\
+RDEPENDS:${PN}-detection = "\
 	${@bb.utils.contains('BBFILE_COLLECTIONS', 'security', 'samhain', '', d)} \
         "
 
-RDEPENDS_${PN}-crypto = "\
+RDEPENDS:${PN}-crypto = "\
 	${@bb.utils.contains('BBFILE_COLLECTIONS', 'security', 'ecryptfs-utils', '', d)} \
 	gnutls \
 	nss \
         "
 
-RDEPENDS_${PN}-auth = "\
+RDEPENDS:${PN}-auth = "\
 	krb5 \
 	pinentry \
         "

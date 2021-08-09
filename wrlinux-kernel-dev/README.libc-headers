@@ -28,10 +28,10 @@ Usage:
 Add the lines to local.conf to enable it:
 PREFERRED_PROVIDER_linux-libc-headers = "linux-libc-headers-custom"
 PREFERRED_PROVIDER_nativesdk-linux-libc-headers = "nativesdk-linux-libc-headers-custom"
-WRTEMPLATE_append = "feature/kernel-dev"
+WRTEMPLATE:append = "feature/kernel-dev"
 
 Add the full path of the layer to bblayers.conf:
 wrlinux/wrlinux-kernel-dev
 
 Header files will finally be packaged into linux-libc-headers-custom-dev. To populate it into rootfs:
-IMAGE_INSTALL_append = " linux-libc-headers-custom-dev"
+IMAGE_INSTALL:append = " linux-libc-headers-custom-dev"

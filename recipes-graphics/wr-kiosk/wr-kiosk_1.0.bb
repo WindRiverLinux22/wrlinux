@@ -17,14 +17,14 @@ inherit useradd features_check systemd
 
 # system user & group named wr-kiosk
 USERADD_PACKAGES = "${PN}"
-USERADD_PARAM_${PN} = "-m -d /home/${PN} -U -r -s /bin/sh ${PN}"
+USERADD_PARAM:${PN} = "-m -d /home/${PN} -U -r -s /bin/sh ${PN}"
 
 # x11 is required for X.service
 # systemd is required for any of the below service
 REQUIRED_DISTRO_FEATURES = "x11 systemd"
 
-SYSTEMD_AUTO_ENABLE_${PN} = "enable"
-SYSTEMD_SERVICE_${PN} = "wr-chromium-web-kiosk.service X.service"
+SYSTEMD_AUTO_ENABLE:${PN} = "enable"
+SYSTEMD_SERVICE:${PN} = "wr-chromium-web-kiosk.service X.service"
 
 STARTING-URL ?= ""
 
@@ -60,5 +60,5 @@ do_install() {
         ${D}${libexecdir}/wr-chromium-web-kiosk.sh
 }
 
-FILES_${PN} += "${systemd_unitdir}"
-FILES_${PN} += "${libexecdir}/wr-chromium-web-kiosk.sh"
+FILES:${PN} += "${systemd_unitdir}"
+FILES:${PN} += "${libexecdir}/wr-chromium-web-kiosk.sh"

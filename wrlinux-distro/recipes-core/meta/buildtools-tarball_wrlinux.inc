@@ -1,9 +1,9 @@
 # Force the name, we don't want ?= or our SDK naming will be used.
-TOOLCHAIN_OUTPUTNAME_osv-wrlinux = "${SDK_ARCH}-${BUILDTOOLS}-nativesdk-standalone-${DISTRO_VERSION}"
+TOOLCHAIN_OUTPUTNAME:osv-wrlinux = "${SDK_ARCH}-${BUILDTOOLS}-nativesdk-standalone-${DISTRO_VERSION}"
 
 # for toaster
 #
-TOOLCHAIN_HOST_TASK_append_osv-wrlinux = " \
+TOOLCHAIN_HOST_TASK:append:osv-wrlinux = " \
       nativesdk-python3-django nativesdk-python3-django-south \
       nativesdk-python3-numbers nativesdk-python3-email \
       nativesdk-python3-html nativesdk-python3-resource \
@@ -14,9 +14,9 @@ TOOLCHAIN_HOST_TASK_append_osv-wrlinux = " \
      "
 
 # use anspass to save and retrieve credentials
-TOOLCHAIN_HOST_TASK_append_osv-wrlinux = " nativesdk-anspass"
+TOOLCHAIN_HOST_TASK:append:osv-wrlinux = " nativesdk-anspass"
 
-SDK_POSTPROCESS_COMMAND_prepend_osv-wrlinux = " gen_buildtools_delete_target ;"
+SDK_POSTPROCESS_COMMAND:prepend:osv-wrlinux = " gen_buildtools_delete_target ;"
 
 gen_buildtools_delete_target() {
 	rm -rf ${SDK_OUTPUT}/${SDKTARGETSYSROOT}

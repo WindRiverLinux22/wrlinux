@@ -17,7 +17,7 @@ IMAGE_INSTALL += " \
     acpid-default-scripts \
 "
 
-IMAGE_INSTALL_append_qemux86-64 = " dpdk"
+IMAGE_INSTALL:append:qemux86-64 = " dpdk"
 
 IMAGE_INSTALL += " \
     kernel-modules \

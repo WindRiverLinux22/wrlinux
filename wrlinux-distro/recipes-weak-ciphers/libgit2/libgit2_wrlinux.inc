@@ -3,4 +3,4 @@
 #
 
 NONTLMCLIENT = "${@bb.utils.contains('DISTRO_FEATURES', 'openssl-no-weak-ciphers', '-DUSE_NTLMCLIENT=OFF', '', d)}"
-EXTRA_OECMAKE_append_osv-wrlinux = " ${NONTLMCLIENT}"
+EXTRA_OECMAKE:append:osv-wrlinux = " ${NONTLMCLIENT}"

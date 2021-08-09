@@ -319,7 +319,7 @@ Building the target installer
 12. How to authenticate while downloading kickstart from web server
     12.1 We add boot options 'ksuser' and 'kspasswd'(listed in /proc/cmdline)
          to support authentication while downloading kickstart from web server.
-         You could integrate them to installer image by set APPEND_append =
+         You could integrate them to installer image by set APPEND:append =
          " ks=<url-ks> ksuser=<username> kspasswd=<password>" in local.conf
 
     12.2 Currently, we support basic/digest authentication, which decided by
@@ -350,7 +350,7 @@ Building the target installer
        1.1 If you are familiar with PXE and grub, set PXE_UEFI_GRUB_CONF to
            point your own grub.cfg, you could customize it as you wish.
 
-       1.2 Or set APPEND_append = " ks=<url-ks>" in local.conf, it configures a
+       1.2 Or set APPEND:append = " ks=<url-ks>" in local.conf, it configures a
            default grub.cfg which tells PXE image where to download the kickstart
            file.
 

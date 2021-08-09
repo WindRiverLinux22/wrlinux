@@ -289,7 +289,7 @@ echo "# Any manual changes will be overwritten."
 echo "#"
 echo "# Latest in-development versions"
 echo
-echo "WRLINUX_BRANCH_append = '_toolchain-next'"
+echo "WRLINUX_BRANCH:append = '_toolchain-next'"
 echo
 echo "GCCVERSION = '${GCCVERSION}'"
 echo "SDKGCCVERSION = '${SDKGCCVERSION}'"

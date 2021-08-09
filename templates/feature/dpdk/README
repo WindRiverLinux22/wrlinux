@@ -102,14 +102,14 @@ eal_flags_autotest requires -m parameter with a correct value.
 =============================
 Various DPDK example application are built along with DPDK. To include
 these in your image add the 'dpdk-example' package to your image using
-IMAGE_INSTALL_append or similar in your local.conf.
+IMAGE_INSTALL:append or similar in your local.conf.
 
 5. DPDK compilation with optimization
 =====================================
 DPDK supports compilation with optimization for a specific
 machine. For best usage, please change set the definition of
 DPDK_TARGET_MACHINE in your build's local.conf
-(ie. DPDK_TARGET_MACHINE_pn-dpdk = "<target>". The available machines
+(ie. DPDK_TARGET_MACHINE:pn-dpdk = "<target>". The available machines
 are native(guessing current machine), atm(Intel Atom Processor),
 nhm(Intel Nehalem Processor), wsm(Intel Westmere Processor), snb(Intel
 Sandy Bridge Processor) and ivb(Intel Ivy Bridge Processor).  It is

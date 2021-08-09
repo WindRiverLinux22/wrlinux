@@ -126,7 +126,7 @@ KVM GUEST preparation
       directly to add:
 
 	  IMAGE_INSTALL += "netperf"
-	  PNWHITELIST_networking-layer_append = " netperf "
+	  PNWHITELIST_networking-layer:append = " netperf "
 
    4. Build the KVM GUEST bsp:
 

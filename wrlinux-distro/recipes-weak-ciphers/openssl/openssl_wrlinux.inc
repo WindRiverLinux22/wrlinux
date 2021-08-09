@@ -3,5 +3,5 @@
 #
 
 WEAKCIPHERS = "${@bb.utils.contains('DISTRO_FEATURES', 'openssl-no-weak-ciphers', 'no-des', '', d)}"
-EXTRA_OECONF_append_class-target_osv-wrlinux = " ${WEAKCIPHERS}"
-EXTRA_OECONF_append_class-nativesdk_osv-wrlinux = " ${WEAKCIPHERS}"
+EXTRA_OECONF:append:class-target:osv-wrlinux = " ${WEAKCIPHERS}"
+EXTRA_OECONF:append:class-nativesdk:osv-wrlinux = " ${WEAKCIPHERS}"

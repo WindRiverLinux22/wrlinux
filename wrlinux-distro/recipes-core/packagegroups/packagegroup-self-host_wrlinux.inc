@@ -6,5 +6,5 @@
 # are for Build Appliance usage in oe-core which are not
 # needed in our self-hosted feature.
 # So drop the graphics packagegroup.
-PACKAGES_remove_osv-wrlinux = "packagegroup-self-hosted-graphics"
-RDEPENDS_packagegroup-self-hosted_remove_osv-wrlinux = "packagegroup-self-hosted-graphics"
+PACKAGES:remove:osv-wrlinux = "packagegroup-self-hosted-graphics"
+RDEPENDS:packagegroup-self-hosted:remove:osv-wrlinux = "packagegroup-self-hosted-graphics"

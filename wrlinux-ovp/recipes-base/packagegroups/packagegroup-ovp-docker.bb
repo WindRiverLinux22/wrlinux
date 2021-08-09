@@ -14,13 +14,13 @@ inherit packagegroup
 PACKAGES = "\
     ${PN} \
     "
-ALLOW_EMPTY_${PN} = "1"
+ALLOW_EMPTY:${PN} = "1"
 
 DOCKER_PKGS = "\
     docker \
     docker-registry \
 "
 
-RDEPENDS_${PN}_x86-64 = "\
+RDEPENDS:${PN}:x86-64 = "\
     ${DOCKER_PKGS} \
 "

@@ -1,10 +1,10 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRC_URI += "file://dhcpcd.service \
             file://dhcpcd-systemd-wrapper \
            "
 
-do_install_append () {
+do_install:append () {
     install -d ${D}${sysconfdir}/default
     echo 'INTERFACES="eth0"' > ${D}${sysconfdir}/default/dhcpcd
 

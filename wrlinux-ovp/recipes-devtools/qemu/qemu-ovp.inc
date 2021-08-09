@@ -3,12 +3,12 @@
 #
 
 # qemu-native should not depend on these packages
-DEPENDS_append = " dtc pixman util-linux"
-EXTRA_OECONF_append += "--disable-sdl --enable-fdt --disable-smartcard --cross-prefix=${TARGET_PREFIX}"
+DEPENDS:append = " dtc pixman util-linux"
+EXTRA_OECONF:append += "--disable-sdl --enable-fdt --disable-smartcard --cross-prefix=${TARGET_PREFIX}"
 
-FILESEXTRAPATHS_append := ":${THISDIR}/files"
+FILESEXTRAPATHS:append := ":${THISDIR}/files"
 
-CFLAGS_append += "-I${STAGING_INCDIR}/glib-2.0 -I${STAGING_LIBDIR}/glib-2.0/include "
+CFLAGS:append += "-I${STAGING_INCDIR}/glib-2.0 -I${STAGING_LIBDIR}/glib-2.0/include "
 
 # carry over cpu affinity patches from 1.3.0
 SRC_URI += " \
@@ -39,14 +39,14 @@ PACKAGECONFIG ?= " ${PACKAGECONFIG_COMMON}"
 
 # This is making sure qemu-native independs on spice-native
 # as spice-native is not provided
-PACKAGECONFIG_x86-64_class-target ?= " ${PACKAGECONFIG_COMMON} \
+PACKAGECONFIG:x86-64:class-target ?= " ${PACKAGECONFIG_COMMON} \
                   spice rbd \
 				 "
 
-RDEPENDS_${PN}_class-nativesdk += "nativesdk-python3-core"
+RDEPENDS:${PN}:class-nativesdk += "nativesdk-python3-core"
 
 # needed for libvirt
-do_install_append () {
+do_install:append () {
     cd ${D}${bindir}
     arch=`echo ${TARGET_ARCH} | sed 's/i[456]86/i386/' | sed 's/powerpc/ppc/'`
     ln -sf qemu-system-${arch} kvm

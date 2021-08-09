@@ -1,1 +1,1 @@
-IMAGE_INSTALL_append = " chromium-x11 shared-mime-info"
+IMAGE_INSTALL:append = " chromium-x11 shared-mime-info"

@@ -1,8 +1,8 @@
-FILESEXTRAPATHS_append := ":${THISDIR}/files"
+FILESEXTRAPATHS:append := ":${THISDIR}/files"
 
-SRC_URI_append = " file://wr-init"
+SRC_URI:append = " file://wr-init"
 
-do_install_append() {
+do_install:append() {
     rm -rf "${D}/init"
     install -m 0755 "${WORKDIR}/wr-init" "${D}/init"
 }

@@ -1,9 +1,9 @@
 TEMP_KERNEL_FILES ?= ""
 TEMP_KERNEL_SRC_URI ?= ""
 
-TEMP_KERNEL_FILES_qemux86 = "${THISDIR}/linux-yocto:"
-TEMP_KERNEL_FILES_qemux86-64 = "${THISDIR}/linux-yocto:"
-TEMP_KERNEL_FILES_intel-x86-64 = "${THISDIR}/linux-yocto:"
+TEMP_KERNEL_FILES:qemux86 = "${THISDIR}/linux-yocto:"
+TEMP_KERNEL_FILES:qemux86-64 = "${THISDIR}/linux-yocto:"
+TEMP_KERNEL_FILES:intel-x86-64 = "${THISDIR}/linux-yocto:"
 
 EXTRA_KERNEL_FILES =. "${TEMP_KERNEL_FILES}"
 EXTRA_KERNEL_SRC_URI += "${TEMP_KERNEL_SRC_URI}"

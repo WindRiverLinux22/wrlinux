@@ -54,9 +54,9 @@ do_install() {
 }
 
 PACKAGES += "${PN}-lxdm ${PN}-wallpapers"
-ALLOW_EMPTY_${PN} = "1"
+ALLOW_EMPTY:${PN} = "1"
 
-FILES_${PN}-lxdm = "${datadir}/lxdm/themes/Windriver/"
-FILES_${PN}-wallpapers = "${datadir}/backgrounds/Windriver/"
+FILES:${PN}-lxdm = "${datadir}/lxdm/themes/Windriver/"
+FILES:${PN}-wallpapers = "${datadir}/backgrounds/Windriver/"
 
-RDEPENDS_${PN} = "lxdm xfdesktop ${PN}-lxdm ${PN}-wallpapers"
+RDEPENDS:${PN} = "lxdm xfdesktop ${PN}-lxdm ${PN}-wallpapers"

@@ -25,7 +25,7 @@ SDK_VENDOR = "-wrlinuxsdk"
 TARGET_VENDOR = "-wrs"
 
 # Append 'osv-wrlinux' to the DISTROOVERRIDE
-DISTROOVERRIDES_append = "${@['', ':'][(d.getVar('DISTRO', True) != '')]}osv-wrlinux"
+DISTROOVERRIDES:append = "${@['', ':'][(d.getVar('DISTRO', True) != '')]}osv-wrlinux"
 
 LOCALCONF_VERSION = "2"
 
@@ -36,10 +36,10 @@ TCSDKMACH = "${@['', '_${SDK_OS}']['${SDK_OS}' != 'linux']}"
 TOOLCHAIN_OUTPUTNAME = "${DISTRO}-${DISTRO_VERSION}-${TCLIBC}-${SDK_ARCH}${TCSDKMACH}-${MACHINE_ARCH}-${PN}-sdk"
 TOOLCHAINEXT_OUTPUTNAME = "${DISTRO}-${DISTRO_VERSION}-${TCLIBC}-${SDK_ARCH}${TCSDKMACH}-${MACHINE_ARCH}-${PN}-sdk-ext"
 
-TOOLCHAIN_OUTPUTNAME_pn-buildtools-tarball_forcevariable = "${SDK_ARCH}-buildtools-nativesdk-standalone-${DISTRO_VERSION}"
+TOOLCHAIN_OUTPUTNAME:pn-buildtools-tarball:forcevariable = "${SDK_ARCH}-buildtools-nativesdk-standalone-${DISTRO_VERSION}"
 
 # Workaround for extensible SDK
-TOOLCHAIN_OUTPUTNAME_pn-uninative-tarball = "${SDK_ARCH}-nativesdk-libc"
+TOOLCHAIN_OUTPUTNAME:pn-uninative-tarball = "${SDK_ARCH}-nativesdk-libc"
 
 # Override these in wrlinux based distros to modify DISTRO_*
 WRLINUX_DEFAULT_DISTRO_FEATURES = "largefile multiarch pulseaudio virtualization"
@@ -47,8 +47,8 @@ WRLINUX_DEFAULT_EXTRA_RDEPENDS = "packagegroup-core-boot"
 WRLINUX_DEFAULT_EXTRA_RRECOMMENDS = "kernel-module-af-packet"
 
 DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT} ${WRLINUX_DEFAULT_DISTRO_FEATURES}"
-DISTRO_FEATURES_class-native ?= "${DISTRO_FEATURES_DEFAULT} ${WRLINUX_DEFAULT_DISTRO_FEATURES}"
-DISTRO_FEATURES_class-nativesdk ?= "${DISTRO_FEATURES_DEFAULT} ${WRLINUX_DEFAULT_DISTRO_FEATURES}"
+DISTRO_FEATURES:class-native ?= "${DISTRO_FEATURES_DEFAULT} ${WRLINUX_DEFAULT_DISTRO_FEATURES}"
+DISTRO_FEATURES:class-nativesdk ?= "${DISTRO_FEATURES_DEFAULT} ${WRLINUX_DEFAULT_DISTRO_FEATURES}"
 DISTRO_EXTRA_RDEPENDS += " ${WRLINUX_DEFAULT_EXTRA_RDEPENDS}"
 DISTRO_EXTRA_RRECOMMENDS += " ${WRLINUX_DEFAULT_EXTRA_RRECOMMENDS}"
 
@@ -56,7 +56,7 @@ DISTRO_EXTRA_RRECOMMENDS += " ${WRLINUX_DEFAULT_EXTRA_RRECOMMENDS}"
 #WRLINUXQEMUDEPS = "${@bb.utils.contains("INCOMPATIBLE_LICENSE", "GPLv3", "", "qemu-config",d)}"
 WRLINUXQEMUDEPS = ""
 
-DISTRO_EXTRA_RDEPENDS_append_qemuall = " ${WRLINUXQEMUDEPS}"
+DISTRO_EXTRA_RDEPENDS:append:qemuall = " ${WRLINUXQEMUDEPS}"
 
 #TCLIBCAPPEND = ""
 
@@ -93,15 +93,15 @@ LICENSE_FLAGS_WHITELIST += "commercial_windriver"
 WARN_TO_ERROR_QA ?= "already-stripped compile-host-path install-host-path \
                     installed-vs-shipped ldflags pn-overrides rpaths staticdev \
                     unknown-configure-option useless-rpaths"
-WARN_QA_remove = "${WARN_TO_ERROR_QA}"
-ERROR_QA_append = " ${WARN_TO_ERROR_QA}"
+WARN_QA:remove = "${WARN_TO_ERROR_QA}"
+ERROR_QA:append = " ${WARN_TO_ERROR_QA}"
 
 # Allow dangling .bbappends for now
 BB_DANGLINGAPPENDS_WARNONLY = "1"
 
 # Change base package dependency in -dbg packages from recommends to suggests
-RRECOMMENDS_${PN}-dbg = ""
-RSUGGESTS_${PN}-dbg = "${PN} (= ${EXTENDPKGV})"
+RRECOMMENDS:${PN}-dbg = ""
+RSUGGESTS:${PN}-dbg = "${PN} (= ${EXTENDPKGV})"
 
 # lsb distro adjust
 require conf/distro/include/wrlinux-lsb-distro-adjust.inc
@@ -127,8 +127,8 @@ require ${MULTILIB_CONF}
 # | dnsmasq: failed to create listening socket for port 53: Address already in use
 # So disable the service by default, and if the user want to use both of them,
 # it need to be set to a different port in dnsmasq.conf before starting the service.
-INITSCRIPT_PARAMS_pn-dnsmasq = "stop 20 0 1 6 ."
-SYSTEMD_AUTO_ENABLE_pn-dnsmasq = "disable"
+INITSCRIPT_PARAMS:pn-dnsmasq = "stop 20 0 1 6 ."
+SYSTEMD_AUTO_ENABLE:pn-dnsmasq = "disable"
 
 require conf/distro/include/wrlinux-distro-settings.conf
 

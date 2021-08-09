@@ -5,12 +5,12 @@
 #
 
 # Whitelist the whole wrlinux-cgl layer
-PNWHITELIST_LAYERS_remove = "${@bb.utils.contains('DISTRO_FEATURES', 'cgl', 'wrlinux-cgl', '', d)}"
+PNWHITELIST_LAYERS:remove = "${@bb.utils.contains('DISTRO_FEATURES', 'cgl', 'wrlinux-cgl', '', d)}"
 
 # Enable items for wrlinux-cgl distro
 #
 # For meta-cgl/meta-cgl-common
-PNWHITELIST_cgl-common += " \
+PNWHITELIST:cgl-common += " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'cgl', '${PNWHITELIST_CGL_COMMON}', '', d)}  \
 "
 PNWHITELIST_CGL_COMMON = " \
@@ -27,7 +27,7 @@ PNWHITELIST_CGL_COMMON = " \
 "
 
 # For meta-openembedded/meta-python
-PNWHITELIST_meta-python += " \
+PNWHITELIST:meta-python += " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'cgl', '${PNWHITELIST_META_PYTHON}', '', d)}  \
 "
 PNWHITELIST_META_PYTHON = " \
@@ -37,7 +37,7 @@ PNWHITELIST_META_PYTHON = " \
 "
 
 # For meta-openembedded/meta-networking
-PNWHITELIST_networking-layer += " \
+PNWHITELIST:networking-layer += " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'cgl', '${PNWHITELIST_META_NETWORKING}', '', d)}  \
 "
 PNWHITELIST_META_NETWORKING = " \
@@ -78,7 +78,7 @@ PNWHITELIST_META_NETWORKING = " \
 "
 
 # For meta-openembedded/meta-oe
-PNWHITELIST_openembedded-layer += " \
+PNWHITELIST:openembedded-layer += " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'cgl', '${PNWHITELIST_META_OE}', '', d)}  \
 "
 PNWHITELIST_META_OE = " \
@@ -101,7 +101,7 @@ PNWHITELIST_META_OE = " \
 "
 
 # For meta-openembedded/meta-perl
-PNWHITELIST_perl-layer += " \
+PNWHITELIST:perl-layer += " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'cgl', '${PNWHITELIST_META_PERL}', '', d)}  \
 "
 PNWHITELIST_META_PERL = " \
@@ -123,6 +123,6 @@ PNWHITELIST_META_PERL = " \
 "
 
 # For meta-virtualization
-PNWHITELIST_virtualization-layer += " \
+PNWHITELIST:virtualization-layer += " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'cgl', 'lxc', '', d)} \
 "

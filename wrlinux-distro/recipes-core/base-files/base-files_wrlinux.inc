@@ -1,10 +1,10 @@
-do_install_append_osv-wrlinux () {
+do_install:append:osv-wrlinux () {
 	if ${@bb.utils.contains('DISTRO_FEATURES', 'ima', 'true', 'false', d)}; then
 		sed -i -e 's/\/dev\/root[ ]*\/[ ]*[^ ]*[ ]*[^ ]*/&,iversion/' ${D}${sysconfdir}/fstab
 	fi
 }
 
-BASEFILESISSUEINSTALL_osv-wrlinux = "do_install_wrlissue"
+BASEFILESISSUEINSTALL:osv-wrlinux = "do_install_wrlissue"
 
 do_install_wrlissue () {
 	if [ "${hostname}" ]; then

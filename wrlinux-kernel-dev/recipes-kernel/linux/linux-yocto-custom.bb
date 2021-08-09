@@ -61,7 +61,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
 
 # The version of the customized kernel should be specified here, for example,
 #LINUX_VERSION ?= "4.19-rc8"
-LINUX_VERSION_EXTENSION_append = "-custom"
+LINUX_VERSION_EXTENSION:append = "-custom"
 
 KERNEL_VERSION_SANITY_SKIP="1"
 

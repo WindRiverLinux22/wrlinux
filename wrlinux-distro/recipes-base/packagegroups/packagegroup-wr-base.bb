@@ -7,9 +7,9 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302 \
                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-ALLOW_EMPTY_${PN} = "1"
-ALLOW_EMPTY_${PN}-net = "1"
-ALLOW_EMPTY_${PN}-discrete-tools = "1"
+ALLOW_EMPTY:${PN} = "1"
+ALLOW_EMPTY:${PN}-net = "1"
+ALLOW_EMPTY:${PN}-discrete-tools = "1"
 
 PACKAGES += "${PN}-net ${PN}-net-dbg ${PN}-net-dev"
 PACKAGES += "${PN}-discrete-tools ${PN}-discrete-tools-dbg ${PN}-discrete-tools-dev"
@@ -17,7 +17,7 @@ PACKAGES += "${PN}-discrete-tools ${PN}-discrete-tools-dbg ${PN}-discrete-tools-
 # Core userspace package list based roughly on oe-core's
 # packagegroup-core-initscripts and packagegroup-core-basic-utils:
 VIRTUAL-RUNTIME_syslog ?= "sysklogd"
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
     acl \
     attr \
     bash \
@@ -53,7 +53,7 @@ RDEPENDS_${PN} = "\
     "
 
 # Minimal network environment
-RDEPENDS_${PN}-net = "\
+RDEPENDS:${PN}-net = "\
     dhcpcd \
     ethtool \
     net-tools \
@@ -61,7 +61,7 @@ RDEPENDS_${PN}-net = "\
     "
 
 # Some subsitutes for busybox functions
-RDEPENDS_${PN}-discrete-tools = "\
+RDEPENDS:${PN}-discrete-tools = "\
     adduser \
     debianutils-run-parts \
     ifupdown \

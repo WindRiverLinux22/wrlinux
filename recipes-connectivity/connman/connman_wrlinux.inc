@@ -4,11 +4,11 @@
 # Once this change is accepted by oe-core, this bbappend file should be removed
 # from this layer.
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRC_URI += "file://connman-systemd-wrapper"
 
-do_install_append () {
+do_install:append () {
     if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
 	install -d ${D}${sbindir}
 	install -m 0755 ${WORKDIR}/connman-systemd-wrapper ${D}${sbindir}

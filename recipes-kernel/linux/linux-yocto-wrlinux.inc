@@ -9,7 +9,7 @@ python linux_yocto_rewrite_uri() {
     pass
 }
 
-python linux_yocto_rewrite_uri_osv-wrlinux() {
+python linux_yocto_rewrite_uri:osv-wrlinux() {
     d = e.data
 
     layer_path="${LAYER_PATH_wrlinux}"
@@ -71,5 +71,5 @@ python () {
         raise bb.parse.SkipPackage('(version %s)  The defined LINUX_KERNEL_TYPE (%s) used by\
  this recipe is not in TARGET_SUPPORTED_KTYPES (%s).  To override add the type\
  to the supported list in your local.conf, such as:\
- TARGET_SUPPORTED_KTYPES_append = " %s"' % (d.getVar('PV'), kernel_type, supported_types, kernel_type))
+ TARGET_SUPPORTED_KTYPES:append = " %s"' % (d.getVar('PV'), kernel_type, supported_types, kernel_type))
 }

@@ -2,9 +2,9 @@
 # Copyright (C) 2012-2014, 2019 Wind River Systems, Inc.
 #
 
-RDEPENDS_${PN} += "policycoreutils"
+RDEPENDS:${PN} += "policycoreutils"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/refpolicy-wr:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/refpolicy-wr:"
 
 SRC_URI += "\
         file://0001-policy-modules-system-userdomain-allow-secadm-to-rea.patch \

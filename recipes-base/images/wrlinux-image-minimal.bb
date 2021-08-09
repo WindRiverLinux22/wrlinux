@@ -28,22 +28,22 @@ IMAGE_INSTALL = "\
 # - No packagegroup-core-base-utils which corresponds to busybox
 #   function since it is busybox based.
 # - The ostree are not needed for container image.
-IMAGE_INSTALL_remove = "\
+IMAGE_INSTALL:remove = "\
     packagegroup-core-base-utils \
     ${@bb.utils.contains('IMAGE_ENABLE_CONTAINER', '1', 'ostree ostree-upgrade-mgr linux-firmware', '', d)} \
     ${@bb.utils.contains('IMAGE_ENABLE_CONTAINER', '1', 'u-boot u-boot-uenv', '', d)} \
 "
 
 # For ostree
-IMAGE_INSTALL_append = " ${@bb.utils.contains('OSTREE_BOOTLOADER', 'u-boot', 'u-boot-uenv', '', d)}"
+IMAGE_INSTALL:append = " ${@bb.utils.contains('OSTREE_BOOTLOADER', 'u-boot', 'u-boot-uenv', '', d)}"
 
 # For nxp-s32g2xx
-IMAGE_INSTALL_append_nxp-s32g2xx = " u-boot-s32"
+IMAGE_INSTALL:append:nxp-s32g2xx = " u-boot-s32"
 
 NO_RECOMMENDATIONS = "1"
 
 # Remove debug-tweaks and x11-base
-IMAGE_FEATURES_remove = "debug-tweaks x11-base"
+IMAGE_FEATURES:remove = "debug-tweaks x11-base"
 
 # Enable dhcpcd service if NetworkManager is not installed.
 ROOTFS_POSTPROCESS_COMMAND += "enable_dhcpcd_service; "

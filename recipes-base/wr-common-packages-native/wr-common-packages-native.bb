@@ -54,7 +54,7 @@ X11_BLACKLIST ?= "\
     mkfontscale-native \
     xtrans-native \
 "
-DEPENDS_remove = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', '${X11_BLACKLIST}', d)}"
+DEPENDS:remove = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', '${X11_BLACKLIST}', d)}"
 
 do_deploy_sstate () {
     if [ -d "${SSTATE_DIR}" ]; then

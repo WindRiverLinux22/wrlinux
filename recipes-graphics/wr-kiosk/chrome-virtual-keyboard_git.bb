@@ -22,4 +22,4 @@ do_install() {
     rm  -rf ${D}${datadir}/chrome-virtual-keyboard/.git/
 }
 
-FILES_${PN} += "${datadir}/chrome-virtual-keyboard"
+FILES:${PN} += "${datadir}/chrome-virtual-keyboard"

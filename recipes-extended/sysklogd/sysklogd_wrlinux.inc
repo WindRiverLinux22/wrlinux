@@ -8,12 +8,12 @@
 #
 # Upstream-status: pending: parse_syslog_conf.patch
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRC_URI += " \
 	file://syslog.logrotate"
 
-do_install_append () {
+do_install:append () {
 	install -d ${D}${sysconfdir}/logrotate.d
 	install -m 644 ${WORKDIR}/syslog.logrotate \
 		${D}${sysconfdir}/logrotate.d/syslog
@@ -21,6 +21,6 @@ do_install_append () {
 
 # logrotate sub-package
 PACKAGES =+ "${PN}-logrotate"
-RDEPENDS_${PN}-logrotate = "sysklogd logrotate"
-RCONFLICTS_${PN}-logrotate = "syslog-ng-logrotate"
-FILES_${PN}-logrotate = "${sysconfdir}/logrotate.d/syslog"
+RDEPENDS:${PN}-logrotate = "sysklogd logrotate"
+RCONFLICTS:${PN}-logrotate = "syslog-ng-logrotate"
+FILES:${PN}-logrotate = "${sysconfdir}/logrotate.d/syslog"

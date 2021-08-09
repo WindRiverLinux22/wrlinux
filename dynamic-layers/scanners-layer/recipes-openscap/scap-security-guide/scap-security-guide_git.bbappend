@@ -1,4 +1,4 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRCREV = "870a6018c34644e5f9428c8913a206dc53be6fd7"
 SRC_URI = "git://github.com/OpenSCAP/scap-security-guide.git \

@@ -14,9 +14,9 @@ IMAGE_INSTALL in local.conf.
 
 1 setup.sh --distro=wrlinux --machines=qemux86-64 --dl-layers
 2 source oe-init-build-env
-3 echo 'IMAGE_INSTALL_append = " sssd"' >>conf/local.conf
+3 echo 'IMAGE_INSTALL:append = " sssd"' >>conf/local.conf
   # Install packages which are required by testing
-  echo 'IMAGE_INSTALL_append = " openssl-misc glibc-utils openldap-slapd openldap-bin"' >>conf/local.conf
+  echo 'IMAGE_INSTALL:append = " openssl-misc glibc-utils openldap-slapd openldap-bin"' >>conf/local.conf
 4 bitbake wrlinux-image-std
 
 Runtime Tests

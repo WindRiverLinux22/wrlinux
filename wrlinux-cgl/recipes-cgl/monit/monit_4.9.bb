@@ -35,9 +35,9 @@ EXTRA_OECONF += "\
                  --with-ssl-incl-dir=${STAGING_INCDIR} \
                  ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '', '--without-pam', d)}"
 
-CFLAGS_append = " -fcommon"
+CFLAGS:append = " -fcommon"
 
-do_install_append() {
+do_install:append() {
 	install -d ${D}${sysconfdir}/init.d/
 	install -m 755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/monit
 	sed -i 's:# set daemon  120:set daemon  120:' ${S}/monitrc
@@ -50,5 +50,5 @@ do_install_append() {
 	sed -i -e 's,@BINDIR@,${bindir},g' ${D}${systemd_unitdir}/system/*.service
 }
 
-CONFFILES_${PN} += "${sysconfdir}/monitrc"
-FILES_${PN} += "${systemd_unitdir}"
+CONFFILES:${PN} += "${sysconfdir}/monitrc"
+FILES:${PN} += "${systemd_unitdir}"

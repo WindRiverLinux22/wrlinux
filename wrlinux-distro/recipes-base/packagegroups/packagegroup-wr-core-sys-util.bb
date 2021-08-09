@@ -13,12 +13,12 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 PR = "r4"
 
-ALLOW_EMPTY_${PN} = "1"
+ALLOW_EMPTY:${PN} = "1"
 
 STRACE = "strace"
-STRACE_riscv32 = ""
+STRACE:riscv32 = ""
 
-RDEPENDS_${PN} = " \
+RDEPENDS:${PN} = " \
     util-linux-fsck \
     e2fsprogs-e2fsck \
     e2fsprogs-mke2fs \
@@ -44,11 +44,11 @@ RDEPENDS_${PN} = " \
     wireless-regdb-static \
     ${@bb.utils.contains('INCOMPATIBLE_LICENSE', 'GPLv3+', '', 'parted', d)} \
     "
-RRECOMMENDS_${PN} = " \
+RRECOMMENDS:${PN} = " \
     mtd-utils-jffs2 \
     mtd-utils-ubifs \
     mtd-utils-misc \
     "
 
-RDEPENDS_${PN}_append_x86 = " pmtools iasl"
-RDEPENDS_${PN}_append_x86-64 = " pmtools iasl"
+RDEPENDS:${PN}:append:x86 = " pmtools iasl"
+RDEPENDS:${PN}:append:x86-64 = " pmtools iasl"

@@ -1,5 +1,5 @@
 LIBX_DEV ?= ""
-LIBX_DEV_x86-64 = "liblsan-dev libtsan-dev"
+LIBX_DEV:x86-64 = "liblsan-dev libtsan-dev"
 
 IMAGE_INSTALL += " \
     gcc-sanitizers \

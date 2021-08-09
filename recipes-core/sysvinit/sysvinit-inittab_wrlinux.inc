@@ -6,9 +6,9 @@
 # make the default runlevel 3
 #
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/sysvinit-inittab:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/sysvinit-inittab:"
 SRC_URI = "file://inittab"
-RDEPENDS_${PN} += "mingetty"
+RDEPENDS:${PN} += "mingetty"
 SYSVINIT_ENABLED_GETTYS = "2 3 4 5 6"
 
 # override the do_install to remove the multiple serial port
@@ -43,6 +43,6 @@ EOF
 }
 
 # remove the serial check in post install script
-pkg_postinst_${PN} () {
+pkg_postinst:${PN} () {
     :
 }

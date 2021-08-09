@@ -3,15 +3,15 @@
 #
 # LOCAL REV: WR specific simics related patches
 #
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-SRC_URI_append = " file://ptest-summary.sh "
-SRC_URI_append = " file://ptest-diff.sh "
+SRC_URI:append = " file://ptest-summary.sh "
+SRC_URI:append = " file://ptest-diff.sh "
 
-do_install_append () {
+do_install:append () {
         install -m 0755 ${WORKDIR}/ptest-summary.sh ${D}${bindir}/
         install -m 0755 ${WORKDIR}/ptest-diff.sh ${D}${bindir}/
 }
 
-RDEPENDS_${PN} += "bash"
-FILES_${PN} += "${bindir}"
+RDEPENDS:${PN} += "bash"
+FILES:${PN} += "${bindir}"

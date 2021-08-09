@@ -2,7 +2,7 @@
 # Copyright (C) 2014 Wind River Systems, Inc.
 #
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/${P}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${P}:"
 
 SRC_URI += "file://lmbench-3.0-a9_wr_integration.patch \
             file://wr-lmbench-test.sh \
@@ -19,7 +19,7 @@ WR_LMBENCH ?= "/opt/benchmark/os/wr-lmbench"
 
 inherit update-alternatives
 
-do_install_append () {
+do_install:append () {
 	install -d ${D}/${WR_LMBENCH}
 	install -m 0755 ${WORKDIR}/wr-lmbench-test.sh ${D}/${WR_LMBENCH}
 	install -m 0755 ${WORKDIR}/dealt_log.sh ${D}/${WR_LMBENCH}
@@ -30,11 +30,11 @@ do_install_append () {
 	mv ${D}${bindir}/hello ${D}${bindir}/hello.lmbench
 }
 
-ALTERNATIVE_${PN} = "hello"
+ALTERNATIVE:${PN} = "hello"
 ALTERNATIVE_PRIORITY = "100"
 ALTERNATIVE_LINK_NAME[hello] = "${bindir}/hello"
 ALTERNATIVE_TARGET[hello] = "${bindir}/hello.lmbench"
 
-FILES_${PN} += "${WR_LMBENCH}"
+FILES:${PN} += "${WR_LMBENCH}"
 
-RDEPENDS_${PN} += "bash"
+RDEPENDS:${PN} += "bash"

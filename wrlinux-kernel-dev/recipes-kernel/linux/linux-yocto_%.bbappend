@@ -1,4 +1,4 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 # force compatibility when "kernel-dev" is being used
 COMPATIBLE_MACHINE = "${MACHINE}"

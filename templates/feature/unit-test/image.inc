@@ -1,1 +1,1 @@
-IMAGE_INSTALL_append = " cunit"
+IMAGE_INSTALL:append = " cunit"

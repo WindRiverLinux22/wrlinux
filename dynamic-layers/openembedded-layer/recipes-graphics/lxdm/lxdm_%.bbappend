@@ -6,7 +6,7 @@
 # we change to use our own
 DEFAULT_LXDM_THEME ?= "Windriver"
 
-do_install_append() {
+do_install:append() {
     sed -i -e 's,^disable=0,disable=1,' ${D}${sysconfdir}/lxdm/lxdm.conf
 
     # Set the default theme

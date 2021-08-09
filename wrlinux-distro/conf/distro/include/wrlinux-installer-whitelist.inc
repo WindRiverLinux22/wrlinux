@@ -1,7 +1,7 @@
-PNWHITELIST_LAYERS_remove = "meta-anaconda"
+PNWHITELIST_LAYERS:remove = "meta-anaconda"
 
 # Whitelist for meta-openembedded/meta-gnome
-PNWHITELIST_gnome-layer += "\
+PNWHITELIST:gnome-layer += "\
     keybinder \
     libgnomekbd \
     libnma \
@@ -14,7 +14,7 @@ PNWHITELIST_gnome-layer += "\
 "
 
 # Whitelist for meta-openembedded/meta-python
-PNWHITELIST_meta-python += "\
+PNWHITELIST:meta-python += "\
     python3-blivet \
     python3-blivetgui \
     python3-coverage \
@@ -37,13 +37,13 @@ PNWHITELIST_meta-python += "\
 "
 
 # Whitelist for meta-openembedded/meta-filesystems
-PNWHITELIST_filesystems-layer += "\
+PNWHITELIST:filesystems-layer += "\
     ntfs-3g-ntfsprogs \
     xfsprogs \
 "
 
 # Whitelist for meta-openembedded/meta-oe
-PNWHITELIST_openembedded-layer += "\
+PNWHITELIST:openembedded-layer += "\
     augeas \
     libinih \
     libpwquality \

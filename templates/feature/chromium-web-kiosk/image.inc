@@ -1,4 +1,4 @@
-IMAGE_INSTALL_append = " wr-kiosk"
+IMAGE_INSTALL:append = " wr-kiosk"
 
 # need x11
-IMAGE_FEATURES_append = " x11"
+IMAGE_FEATURES:append = " x11"

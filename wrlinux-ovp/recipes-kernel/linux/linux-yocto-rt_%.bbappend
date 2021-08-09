@@ -6,6 +6,6 @@ OVP_KERNEL_INCLUDE = ""
 #     set to linux-yocto-ovp-host.inc
 #   else
 #     set to linux-yocto-ovp-guest.inc
-OVP_KERNEL_INCLUDE_wrlinux-ovp = "${@'linux-yocto-ovp-host.inc' if d.getVar('WRLINUX_OVP_ENABLE') != 'guest' else 'linux-yocto-ovp-guest.inc'}"
+OVP_KERNEL_INCLUDE:wrlinux-ovp = "${@'linux-yocto-ovp-host.inc' if d.getVar('WRLINUX_OVP_ENABLE') != 'guest' else 'linux-yocto-ovp-guest.inc'}"
 
 require ${OVP_KERNEL_INCLUDE}

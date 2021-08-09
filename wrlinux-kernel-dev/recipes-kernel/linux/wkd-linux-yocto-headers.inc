@@ -10,13 +10,13 @@
 #KERNEL_ALT_HEADER_DIR ?= "/usr-alt"
 
 PACKAGES += "kernel-extra-headers-misc"
-DESCRIPTION_kernel-extra-headers-misc = "Set of misc/custom userspace headers."
+DESCRIPTION:kernel-extra-headers-misc = "Set of misc/custom userspace headers."
 KERNEL_MODULE_DEPEND_BLACKLIST = " kernel-extra-headers-misc"
 
-FILES_kernel-extra-headers-misc = "${KERNEL_ALT_HEADER_DIR}"
+FILES:kernel-extra-headers-misc = "${KERNEL_ALT_HEADER_DIR}"
 DEPENDS += "rsync-native"
 
-do_install_append() {
+do_install:append() {
 	if [ -n "${KERNEL_ALT_HEADER_DIR}" ]; then
 		if [ "${KERNEL_ALT_HEADER_DIR}" != "${exec_prefix}" ]; then
 			make headers_install INSTALL_HDR_PATH=${D}${KERNEL_ALT_HEADER_DIR}
@@ -45,7 +45,7 @@ do_install_append() {
 	fi
 }
 
-sysroot_stage_all_append() {
+sysroot_stage_all:append() {
 	if [ -n "${KERNEL_ALT_HEADER_DIR}" -a "${KERNEL_ALT_HEADER_DIR}" != "${exec_prefix}" ]; then
 		sysroot_stage_dir ${D}${KERNEL_ALT_HEADER_DIR} ${SYSROOT_DESTDIR}${KERNEL_ALT_HEADER_DIR}
 	fi

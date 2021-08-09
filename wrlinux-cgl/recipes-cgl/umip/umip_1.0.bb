@@ -29,10 +29,10 @@ inherit autotools-brokensep systemd update-rc.d
 INITSCRIPT_NAME = "mip6d"
 INITSCRIPT_PARAMS = "start 64 . stop 36 0 1 2 3 4 5 6 ."
 
-SYSTEMD_SERVICE_${PN} = "mip6d.service"
+SYSTEMD_SERVICE:${PN} = "mip6d.service"
 SYSTEMD_AUTO_ENABLE = "disable"
 
-do_install_append() {
+do_install:append() {
     install -D -m 0755 ${WORKDIR}/mip6d ${D}${sysconfdir}/init.d/mip6d
     install -D -m 0644 ${WORKDIR}/mip6d.service ${D}${systemd_system_unitdir}/mip6d.service
     sed -i -e 's,@SYSCONFDIR@,${sysconfdir},g' \
@@ -40,4 +40,4 @@ do_install_append() {
         ${D}${systemd_system_unitdir}/mip6d.service
 }
 
-RRECOMMENDS_${PN} = "kernel-module-mip6 kernel-module-ipv6"
+RRECOMMENDS:${PN} = "kernel-module-mip6 kernel-module-ipv6"

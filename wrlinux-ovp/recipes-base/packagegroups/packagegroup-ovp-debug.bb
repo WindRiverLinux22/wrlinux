@@ -11,10 +11,10 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 inherit packagegroup
 
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
    qemu \
    libvirt \
    libvmi \
 "
 
-COMPATIBLE_HOST_mips64 = "null"
+COMPATIBLE_HOST:mips64 = "null"

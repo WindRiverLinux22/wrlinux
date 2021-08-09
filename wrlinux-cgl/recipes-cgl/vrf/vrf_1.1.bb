@@ -35,10 +35,10 @@ SRC_URI    = "file://vrf-1.1.tgz \
 S  = "${WORKDIR}/wrlinux-vrf"
 
 #lxc-checkconfig depends on gzip's zgrep
-RDEPENDS_${PN}   += "lxc libcgroup coreutils gzip"
+RDEPENDS:${PN}   += "lxc libcgroup coreutils gzip"
 
 #vlan and macvlan interfaces support in vrf
-RRECOMMENDS_${PN} ="kernel-module-macvlan kernel-module-8021q"
+RRECOMMENDS:${PN} ="kernel-module-macvlan kernel-module-8021q"
 
 inherit autotools
 
@@ -52,10 +52,10 @@ EXTRA_OECONF += "--with-vrf-sysconfdir='${VRF_SYSDIR}' \
 	         --with-vrf-datadir='${VRF_ROOTFSDIR}' \
 	         --enable-wrlinux"
 
-do_install_append () {
+do_install:append () {
     mv ${D}${VRF_SYSDIR}/package/wrlinux-cgl_package.list \
        ${D}${VRF_SYSDIR}/package/wrlinux-cgl_${WRLINUX_VERSION}_package.list
 }
 
 
-FILES_${PN}  += "${VRF_SYSDIR}/package/"
+FILES:${PN}  += "${VRF_SYSDIR}/package/"

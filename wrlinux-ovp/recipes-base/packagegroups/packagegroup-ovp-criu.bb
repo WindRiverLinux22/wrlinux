@@ -16,10 +16,10 @@ CRIU_PKGS = "\
     protobuf-c \
 "
 
-RDEPENDS_${PN}_x86-64 = "\
+RDEPENDS:${PN}:x86-64 = "\
     ${CRIU_PKGS} \
 "
 
-RDEPENDS_${PN}_arm = "\
+RDEPENDS:${PN}:arm = "\
     ${CRIU_PKGS} \
 "

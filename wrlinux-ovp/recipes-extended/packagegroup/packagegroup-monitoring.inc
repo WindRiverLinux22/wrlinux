@@ -10,6 +10,6 @@ PACKAGES = "\
 	${SRCNAME}-proxy \
 "
 
-RDEPENDS_${SRCNAME}-core = ""
-RDEPENDS_${SRCNAME}-agent = ""
-RDEPENDS_${SRCNAME}-proxy = ""
+RDEPENDS:${SRCNAME}-core = ""
+RDEPENDS:${SRCNAME}-agent = ""
+RDEPENDS:${SRCNAME}-proxy = ""

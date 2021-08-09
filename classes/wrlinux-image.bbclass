@@ -30,7 +30,7 @@ check_for_passwd_group() {
     fi
 }
 
-ROOTFS_POSTPROCESS_COMMAND_prepend = "check_for_passwd_group ; "
+ROOTFS_POSTPROCESS_COMMAND:prepend = "check_for_passwd_group ; "
 
 WRPRELIMPKGDATADIR ?= "${TMPDIR}/pkgdata-prelim"
 WRPKGDATADIR ?= "${TMPDIR}/pkgdata"

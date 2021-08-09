@@ -32,6 +32,6 @@ do_install() {
 
 # ipsec.sh needs this
 #
-RDEPENDS_${PN} += "bash"
+RDEPENDS:${PN} += "bash"
 
-FILES_${PN} += "/opt/cut/*"
+FILES:${PN} += "/opt/cut/*"

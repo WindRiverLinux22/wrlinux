@@ -108,11 +108,11 @@ python whitelist_noprovider_handler() {
             depends = localdata.getVar('DEPENDS')
             packages = localdata.getVar('PACKAGES')
             for pkg in packages.split():
-                rdep_pkgs = localdata.getVar('RDEPENDS_%s' % pkg) or ''
+                rdep_pkgs = localdata.getVar('RDEPENDS:%s' % pkg) or ''
                 if rdep_pkgs:
                     depends += ' ' + rdep_pkgs
 
-                rrec_pkgs = localdata.getVar('RRECOMMENDS_%s' % pkg) or ''
+                rrec_pkgs = localdata.getVar('RRECOMMENDS:%s' % pkg) or ''
                 if rrec_pkgs:
                     depends += ' ' + rrec_pkgs
 
@@ -161,7 +161,7 @@ python whitelist_noprovider_handler() {
 
         add_lines = []
         pw_templates = []
-        support_detail = d.getVar('WRLINUX_SUPPORTED_RECIPE_pn-%s' % pn)
+        support_detail = d.getVar('WRLINUX_SUPPORTED_RECIPE:pn-%s' % pn)
         pw_templates += get_templates(support_detail)
         checked = set(d.getVar('ASSUME_PROVIDED').split())
         next = set(depends.split())

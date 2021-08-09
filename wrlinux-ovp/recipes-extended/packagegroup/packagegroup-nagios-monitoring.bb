@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0-only;md5=801f80980d171d
 
 require packagegroup-monitoring.inc
 
-RDEPENDS_${SRCNAME}-core += "\
+RDEPENDS:${SRCNAME}-core += "\
     nagios-base \
     nagios-core-setup \
     nagios-core \
@@ -13,11 +13,11 @@ RDEPENDS_${SRCNAME}-core += "\
     nagios-nsca-daemon \
 "
 
-RDEPENDS_${SRCNAME}-agent += "\
+RDEPENDS:${SRCNAME}-agent += "\
     nagios-base \
     nagios-plugins \
     nagios-nrpe-daemon \
     nagios-nsca-client \
 "
 
-COMPATIBLE_HOST_aarch64 = "null"
+COMPATIBLE_HOST:aarch64 = "null"

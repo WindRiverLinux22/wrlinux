@@ -8,4 +8,4 @@ This template will automatically include the package
 "kernel-extra-headers-misc" in any generated SDK.  If you wish to install
 this package into your rootfs, you will need to add this to your image
 recipe or add the following to your conf/local.conf:
-  IMAGE_INSTALL_append = " kernel-extra-headers-misc"
+  IMAGE_INSTALL:append = " kernel-extra-headers-misc"

@@ -115,9 +115,9 @@ def package_compare_impl(pkgtype, d):
                     pkgrvalues[pkg] = line.split(':', 1)[1].strip()
                 if line.startswith('PKGV:'):
                     pkgvvalues[pkg] = line.split(':', 1)[1].strip()
-                elif line.startswith('PKG_%s:' % pkg):
+                elif line.startswith('PKG:%s:' % pkg):
                     rpkgnames[pkg] = line.split(':', 1)[1].strip()
-                elif line.startswith('RDEPENDS_%s:' % pkg):
+                elif line.startswith('RDEPENDS:%s:' % pkg):
                     rdepends[pkg] = line.split(':', 1)[1].strip()
 
     # Prepare a list of the runtime package names for packages that were

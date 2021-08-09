@@ -3,12 +3,12 @@
 #
 # LOCAL REV: add WR specific scripts
 #
-FILESEXTRAPATHS_prepend := "${THISDIR}/sysvinit:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/sysvinit:"
 SRC_URI += "file://sysvinit_2.88dsf-add-service-script.patch"
 
 PR = "r500"
 
-do_install_append () {
+do_install:append () {
 	install -m 0755 ${S}/debian/service/service ${D}${base_sbindir}/service
 	install -m 0755 ${S}/debian/service/service.8 ${D}${mandir}/man8
 	ln -sf ${base_sbindir}/service ${D}/${base_bindir}/service
@@ -16,4 +16,4 @@ do_install_append () {
 
 # handy to include /etc/os-release
 #
-RRECOMMENDS_${PN} += "os-release"
+RRECOMMENDS:${PN} += "os-release"

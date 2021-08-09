@@ -7,7 +7,7 @@ PROVIDES = "${@bb.utils.contains("KERNEL_HEADER_DIR", "/usr", "linux-libc-header
 
 # The version of the customized kernel should be specified here, for example,
 # LINUX_VERSION = "4.19-rc7"
-LINUX_VERSION_EXTENSION_append = "-custom"
+LINUX_VERSION_EXTENSION:append = "-custom"
 
 KBRANCH ?= "standard/base"
 SRCREV_machine = "${AUTOREV}"
@@ -19,7 +19,7 @@ SRC_URI = "git://${KSRC_linux_libc_headers_custom};protocol=file;branch=${KBRANC
 
 S = "${WORKDIR}/git"
 
-FILES_${PN}-dev += "${KERNEL_HEADER_DIR}"
+FILES:${PN}-dev += "${KERNEL_HEADER_DIR}"
 
 # To install headers to KERNEL_HEADER_DIR, use this do_install overwrites the
 # one in oe-core.

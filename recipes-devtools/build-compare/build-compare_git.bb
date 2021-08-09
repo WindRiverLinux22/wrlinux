@@ -28,4 +28,4 @@ do_install() {
     install -m 755 srpm-check.sh ${D}/${bindir}
 }
 
-RDEPENDS_${PN} += "bash"
+RDEPENDS:${PN} += "bash"

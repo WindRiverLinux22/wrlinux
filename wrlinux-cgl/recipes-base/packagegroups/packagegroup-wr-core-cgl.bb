@@ -16,7 +16,7 @@ LIC_FILES_CHKSUM = "\
 
 PACKAGES = "${PN}"
 
-ALLOW_EMPTY_${PN} = "1"
+ALLOW_EMPTY:${PN} = "1"
 
 # crash is not available for mips.
 #
@@ -30,10 +30,10 @@ def crash_be_gone(d):
 CRASH ?= "${@crash_be_gone(d)}"
 
 NUMACTL = "numactl"
-NUMACTL_arm = ""
-NUMACTL_armeb = ""
+NUMACTL:arm = ""
+NUMACTL:armeb = ""
 
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
 	boost \
 	cluster-glue \
 	corosync \

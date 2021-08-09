@@ -28,7 +28,7 @@ do_install() {
 
 # cyclic-test needs this
 #
-RDEPENDS_${PN} += "bash"
+RDEPENDS:${PN} += "bash"
 
-FILES_${PN} += "/opt/cut/*"
-FILES_${PN}-dbg += "/opt/cut/bin/.debug"
+FILES:${PN} += "/opt/cut/*"
+FILES:${PN}-dbg += "/opt/cut/bin/.debug"

@@ -10,10 +10,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46 \
                     file://LICENSES/preferred/GPL-2.0;md5=e6a75371ba4d16749254a51215d13f97 \
                     file://LICENSES/exceptions/Linux-syscall-note;md5=6b0dff741019b948dfe290c05d6f361c \
 "
-LIC_FILES_CHKSUM_genericx86 = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
-LIC_FILES_CHKSUM_genericx86-64 = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
-LIC_FILES_CHKSUM_edgerouter  = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
-LIC_FILES_CHKSUM_beaglebone-yocto = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
+LIC_FILES_CHKSUM:genericx86 = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
+LIC_FILES_CHKSUM:genericx86-64 = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
+LIC_FILES_CHKSUM:edgerouter  = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
+LIC_FILES_CHKSUM:beaglebone-yocto = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 LIC_FILES_CHKSUM_mpc8315e = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
 EXCLUDE_FROM_WORLD = "1"
@@ -36,8 +36,8 @@ INSTALL_BUNDLE    = "${@'1' if d.getVar('INITRAMFS_IMAGE', True) and \
                                d.getVar('INITRAMFS_IMAGE_BUNDLE', True) == '1' and \
                                d.getVar('INITRAMFS_IMAGE_INSTALL', True) == '1' else '0'}"
 
-FILES_${PN} = "/boot/*"
-ALLOW_EMPTY_${PN} = "1"
+FILES:${PN} = "/boot/*"
+ALLOW_EMPTY:${PN} = "1"
 INITRAMFS_NAME = "${KERNEL_IMAGETYPE}-initramfs-${PV}-${PR}-${MACHINE}-${DATETIME}"
 INITRAMFS_NAME[vardepsexclude] = "DATETIME"
 INITRAMFS_EXT_NAME = "-${KERNEL_VERSION}"
@@ -71,14 +71,14 @@ do_install() {
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-pkg_postinst_${PN} () {
+pkg_postinst:${PN} () {
 #!/bin/sh
     if [ "x${INSTALL_BUNDLE}" = "x1" ] ; then
         update-alternatives --install /boot/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE} /boot/${KERNEL_IMAGETYPE}-initramfs${INITRAMFS_EXT_NAME} 50101 || true
     fi
 }
 
-pkg_prerm_${PN} () {
+pkg_prerm:${PN} () {
 #!/bin/sh
     if [ "x${INSTALL_BUNDLE}" = "x1" ] ; then
         update-alternatives --remove ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-initramfs${INITRAMFS_EXT_NAME} || true

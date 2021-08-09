@@ -7,7 +7,7 @@ SECTION = "apps"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e"
 
-RDEPENDS_${PN} = "ltp \
+RDEPENDS:${PN} = "ltp \
                   e2fsprogs e2fsprogs-resize2fs \
                   open-posix-testsuite bash\
 "
@@ -207,6 +207,6 @@ do_install() {
 
 }
 
-FILES_${PN} += "/opt/cut/*"
-FILES_${PN}-dbg += "/opt/cut/bin/.debug"
-FILES_${PN}-dbg += "/opt/cut/rb-futex/nptl/.debug"
+FILES:${PN} += "/opt/cut/*"
+FILES:${PN}-dbg += "/opt/cut/bin/.debug"
+FILES:${PN}-dbg += "/opt/cut/rb-futex/nptl/.debug"

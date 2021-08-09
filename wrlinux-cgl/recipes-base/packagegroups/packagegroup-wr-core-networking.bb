@@ -16,10 +16,10 @@ LIC_FILES_CHKSUM = "\
 
 PACKAGES = "${PN}"
 
-ALLOW_EMPTY_${PN} = "1"
+ALLOW_EMPTY:${PN} = "1"
 
 VIRTUAL-RUNTIME_ntp ?= "chrony"
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
 	geoip \
 	geoip-perl \
 	apache2 \

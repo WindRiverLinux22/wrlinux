@@ -13,7 +13,7 @@ SRC_URI =  " \
 inherit allarch ptest systemd
 
 SYSTEMD_PACKAGES = "${PN}"
-SYSTEMD_SERVICE_${PN} = "run_container.service"
+SYSTEMD_SERVICE:${PN} = "run_container.service"
 
 python do_install () {
     bb.build.exec_func('do_install_base', d)
@@ -46,6 +46,6 @@ python write_containers_conf () {
 
 do_install[nostamp] = "1"
 
-RDEPENDS_${PN} = "bash docker"
+RDEPENDS:${PN} = "bash docker"
 
 EXCLUDE_FROM_WORLD = "1"

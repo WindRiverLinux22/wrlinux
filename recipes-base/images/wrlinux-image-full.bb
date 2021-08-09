@@ -48,7 +48,7 @@ CONTAINER_IMAGE_REMOVE ?= "\
 "
 
 # No k8s by default
-IMAGE_INSTALL_remove = "\
+IMAGE_INSTALL:remove = "\
     ${@bb.utils.contains('IMAGE_ENABLE_CONTAINER', '1', '${CONTAINER_IMAGE_REMOVE}', '', d)} \
     kubernetes \
 "
@@ -57,26 +57,26 @@ IMAGE_INSTALL_remove = "\
 NO_RECOMMENDATIONS = "${@bb.utils.contains('IMAGE_ENABLE_CONTAINER', '1', '1', '0', d)}"
 
 # Remove debug-tweaks
-IMAGE_FEATURES_remove = "debug-tweaks"
+IMAGE_FEATURES:remove = "debug-tweaks"
 
 # Remove x11-base for container image
-IMAGE_FEATURES_remove = "${@['', 'x11-base'][bb.utils.to_boolean(d.getVar('IMAGE_ENABLE_CONTAINER') or '0')]}"
+IMAGE_FEATURES:remove = "${@['', 'x11-base'][bb.utils.to_boolean(d.getVar('IMAGE_ENABLE_CONTAINER') or '0')]}"
 
 # Remove x11 packages since the board doesn't support graphic display
-IMAGE_FEATURES_remove_intel-socfpga-64 = "x11-base"
-IMAGE_INSTALL_remove_intel-socfpga-64 = "packagegroup-xfce-extended wr-themes"
+IMAGE_FEATURES:remove_intel-socfpga-64 = "x11-base"
+IMAGE_INSTALL:remove_intel-socfpga-64 = "packagegroup-xfce-extended wr-themes"
 
-IMAGE_FEATURES_remove_nxp-s32g2xx = "x11-base"
-IMAGE_INSTALL_remove_nxp-s32g2xx = "packagegroup-xfce-extended wr-themes"
+IMAGE_FEATURES:remove:nxp-s32g2xx = "x11-base"
+IMAGE_INSTALL:remove:nxp-s32g2xx = "packagegroup-xfce-extended wr-themes"
 
-IMAGE_FEATURES_remove_xilinx-zynq = "x11-base"
-IMAGE_INSTALL_remove_xilinx-zynq = "packagegroup-xfce-extended wr-themes"
+IMAGE_FEATURES:remove:xilinx-zynq = "x11-base"
+IMAGE_INSTALL:remove:xilinx-zynq = "packagegroup-xfce-extended wr-themes"
 
-IMAGE_FEATURES_remove_ti-j72xx = "x11-base"
-IMAGE_INSTALL_remove_ti-j72xx = "packagegroup-xfce-extended wr-themes"
+IMAGE_FEATURES:remove:ti-j72xx = "x11-base"
+IMAGE_INSTALL:remove:ti-j72xx = "packagegroup-xfce-extended wr-themes"
 
-IMAGE_FEATURES_remove_marvell-cn96xx = "x11-base"
-IMAGE_INSTALL_remove_marvell-cn96xx = "packagegroup-xfce-extended wr-themes"
+IMAGE_FEATURES:remove:marvell-cn96xx = "x11-base"
+IMAGE_INSTALL:remove:marvell-cn96xx = "packagegroup-xfce-extended wr-themes"
 
 # Enable dhcpcd service if NetworkManager is not installed.
 ROOTFS_POSTPROCESS_COMMAND += "enable_dhcpcd_service; "

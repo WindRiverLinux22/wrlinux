@@ -69,9 +69,9 @@ PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux,"
 PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl,"
 PACKAGES += "open-posix-testsuite-dbg open-posix-testsuite"
 
-FILES_open-posix-testsuite += "/opt/open_posix_testsuite/"
+FILES:open-posix-testsuite += "/opt/open_posix_testsuite/"
 
-FILES_open-posix-testsuite-dbg += "\
+FILES:open-posix-testsuite-dbg += "\
     /opt/open_posix_testsuite/*/.debug \
     /opt/open_posix_testsuite/*/*/.debug \
     /opt/open_posix_testsuite/*/*/*/.debug \
@@ -80,19 +80,19 @@ FILES_open-posix-testsuite-dbg += "\
 
 ### These may be in .bb file after package is upgraded
 ###
-FILES_${PN}-dbg += "\
+FILES:${PN}-dbg += "\
     /opt/${PN}/testcases/*/.debug \
     /opt/${PN}/testcases/*/*/.debug \
     /opt/${PN}/testcases/*/*/*/.debug \
     "
-INSANE_SKIP_${PN} += "already-stripped"
+INSANE_SKIP:${PN} += "already-stripped"
 ###
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-RDEPENDS_open-posix-testsuite += "eglibc-utils"
-RDEPENDS_${PN} += "open-posix-testsuite expect binutils binutils-symlinks gzip"
+RDEPENDS:open-posix-testsuite += "eglibc-utils"
+RDEPENDS:${PN} += "open-posix-testsuite expect binutils binutils-symlinks gzip"
 
-FILES_${PN} += "/opt/${PN}/* /opt/${PN}/runtest/* /opt/${PN}/scenario_groups/* /opt/${PN}/testcases/bin/* /opt/${PN}/testcases/bin/*/bin/* /opt/${PN}/testscripts/* /opt/${PN}/testcases/open_posix_testsuite/* /opt/${PN}/testcases/open_posix_testsuite/conformance/* /opt/${PN}/testcases/open_posix_testsuite/Documentation/* /opt/lpp/testcases/open_posix_testsuite/functional/* /opt/${PN}/testcases/open_posix_testsuite/include/* /opt/${PN}/testcases/open_posix_testsuite/scripts/* /opt/${PN}/testcases/open_posix_testsuite/stress/* /opt/${PN}/testcases/open_posix_testsuite/tools/* /opt/${PN}/testcases/data/nm01/lib.a /opt/${PN}/lib/libmem.a"
+FILES:${PN} += "/opt/${PN}/* /opt/${PN}/runtest/* /opt/${PN}/scenario_groups/* /opt/${PN}/testcases/bin/* /opt/${PN}/testcases/bin/*/bin/* /opt/${PN}/testscripts/* /opt/${PN}/testcases/open_posix_testsuite/* /opt/${PN}/testcases/open_posix_testsuite/conformance/* /opt/${PN}/testcases/open_posix_testsuite/Documentation/* /opt/lpp/testcases/open_posix_testsuite/functional/* /opt/${PN}/testcases/open_posix_testsuite/include/* /opt/${PN}/testcases/open_posix_testsuite/scripts/* /opt/${PN}/testcases/open_posix_testsuite/stress/* /opt/${PN}/testcases/open_posix_testsuite/tools/* /opt/${PN}/testcases/data/nm01/lib.a /opt/${PN}/lib/libmem.a"
 
 INHIBIT_PACKAGE_STRIP_FILES = "/opt/${PN}/testcases/bin/nm01 /opt/${PN}/testcases/bin/ldd01"

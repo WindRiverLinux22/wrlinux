@@ -4,4 +4,4 @@ SRC_URI = "git://github.com/OpenSCAP/openscap.git;branch=maint-1.3 \
 PV = "1.3.1+git${SRCPV}"
 
 # Fix build failure with gcc-10
-CFLAGS_append = " -fcommon"
+CFLAGS:append = " -fcommon"

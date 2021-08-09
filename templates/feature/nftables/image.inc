@@ -1,1 +1,1 @@
-IMAGE_INSTALL_append = " nftables"
+IMAGE_INSTALL:append = " nftables"

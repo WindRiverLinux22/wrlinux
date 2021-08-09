@@ -13,9 +13,9 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 PR = "r2"
 
-ALLOW_EMPTY_${PN} = "1"
+ALLOW_EMPTY:${PN} = "1"
 
-RDEPENDS_${PN} = " \
+RDEPENDS:${PN} = " \
     avahi-daemon \
     ${NETWORK_MANAGER} \
     bind-utils \

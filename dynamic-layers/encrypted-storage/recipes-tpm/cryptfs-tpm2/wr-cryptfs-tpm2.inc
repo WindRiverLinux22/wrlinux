@@ -1,19 +1,19 @@
-FILESEXTRAPATHS_append := ":${THISDIR}/files"
+FILESEXTRAPATHS:append := ":${THISDIR}/files"
 
 SRC_URI += " \
 	file://init.luks \
 	"
 
-do_install_append() {
+do_install:append() {
     install -m 0500 "${WORKDIR}/init.luks" "${D}"
 
     rm -rf "${D}/init.cryptfs"
 }
 
-FILES_${PN}-initramfs += "/init.luks"
-FILES_${PN}-initramfs_remove += "/init.cryptfs"
+FILES:${PN}-initramfs += "/init.luks"
+FILES:${PN}-initramfs:remove += "/init.cryptfs"
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
 		rng-tools \
 		findutils \
 		pv \

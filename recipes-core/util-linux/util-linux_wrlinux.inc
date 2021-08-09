@@ -3,4 +3,4 @@
 #
 
 #include util-linux-agetty too
-RRECOMMENDS_${PN} += " util-linux-agetty"
+RRECOMMENDS:${PN} += " util-linux-agetty"

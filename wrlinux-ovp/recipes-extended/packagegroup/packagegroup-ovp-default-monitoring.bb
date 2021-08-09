@@ -14,12 +14,12 @@ PACKAGES = "\
     ${PN}-dev \
     "
 
-ALLOW_EMPTY_${PN} = "1"
+ALLOW_EMPTY:${PN} = "1"
 
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
 	${@bb.utils.contains('MONITORING_FEATURES', 'core', 'packagegroup-monitoring-core', '', d)} \
 	${@bb.utils.contains('MONITORING_FEATURES', 'proxy', 'packagegroup-monitoring-proxy', '', d)} \
 	${@bb.utils.contains('MONITORING_FEATURES', 'agent', 'packagegroup-monitoring-agent', '', d)} \
 "
 
-COMPATIBLE_HOST_aarch64 = "${@bb.utils.contains('MONITORING_FEATURES', 'nagios', 'null', '.*', d)}"
+COMPATIBLE_HOST:aarch64 = "${@bb.utils.contains('MONITORING_FEATURES', 'nagios', 'null', '.*', d)}"
