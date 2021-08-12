@@ -46,7 +46,7 @@ open posix testsuite. LTP and POSIX are released in the same LTP distribution by
 Linux Test Project.
 
 The detailed discussion about LTP and POSIX themselves is out of the scope of this
-document. Please refer to LTP homepage http://ltp.sourceforge.net.
+document. Please refer to LTP homepage http://linux-test-project.github.io.
 
     1.2 Feedback and Corrections
 ---------------------------------
@@ -62,30 +62,17 @@ contribute additional information.
     2.1 The components of ltp package
 -------------------------------------
 
-    * ltp package in wrLinux DVD
-
-The ltp package in wrlinux DVD is made of local mirror LTP git repository and
-bitbake recipe windriver-ltp.
-
-The LTP git repository is located in:
-git/github.com.linux-test-project.ltp.git
-
-The ltp recipe is located in:
-layers/oe-core/meta/recipes-extended/ltp
-
-The ltp bbappend file is located in:
-wr-base/recipes-extended/windriver-ltp
-
-
     * ltp package in wrLinux project
 
 In wrLinux project, ltp package is made of LTP, wrLtp, POSIX and wrPosix.
-All these components are placed under <Path to wrLinux project>/build/ltp/git/
+All these components are placed under
+
+<Path to wrLinux project>/tmp-glibc/work/<PACKAGE_ARCH>-wrs-linux/ltp/<VERSION>/git
 
     2.2 Configure project with ltp package
 ------------------------------------------
 
-To build ltp package , you need to configure wrLinux project with --enable-test.
+To involve ltp package, you need to configure wrLinux project with --templates=feature/test
 
 
 3 wrLtp and wrPosix test getting started
@@ -210,7 +197,7 @@ are placed under /opt/open_posix_testsuite/conformance/interfaces/. Please refer
 to the wr-runposix for the test suite list of each scenario group.
 
 Each test case is named with index number such as 1-1.run-test. Therefore the
-test cae without the name of test suite is meaningless.
+test case without the name of test suite is meaningless.
 
     * Run test case based on default scenario group list defined in wr-runposix
 
@@ -238,7 +225,10 @@ test execution.
 4 wrLtp Directory Layout and Usage
 
 The wrLtp include script wr-runltp and test knowledge base. In wrLinux project,
-they are placed under <Path to wrLinux project>/build/ltp-git-<version>/git/wrLinux_ltp.
+they are placed under
+
+<Path to wrLinux project>/tmp-glibc/work/<PACKAGE_ARCH>-wrs-linux/ltp/<VERSION>/git/wrLinux_ltp
+
 On runtime target, you can find them under /opt/ltp/wrLinux_ltp/.
 
     4.1 The layout of wrLtp directory
@@ -385,7 +375,8 @@ The LTP stress test case can be executed using the option "-P" as follows:
 The wrPosix include script wr-runposix and test knowledge base.
 
 In wrLinux project, they are placed under
-<wrLinux project>/build/ltp-git-<version>/git/testcases/open_posix_testsuite/wrLinux_posix
+
+<wrLinux project>/tmp-glibc/work/<PACKAGE_ARCH>-wrs-linux/ltp/<VERSION>/git/testcases/open_posix_testsuite/wrLinux_posix
 
 In runtime target, they are placed under /opt/open_posix_testsuite/wrLinux_posix
 
