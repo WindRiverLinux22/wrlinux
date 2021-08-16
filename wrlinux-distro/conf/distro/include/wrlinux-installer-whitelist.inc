@@ -54,9 +54,14 @@ PNWHITELIST:openembedded-layer += "\
     gnome-doc-utils-stub \
     gnulib \
     isomd5sum \
+    pps-tools \
     satyr \
     tigervnc \
     uthash \
     xmlrpc-c \
 "
 
+# Whitelist for meta-openembedded/meta-networking
+PNWHITELIST:networking-layer += "\
+    chrony \
+"
