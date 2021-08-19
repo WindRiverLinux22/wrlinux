@@ -97,7 +97,7 @@ mutex_timedlock of %d in thread %ld failed with %d\n",
 	    }
 
 	  if (e == EOWNERDEAD)
-	    pthread_mutex_consistent_np (&map[r]);
+	    pthread_mutex_consistent (&map[r]);
 
 	  if (e == 0 || e == EOWNERDEAD)
 	    state[r] = 1;
@@ -173,7 +173,7 @@ do_test (void)
       puts ("mutexattr_init failed");
       return 0;
     }
-  if (pthread_mutexattr_setrobust_np (&ma, PTHREAD_MUTEX_ROBUST_NP) != 0)
+  if (pthread_mutexattr_setrobust (&ma, PTHREAD_MUTEX_ROBUST_NP) != 0)
     {
       puts ("mutexattr_setrobust failed");
       return 1;
