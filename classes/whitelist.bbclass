@@ -11,17 +11,17 @@
 #
 # INHERIT += "whitelist"
 # PNWHITELIST_LAYERS = "layername"
-# PNWHITELIST_layername = "recipe1 recipe2"
+# PNWHITELIST:layername = "recipe1 recipe2"
 #
 # If you would prefer to set a reason message other than the default, you
 # can do so:
 #
-# PNWHITELIST_REASON_layername = "not supported by ${DISTRO}"
+# PNWHITELIST_REASON:layername = "not supported by ${DISTRO}"
 
 # Generic reason
 PNWHITELIST_KEY_MSG ?= "To override, add to your local.conf:"
 PNWHITELIST_CURRENT_LAYER ?= "${@bb.utils.get_file_layer(d.getVar('FILE'), d)}"
-PNWHITELIST_REASON ?= "Not supported in this configuration by Wind River. ${PNWHITELIST_KEY_MSG} PNWHITELIST_${PNWHITELIST_CURRENT_LAYER} += '${BPN}'"
+PNWHITELIST_REASON ?= "Not supported in this configuration by Wind River. ${PNWHITELIST_KEY_MSG} PNWHITELIST:${PNWHITELIST_CURRENT_LAYER} += '${BPN}'"
 PNWHITELIST_REASON_ADDON ?= "You may also have to add: BB_NO_NETWORK = '0'"
 PNWHITELIST ?= ""
 
