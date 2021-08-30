@@ -554,7 +554,7 @@ index 0000000..3037077
 +            exit $TEST_RETVAL_FAIL
 +        }
 +
-+        mount -t $TMP_MOUNT_FSTYPE -o mand $LOOP_DEVICE_TMP $TMPDIR >/dev/null 2>&1 || {
++        mount -t $TMP_MOUNT_FSTYPE $LOOP_DEVICE_TMP $TMPDIR >/dev/null 2>&1 || {
 +            echo "Failed to mount $LOOP_DEVICE_TMP to $TMPDIR"
 +            exit $TEST_RETVAL_FAIL
 +        }
