@@ -83,7 +83,7 @@ lvcreate -L 50 -n lv_test1 vg_test
 checkerr "Create LV fail"
 
 echo -e "\n******Create filesystem and use this logical volume******"
-mke2fs /dev/vg_test/lv_test1
+mke2fs -I 128 /dev/vg_test/lv_test1
 checkerr "Create filesystem fail"
 
 echo -e "\n*****Mount lv_test1 to ${tmp_dir}/lv*****"
