@@ -1,0 +1,17 @@
+This template adds the podman to the image.
+
+Podman is a daemonless container engine for developing,
+managing, and running OCI Containers on your Linux System.
+Containers can either be run as root or in rootless mode.
+Simply put: alias docker=podman.
+
+Detail description can be found in:
+https://podman.io
+
+To use the template, add "--templates feature/podman" as a setup
+option.
+
+#@TYPE: Wrtemplate
+#@NAME: podman
+#@DESCRIPTION: install podman into image
+
