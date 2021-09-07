@@ -1,0 +1,23 @@
+The y-axis position of sidebar logo is a little high when in high resolution
+mode. Replace hardcode 20px with 10% to make it look better.
+
+Upstream-Status: Inappropriate [WRLinux Specific]
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ data/anaconda-gtk.css | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/data/anaconda-gtk.css b/data/anaconda-gtk.css
+index fb44d5268..eb7b446bb 100644
+--- a/data/anaconda-gtk.css
++++ b/data/anaconda-gtk.css
+@@ -101,7 +101,7 @@ levelbar.discrete trough block.filled.high {
+ /* Add a logo to the sidebar */
+ .logo {
+     background-image: url('/usr/share/anaconda/pixmaps/sidebar-logo.png');
+-    background-position: 50% 20px;
++    background-position: 50% 10%;
+     background-repeat: no-repeat;
+     background-color: transparent;
+ }
