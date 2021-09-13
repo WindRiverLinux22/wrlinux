@@ -23,7 +23,7 @@ python linux_yocto_rewrite_uri:osv-wrlinux() {
     src_uri=d.getVar("SRC_URI", False)
 
     # We need the -file- PV, not the actual PV...
-    pv = d.expand("${@bb.parse.BBHandler.vars_from_file(d.getVar('FILE', False),d)[1] or 'dev'}")
+    pv = d.expand("${@bb.parse.vars_from_file(d.getVar('FILE', False),d)[1] or 'dev'}")
 
     # Replace the kernel URI.
     if os.path.exists("%s/git/linux-yocto.git" % (d.expand(layer_path))):
