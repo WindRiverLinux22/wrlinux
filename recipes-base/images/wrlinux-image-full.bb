@@ -21,7 +21,7 @@ IMAGE_INSTALL += "\
 CONTAINER_IMAGE_REMOVE ?= "\
     ostree ostree-upgrade-mgr \
     docker \
-    virtual/containerd \
+    virtual-containerd \
     python3-docker-compose \
     linux-firmware-bcm43455 \
     linux-firmware-bcm43430 \
