@@ -100,7 +100,7 @@ expect	{
 
 expect	{
 	eof  { exit 1 }
-	"Thread*mthread*alone" 	{ }
+	"LWP*mthread*alone" 	{ }
 	timeout { send_tty "##GDB## timeout waiting for thread info\r\n" ; exit 6 }
 	}
 
