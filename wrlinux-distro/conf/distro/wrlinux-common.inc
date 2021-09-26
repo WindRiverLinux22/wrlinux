@@ -171,5 +171,6 @@ SANITY_TESTED_DISTROS ?= " \
             opensuseleap-15.0 \n \
             rhel-8.0 \n \
             rhel-8.2 \n \
+            rhel-8.4 \n \
             sled-15 \n \
             "
