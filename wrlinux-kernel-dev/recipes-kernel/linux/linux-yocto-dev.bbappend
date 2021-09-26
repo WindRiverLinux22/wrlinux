@@ -13,3 +13,5 @@ require linux-windriver-handlers.inc
 
 # Allow production of customer userspace headers
 require wkd-linux-yocto-headers.inc
+
+# Do NOT patch kernel here with EXTRA_KERNEL_SRC_URI
