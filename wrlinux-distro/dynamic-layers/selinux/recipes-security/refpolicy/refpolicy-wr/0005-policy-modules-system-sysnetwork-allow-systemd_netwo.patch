@@ -1,4 +1,4 @@
-From 4706239f399cc2076998b4c6e216c726bcfdb1bd Mon Sep 17 00:00:00 2001
+From 82289ac6b9dbd444d75436ca9c9b189006d58916 Mon Sep 17 00:00:00 2001
 From: Yi Zhao <yi.zhao@windriver.com>
 Date: Wed, 8 Jul 2020 14:38:55 +0800
 Subject: [PATCH] policy/modules/system/sysnetwork: allow systemd_networkd_t to
@@ -20,7 +20,7 @@ Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
  1 file changed, 1 insertion(+)
 
 diff --git a/policy/modules/system/sysnetwork.if b/policy/modules/system/sysnetwork.if
-index fb92a09e6..f74e685d9 100644
+index 8664a67c8..3c6d0a597 100644
 --- a/policy/modules/system/sysnetwork.if
 +++ b/policy/modules/system/sysnetwork.if
 @@ -349,6 +349,7 @@ interface(`sysnet_read_config',`

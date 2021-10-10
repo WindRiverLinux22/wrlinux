@@ -1,4 +1,4 @@
-From 43cf3494723a86dcf1afa56e5617190be804c97a Mon Sep 17 00:00:00 2001
+From 809e95fe9532a1280d50c5b0c43b34c5e40c4bd7 Mon Sep 17 00:00:00 2001
 From: Liwei Song <liwei.song@windriver.com>
 Date: Wed, 8 Jan 2020 05:48:58 +0000
 Subject: [PATCH] file_contexts.subs_dist: fix label for /usr/etc
@@ -13,10 +13,10 @@ Signed-off-by: Liwei Song <liwei.song@windriver.com>
  1 file changed, 2 insertions(+)
 
 diff --git a/config/file_contexts.subs_dist b/config/file_contexts.subs_dist
-index 3e4c5720f..abd929109 100644
+index f80499ebf..a308767ab 100644
 --- a/config/file_contexts.subs_dist
 +++ b/config/file_contexts.subs_dist
-@@ -48,3 +48,5 @@
+@@ -49,3 +49,5 @@
  # The genhomedircon.py will expand /root home directory to /home/root
  # Add an aliase for it
  /root /home/root

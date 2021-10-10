@@ -1,4 +1,4 @@
-From 4e18fa39e51331a7f34e402ef9fb14a71325e2f0 Mon Sep 17 00:00:00 2001
+From 983dbe6d835b73af6fcc3de56a380cc2931817ed Mon Sep 17 00:00:00 2001
 From: Liwei Song <liwei.song@windriver.com>
 Date: Fri, 3 Jan 2020 10:19:20 +0800
 Subject: [PATCH] allow mount to dirs under /tmp
@@ -19,7 +19,7 @@ Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
  2 files changed, 22 insertions(+)
 
 diff --git a/policy/modules/system/mount.te b/policy/modules/system/mount.te
-index 422d411e3..1fbd467b4 100644
+index f2ba645f6..3d8748f5c 100644
 --- a/policy/modules/system/mount.te
 +++ b/policy/modules/system/mount.te
 @@ -47,6 +47,10 @@ allow mount_t self:capability { chown dac_override ipc_lock setgid setuid sys_ad
@@ -34,10 +34,10 @@ index 422d411e3..1fbd467b4 100644
  
  files_tmp_filetrans(mount_t, mount_tmp_t, { file dir })
 diff --git a/policy/modules/system/userdomain.if b/policy/modules/system/userdomain.if
-index f2771594a..9d433c37c 100644
+index 7af3c45a3..de6e0196a 100644
 --- a/policy/modules/system/userdomain.if
 +++ b/policy/modules/system/userdomain.if
-@@ -3430,6 +3430,24 @@ interface(`userdom_mounton_user_runtime_dirs',`
+@@ -3520,6 +3520,24 @@ interface(`userdom_mounton_user_runtime_dirs',`
  	allow $1 user_runtime_t:dir mounton;
  ')
  

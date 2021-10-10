@@ -1,4 +1,4 @@
-From 9c01ea5a8ab5667ad86270a83769793b97cbc9f0 Mon Sep 17 00:00:00 2001
+From 27956cb003bd558533436999781c6e1af5de0a17 Mon Sep 17 00:00:00 2001
 From: Yi Zhao <yi.zhao@windriver.com>
 Date: Fri, 3 Jul 2020 10:22:57 +0800
 Subject: [PATCH] policy/modules/services/zebra: allow zebra_t to read nsfs_t

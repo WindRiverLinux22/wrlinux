@@ -1,4 +1,4 @@
-From 2e3dd31eb8cf0df04bff14fbe471bd8c8f1cc19d Mon Sep 17 00:00:00 2001
+From 7b79528c0f2e668437e856a121439d3e31da300d Mon Sep 17 00:00:00 2001
 From: Yi Zhao <yi.zhao@windriver.com>
 Date: Thu, 4 Feb 2021 16:01:41 +0800
 Subject: [PATCH] policy/modules/admin/ostree: fix ostree unlock
@@ -24,10 +24,10 @@ Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
  1 file changed, 4 insertions(+)
 
 diff --git a/policy/modules/admin/ostree.te b/policy/modules/admin/ostree.te
-index b9d2bb774..ae21bf7b6 100644
+index 7a7912a7e..573ff71de 100644
 --- a/policy/modules/admin/ostree.te
 +++ b/policy/modules/admin/ostree.te
-@@ -80,6 +80,10 @@ files_map_non_auth_files(ostree_t)
+@@ -79,6 +79,10 @@ files_map_non_auth_files(ostree_t)
  fs_getattr_all_dirs(ostree_t)
  fs_getattr_all_fs(ostree_t)
  

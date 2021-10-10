@@ -1,4 +1,4 @@
-From 2fa4d2369c2d9dd583d035b6b344dcd139cfce72 Mon Sep 17 00:00:00 2001
+From 6037520853361a89185254719bffe25dc61ce43b Mon Sep 17 00:00:00 2001
 From: Liwei Song <liwei.song@windriver.com>
 Date: Mon, 24 Feb 2020 10:52:55 +0800
 Subject: [PATCH] lable system-export as ostree_exec_t

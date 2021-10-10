@@ -1,4 +1,4 @@
-From 2dbae7aaa88ccfec64810734f89b0b5c45122fb1 Mon Sep 17 00:00:00 2001
+From edba536cf9434d3ba362f35686c37a5d751f6f68 Mon Sep 17 00:00:00 2001
 From: Yi Zhao <yi.zhao@windriver.com>
 Date: Fri, 3 Jul 2020 16:04:45 +0800
 Subject: [PATCH] policy/modules/admin/logwatch: fix avc denials for logwatch

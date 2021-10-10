@@ -1,4 +1,4 @@
-From 51fbeea83c0d24a54a4579538adb32aaf2c7827d Mon Sep 17 00:00:00 2001
+From f9a14520663b869bc0e90dba81bb06b8d772638c Mon Sep 17 00:00:00 2001
 From: Yi Zhao <yi.zhao@windriver.com>
 Date: Mon, 3 Aug 2020 17:28:11 +0800
 Subject: [PATCH] policy/modules/system/systemd: allow systemd_generator_t to
@@ -31,21 +31,21 @@ Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
  1 file changed, 5 insertions(+)
 
 diff --git a/policy/modules/system/systemd.te b/policy/modules/system/systemd.te
-index f64ab1557..af7798aa4 100644
+index 8cea6baa1..029e42f2f 100644
 --- a/policy/modules/system/systemd.te
 +++ b/policy/modules/system/systemd.te
-@@ -461,6 +461,11 @@ storage_raw_read_fixed_disk(systemd_generator_t)
- 
- systemd_log_parse_environment(systemd_generator_t)
- 
+@@ -473,6 +473,11 @@ kernel_use_fds(systemd_generator_t)
+ kernel_read_system_state(systemd_generator_t)
+ kernel_read_kernel_sysctls(systemd_generator_t)
+ kernel_dontaudit_getattr_proc(systemd_generator_t)
++kernel_getattr_unlabeled_dirs(systemd_generator_t)
 +kernel_read_unlabeled_files(systemd_generator_t)
 +files_read_boot_symlinks(systemd_generator_t)
 +files_check_write_runtime_dirs(systemd_generator_t)
 +files_rw_runtime_files(systemd_generator_t)
-+
- term_use_unallocated_ttys(systemd_generator_t)
  
- mls_file_write_to_clearance(systemd_generator_t)
+ storage_raw_read_fixed_disk(systemd_generator_t)
+ 
 -- 
 2.17.1
 

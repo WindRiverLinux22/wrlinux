@@ -1,4 +1,4 @@
-From 25140b2c27c49f0c995f24f2e61a72714be7933d Mon Sep 17 00:00:00 2001
+From e7b8636fa45a0d443b5385906ed126bc6c12979e Mon Sep 17 00:00:00 2001
 From: Liwei Song <liwei.song@windriver.com>
 Date: Thu, 2 Jan 2020 17:39:36 +0800
 Subject: [PATCH] system/locallogin.te: allow login read symlink file

@@ -1,4 +1,4 @@
-From 533e148c5f59eca3c9dce0a681e1ea08a1345e3f Mon Sep 17 00:00:00 2001
+From 9a52246b255afcd0df916c3d42e3903c868caf00 Mon Sep 17 00:00:00 2001
 From: Liwei Song <liwei.song@windriver.com>
 Date: Thu, 2 Jan 2020 17:32:58 +0800
 Subject: [PATCH] files: add lable if /mnt /opt /media is symlinks file

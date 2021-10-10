@@ -1,4 +1,4 @@
-From 3712f85f66d828ce90d718e90ddb237abc84479e Mon Sep 17 00:00:00 2001
+From 91913ee8fa7311e1e6d8fc96e81b310bc779b3aa Mon Sep 17 00:00:00 2001
 From: Yi Zhao <yi.zhao@windriver.com>
 Date: Thu, 4 Mar 2021 13:46:34 +0800
 Subject: [PATCH] Revert "kernel: Drop unlabeled_t as a files_mountpoint()."
@@ -25,7 +25,7 @@ Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
  1 file changed, 1 insertion(+)
 
 diff --git a/policy/modules/kernel/kernel.te b/policy/modules/kernel/kernel.te
-index fbcf1413f..de4226e2c 100644
+index 2031576e0..b5abf30d7 100644
 --- a/policy/modules/kernel/kernel.te
 +++ b/policy/modules/kernel/kernel.te
 @@ -190,6 +190,7 @@ genfscon proc /sys/dev gen_context(system_u:object_r:sysctl_dev_t,s0)

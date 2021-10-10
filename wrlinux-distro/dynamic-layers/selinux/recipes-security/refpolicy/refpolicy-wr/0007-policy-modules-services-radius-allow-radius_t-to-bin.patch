@@ -1,4 +1,4 @@
-From df78a9c6f099783420a62b507b805808b97c8919 Mon Sep 17 00:00:00 2001
+From c302e52ab983cecb89277c58482e07ea2e614ab9 Mon Sep 17 00:00:00 2001
 From: Yi Zhao <yi.zhao@windriver.com>
 Date: Fri, 3 Jul 2020 15:33:51 +0800
 Subject: [PATCH] policy/modules/services/radius: allow radius_t to bind

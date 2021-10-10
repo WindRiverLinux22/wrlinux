@@ -1,4 +1,4 @@
-From f46a91f462693127a1b7d5dc42f3491f35059ef8 Mon Sep 17 00:00:00 2001
+From ada09fa3b963dc71ced9eb1d9b512111b0e6d080 Mon Sep 17 00:00:00 2001
 From: Yi Zhao <yi.zhao@windriver.com>
 Date: Tue, 4 Aug 2020 14:51:12 +0800
 Subject: [PATCH] policy/modules/roles/sysadm: allow sysadm_t to read
@@ -18,10 +18,10 @@ Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
  1 file changed, 2 insertions(+)
 
 diff --git a/policy/modules/roles/sysadm.te b/policy/modules/roles/sysadm.te
-index 1f076bcc3..6109dc191 100644
+index b9cd7ef78..94af9f336 100644
 --- a/policy/modules/roles/sysadm.te
 +++ b/policy/modules/roles/sysadm.te
-@@ -58,6 +58,8 @@ init_admin(sysadm_t)
+@@ -60,6 +60,8 @@ init_admin(sysadm_t)
  userdom_manage_user_home_dirs(sysadm_t)
  userdom_home_filetrans_user_home_dir(sysadm_t)
  

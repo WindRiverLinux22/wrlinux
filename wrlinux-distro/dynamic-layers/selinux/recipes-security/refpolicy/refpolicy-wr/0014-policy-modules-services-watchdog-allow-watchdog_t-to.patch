@@ -1,4 +1,4 @@
-From e53964436782022e6fb2f9d9fab6a4de09abd0d0 Mon Sep 17 00:00:00 2001
+From 8651bfa84a73b7a5284e4abe062b49d66fab68c7 Mon Sep 17 00:00:00 2001
 From: Wenzong Fan <wenzong.fan@windriver.com>
 Date: Fri, 5 Feb 2016 02:39:21 -0500
 Subject: [PATCH] policy/modules/services/watchdog: allow watchdog_t to create
@@ -14,22 +14,16 @@ Fixes:
   tcontext=system_u:object_r:var_log_t:s0 \
   tclass=dir
 
-  avc: denied { search } for pid=385 comm="watchdog" name="journal" \
-  dev="tmpfs" ino=8203 \
-  scontext=system_u:system_r:watchdog_t:s0-s15:c0.c1023 \
-  tcontext=system_u:object_r:syslogd_runtime_t:s15:c0.c1023 \
-  tclass=dir
-
 Upstream-Status: Pending
 
 Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
 Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- policy/modules/services/watchdog.te | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ policy/modules/services/watchdog.te | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/policy/modules/services/watchdog.te b/policy/modules/services/watchdog.te
-index 6ad408584..a272c4534 100644
+index 5b3c88893..1cf8b4c84 100644
 --- a/policy/modules/services/watchdog.te
 +++ b/policy/modules/services/watchdog.te
 @@ -30,8 +30,9 @@ allow watchdog_t self:fifo_file rw_fifo_file_perms;
@@ -52,15 +46,6 @@ index 6ad408584..a272c4534 100644
  
  auth_append_login_records(watchdog_t)
  
-@@ -85,6 +87,8 @@ sysnet_dns_name_resolve(watchdog_t)
- userdom_dontaudit_use_unpriv_user_fds(watchdog_t)
- userdom_dontaudit_search_user_home_dirs(watchdog_t)
- 
-+mls_file_read_to_clearance(watchdog_t)
-+
- optional_policy(`
- 	mta_send_mail(watchdog_t)
- ')
 -- 
 2.17.1
 

@@ -1,4 +1,4 @@
-From f7146227ce460d959afb93d20e4e23f538db6bb8 Mon Sep 17 00:00:00 2001
+From 8aa5955d09029059da824e8b6109dc2113cd79e6 Mon Sep 17 00:00:00 2001
 From: Yi Zhao <yi.zhao@windriver.com>
 Date: Fri, 3 Jul 2020 10:32:41 +0800
 Subject: [PATCH] policy/modules/services/radius: fix freeradius startup

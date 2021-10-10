@@ -1,4 +1,4 @@
-From efe60847f4935cbe3869b7e6665edca899dc9cb4 Mon Sep 17 00:00:00 2001
+From 00299f7a1024d667f70cf474334cb797043fd704 Mon Sep 17 00:00:00 2001
 From: Yi Zhao <yi.zhao@windriver.com>
 Date: Tue, 2 Mar 2021 14:05:50 +0800
 Subject: [PATCH] policy/modules/services/postfix: allow postfix_postdrop_t to
@@ -25,10 +25,10 @@ Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
  1 file changed, 2 insertions(+)
 
 diff --git a/policy/modules/services/postfix.te b/policy/modules/services/postfix.te
-index 4b8a58843..c0e822a2b 100644
+index daecb1875..b29c48a15 100644
 --- a/policy/modules/services/postfix.te
 +++ b/policy/modules/services/postfix.te
-@@ -646,6 +646,8 @@ manage_files_pattern(postfix_postdrop_t, postfix_spool_maildrop_t, postfix_spool
+@@ -633,6 +633,8 @@ manage_files_pattern(postfix_postdrop_t, postfix_spool_maildrop_t, postfix_spool
  
  allow postfix_postdrop_t postfix_local_t:unix_stream_socket { read write };
  

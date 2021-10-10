@@ -1,4 +1,4 @@
-From 49e5b352b6c5d71d285682f0fd80bf2acbfdbd0f Mon Sep 17 00:00:00 2001
+From 07236d4348efac0d917e2470a8212a9a1c6dd078 Mon Sep 17 00:00:00 2001
 From: Peter Seebach <peter.seebach@windriver.com>
 Date: Thu, 31 Jan 2019 13:59:06 +0800
 Subject: [PATCH] policy/modules/admin/newgrp: add newgrp policy module
@@ -236,11 +236,11 @@ index 000000000..36fc66d1b
 +type newgrp_exec_t;
 +application_executable_file(newgrp_exec_t)
 diff --git a/policy/modules/roles/auditadm.te b/policy/modules/roles/auditadm.te
-index f2ef8feac..245978098 100644
+index 1c7056959..833b1b427 100644
 --- a/policy/modules/roles/auditadm.te
 +++ b/policy/modules/roles/auditadm.te
 @@ -55,6 +55,10 @@ optional_policy(`
- 	sudo_role_template(auditadm, auditadm_r, auditadm_t)
+ 	sudo_role_template(auditadm, auditadm_t, auditadm_application_exec_domain, auditadm_r)
  ')
  
 +optional_policy(`
@@ -251,11 +251,11 @@ index f2ef8feac..245978098 100644
  	sysadm_role_change(auditadm_r, auditadm_t)
  ')
 diff --git a/policy/modules/roles/secadm.te b/policy/modules/roles/secadm.te
-index 9b7cd7678..b4a4748a3 100644
+index ba4ccdde6..9f580a820 100644
 --- a/policy/modules/roles/secadm.te
 +++ b/policy/modules/roles/secadm.te
-@@ -67,6 +67,10 @@ optional_policy(`
- 	sudo_role_template(secadm, secadm_r, secadm_t)
+@@ -68,6 +68,10 @@ optional_policy(`
+ 	sudo_role_template(secadm, secadm_t, secadm_application_exec_domain, secadm_r)
  ')
  
 +optional_policy(`
@@ -266,11 +266,11 @@ index 9b7cd7678..b4a4748a3 100644
  	sysadm_role_change(secadm_r, secadm_t)
  ')
 diff --git a/policy/modules/roles/staff.te b/policy/modules/roles/staff.te
-index 5779f1a00..fe7adf424 100644
+index a8ef987f6..5b56dcc12 100644
 --- a/policy/modules/roles/staff.te
 +++ b/policy/modules/roles/staff.te
-@@ -51,6 +51,10 @@ optional_policy(`
- 	sudo_role_template(staff, staff_r, staff_t)
+@@ -52,6 +52,10 @@ optional_policy(`
+ 	sudo_role_template(staff, staff_t, staff_application_exec_domain, staff_r)
  ')
  
 +optional_policy(`
@@ -281,10 +281,10 @@ index 5779f1a00..fe7adf424 100644
  	sysadm_role_change(staff_r, staff_t)
  	userdom_dontaudit_use_user_terminals(staff_t)
 diff --git a/policy/modules/roles/sysadm.te b/policy/modules/roles/sysadm.te
-index 0b8bdfb43..1f076bcc3 100644
+index cf4f9ec20..b9cd7ef78 100644
 --- a/policy/modules/roles/sysadm.te
 +++ b/policy/modules/roles/sysadm.te
-@@ -1103,6 +1103,10 @@ optional_policy(`
+@@ -1031,6 +1031,10 @@ optional_policy(`
  	svnserve_admin(sysadm_t, sysadm_r)
  ')
  
@@ -296,11 +296,11 @@ index 0b8bdfb43..1f076bcc3 100644
  	sysnet_run_ifconfig(sysadm_t, sysadm_r)
  	sysnet_run_dhcpc(sysadm_t, sysadm_r)
 diff --git a/policy/modules/roles/unprivuser.te b/policy/modules/roles/unprivuser.te
-index e2701f52d..c2eb94645 100644
+index 917d6c9b2..9ca79a8dd 100644
 --- a/policy/modules/roles/unprivuser.te
 +++ b/policy/modules/roles/unprivuser.te
-@@ -40,6 +40,10 @@ optional_policy(`
- 	xserver_role(user_r, user_t)
+@@ -41,6 +41,10 @@ optional_policy(`
+ 	xserver_role(user, user_t, user_application_exec_domain, user_r)
  ')
  
 +optional_policy(`
@@ -309,7 +309,7 @@ index e2701f52d..c2eb94645 100644
 +
  ifndef(`distro_redhat',`
  	optional_policy(`
- 		auth_role(user_r, user_t)
+ 		auth_role(user, user_t, user_application_exec_domain, user_r)
 -- 
 2.17.1
 

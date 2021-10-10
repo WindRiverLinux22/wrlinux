@@ -1,4 +1,4 @@
-From ce3a5eccf7703023467691f14a7ad5d7043766af Mon Sep 17 00:00:00 2001
+From 4627810c35de9d30c40b25de2d4711a9437c8e29 Mon Sep 17 00:00:00 2001
 From: Liwei Song <liwei.song@windriver.com>
 Date: Thu, 2 Jan 2020 17:38:13 +0800
 Subject: [PATCH] system/mount.te: allow mount on symlink file
@@ -17,7 +17,7 @@ Signed-off-by: Liwei Song <liwei.song@windriver.com>
  1 file changed, 3 insertions(+)
 
 diff --git a/policy/modules/system/mount.te b/policy/modules/system/mount.te
-index 0b426b30e..422d411e3 100644
+index b4ebe4274..f2ba645f6 100644
 --- a/policy/modules/system/mount.te
 +++ b/policy/modules/system/mount.te
 @@ -98,6 +98,9 @@ files_list_all_mountpoints(mount_t)

@@ -1,4 +1,4 @@
-From ee22c59e584f04b94c19df59e2fb6a03ab66381d Mon Sep 17 00:00:00 2001
+From b1cb25e926e8b52d784d8ee8c265d301a12161cb Mon Sep 17 00:00:00 2001
 From: Xin Ouyang <Xin.Ouyang@windriver.com>
 Date: Sun, 28 Apr 2019 16:21:26 +0800
 Subject: [PATCH] policy/modules/app/crash: add crash policy module
@@ -150,10 +150,10 @@ index 000000000..59b61c96b
 +mls_file_read_to_clearance(crash_t)
 +mls_file_write_to_clearance(crash_t)
 diff --git a/policy/modules/roles/sysadm.te b/policy/modules/roles/sysadm.te
-index aaae73fc3..0b8bdfb43 100644
+index 0682ed31a..cf4f9ec20 100644
 --- a/policy/modules/roles/sysadm.te
 +++ b/policy/modules/roles/sysadm.te
-@@ -283,6 +283,10 @@ optional_policy(`
+@@ -270,6 +270,10 @@ optional_policy(`
  	clock_run(sysadm_t, sysadm_r)
  ')
  
@@ -162,7 +162,7 @@ index aaae73fc3..0b8bdfb43 100644
 +')
 +
  optional_policy(`
- 	clockspeed_run_cli(sysadm_t, sysadm_r)
+ 	cobbler_admin(sysadm_t, sysadm_r)
  ')
 -- 
 2.17.1

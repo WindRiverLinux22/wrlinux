@@ -1,4 +1,4 @@
-From 2ba931357a1a0b3efeb22b6b699f215639e78e56 Mon Sep 17 00:00:00 2001
+From 90ef602a360f07607410856aec37608b921531b3 Mon Sep 17 00:00:00 2001
 From: Yi Zhao <yi.zhao@windriver.com>
 Date: Wed, 8 Jul 2020 11:24:43 +0800
 Subject: [PATCH] policy/modules/system/systemd: set correct context for
@@ -21,7 +21,7 @@ Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
  1 file changed, 2 insertions(+)
 
 diff --git a/policy/modules/system/systemd.fc b/policy/modules/system/systemd.fc
-index e605e7830..3e4f85398 100644
+index 34db8c034..899fac3ac 100644
 --- a/policy/modules/system/systemd.fc
 +++ b/policy/modules/system/systemd.fc
 @@ -2,6 +2,7 @@

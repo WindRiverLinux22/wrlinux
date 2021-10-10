@@ -1,0 +1,53 @@
+From 6b64e366402707638472c7ef2d3b910850aa7fdc Mon Sep 17 00:00:00 2001
+From: Yi Zhao <yi.zhao@windriver.com>
+Date: Tue, 9 Feb 2021 16:12:18 +0800
+Subject: [PATCH] policy/modules/services/postfix.te: allow postfix_local_t to
+ search logwatch_cache_t
+
+Fixes:
+avc:  denied  { search } for  pid=2421 comm="local" name="logcheck"
+dev="vda" ino=29080
+scontext=system_u:system_r:postfix_local_t:s0-s15:c0.c1023
+tcontext=system_u:object_r:logwatch_cache_t:s0 tclass=dir permissive=0
+
+Upstream-Status: Pending
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ policy/modules/services/postfix.te | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/policy/modules/services/postfix.te b/policy/modules/services/postfix.te
+index 67c39d9ae..daecb1875 100644
+--- a/policy/modules/services/postfix.te
++++ b/policy/modules/services/postfix.te
+@@ -386,7 +386,7 @@ optional_policy(`
+ # Cleanup local policy
+ #
+ 
+-allow postfix_cleanup_t self:process setrlimit;
++allow postfix_cleanup_t self:process { setrlimit getsched };
+ 
+ allow postfix_cleanup_t postfix_smtpd_t:tcp_socket rw_stream_socket_perms;
+ allow postfix_cleanup_t postfix_smtpd_t:unix_stream_socket rw_socket_perms;
+@@ -440,7 +440,7 @@ optional_policy(`
+ #
+ 
+ allow postfix_local_t self:capability chown;
+-allow postfix_local_t self:process setrlimit;
++allow postfix_local_t self:process { setrlimit getsched };
+ 
+ stream_connect_pattern(postfix_local_t, postfix_public_t, postfix_public_t, postfix_master_t)
+ 
+@@ -454,6 +454,8 @@ corecmd_exec_bin(postfix_local_t)
+ 
+ logging_dontaudit_search_logs(postfix_local_t)
+ 
++logwatch_search_cache_dir(postfix_local_t)
++
+ mta_delete_spool(postfix_local_t)
+ mta_read_aliases(postfix_local_t)
+ mta_map_aliases(postfix_local_t)
+-- 
+2.17.1
+
