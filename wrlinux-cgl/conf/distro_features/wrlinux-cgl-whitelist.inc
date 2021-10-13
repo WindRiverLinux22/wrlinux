@@ -91,12 +91,10 @@ PNWHITELIST_META_OE = " \
     libnet \
     libparse-yapp-perl \
     libqb \
-    libsodium \
     postgresql \
     pps-tools \
     smartmontools \
     zabbix \
-    zeromq \
     zstd \
 "
 
