@@ -7,7 +7,6 @@ DEPENDS = "\
     at-spi2-core-native \
     atk-native \
     attr-native \
-    autoconf-2.13-native \
     autoconf-archive-native \
     autoconf-native \
     automake-native \
@@ -17,7 +16,9 @@ DEPENDS = "\
     bmap-tools-native \
     btrfs-tools-native \
     bzip2-native \
+    ca-certificates-native \
     cairo-native \
+    cargo-native \
     cdrtools-native \
     chrpath-native \
     cmake-native \
@@ -107,6 +108,7 @@ DEPENDS = "\
     libsdl2-native \
     libsm-native \
     libsolv-native \
+    libssh2-native \
     libtirpc-native \
     libtool-native \
     libunistring-native \
@@ -129,9 +131,11 @@ DEPENDS = "\
     libxtst-native \
     libxxf86vm-native \
     libyaml-native \
+    lua-native \
     lz4-native \
     lzip-native \
     lzo-native \
+    lzop-native \
     m4-native \
     make-native \
     makedepend-native \
@@ -166,12 +170,10 @@ DEPENDS = "\
     pseudo-native \
     python3-iniparse-native \
     python3-jinja2-native \
-    python3-jsmin-native \
     python3-m2crypto-native \
     python3-mako-native \
     python3-markupsafe-native \
     python3-native \
-    python3-pytoml-native \
     python3-setuptools-native \
     python3-six-native \
     qemu-helper-native \
@@ -182,6 +184,8 @@ DEPENDS = "\
     readline-native \
     rpm-native \
     rsync-native \
+    rust-llvm-native \
+    rust-native \
     shaderc-native \
     shadow-native \
     shared-mime-info-native \
