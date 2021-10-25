@@ -1,5 +1,5 @@
-From 4d0f47c05d47a84ee1094d475b691113397bf5c1 Mon Sep 17 00:00:00 2001
-From: Yanfei Xu <yanfei.xu@windriver.com>
+From 6eb2d6a87fd5696f4d720eecfbccd836cfe49e99 Mon Sep 17 00:00:00 2001
+From: Thomas Gleixner <tglx@linutronix.de>
 Date: Fri, 21 May 2021 17:33:41 +0800
 Subject: [PATCH] qemu-kvm: Add options to pin and prioritize vcpus
 
@@ -7,26 +7,8 @@ Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: Yang Shi <yang.shi@windriver.com>
 Signed-off-by: Paul Barrette <paul.barrette@windriver.com>
 Signed-off-by: Michael Barabanov <michael.barabanov@windriver.com>
-[Pb: cpus.h in new location for 1.4.2]
-Signed-off-by: Yunguo Wei <michael.barabanov@windriver.com>
-[ywei: fix context conflict in vl.c and cpus.h]
-
-[Adjust code context]
-Upstream-Status: Pending
+Rebase to v6.1.0
 Signed-off-by: He Zhe <zhe.he@windriver.com>
-
-[fix context conflict]
-Upstream-Status: Pending
-Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-
-Rebase to 5.0.0
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-
-Rebase to v5.2.0
-Signed-off-by: He Zhe <zhe.he@windriver.com>
-
-Rabase to v6.0.0
-Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
 ---
  accel/kvm/kvm-accel-ops.c | 144 ++++++++++++++++++++++++++++++++++++++
  include/sysemu/cpus.h     |   2 +
@@ -35,7 +17,7 @@ Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
  4 files changed, 158 insertions(+)
 
 diff --git a/accel/kvm/kvm-accel-ops.c b/accel/kvm/kvm-accel-ops.c
-index 7516c67a3f..5563a978de 100644
+index 7516c67a3..5563a978d 100644
 --- a/accel/kvm/kvm-accel-ops.c
 +++ b/accel/kvm/kvm-accel-ops.c
 @@ -23,6 +23,148 @@
@@ -197,7 +179,7 @@ index 7516c67a3f..5563a978de 100644
      cpu_thread_signal_created(cpu);
      qemu_guest_random_seed_thread_part2(cpu->random_seed);
 diff --git a/include/sysemu/cpus.h b/include/sysemu/cpus.h
-index 868f1192de..4005562c16 100644
+index 868f1192d..4005562c1 100644
 --- a/include/sysemu/cpus.h
 +++ b/include/sysemu/cpus.h
 @@ -48,6 +48,8 @@ void cpu_synchronize_all_post_reset(void);
@@ -210,10 +192,10 @@ index 868f1192de..4005562c16 100644
  /* vl.c */
  /* *-user doesn't have configurable SMP topology */
 diff --git a/qemu-options.hx b/qemu-options.hx
-index fd21002bd6..a4172349e8 100644
+index 83aa59a92..332eec4d9 100644
 --- a/qemu-options.hx
 +++ b/qemu-options.hx
-@@ -943,6 +943,13 @@ DEFHEADING()
+@@ -1005,6 +1005,13 @@ DEFHEADING()
  
  DEFHEADING(Block device options:)
  
@@ -228,12 +210,12 @@ index fd21002bd6..a4172349e8 100644
      "-fda/-fdb file  use 'file' as floppy disk 0/1 image\n", QEMU_ARCH_ALL)
  DEF("fdb", HAS_ARG, QEMU_OPTION_fdb, "", QEMU_ARCH_ALL)
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index aadb526138..7dcf5b8223 100644
+index 5ca11e746..fe1d817d0 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -3243,6 +3243,11 @@ void qemu_init(int argc, char **argv, char **envp)
-                     exit(1);
-                 }
+@@ -3350,6 +3350,11 @@ void qemu_init(int argc, char **argv, char **envp)
+             case QEMU_OPTION_smp:
+                 machine_parse_property_opt(qemu_find_opts("smp-opts"), "smp", optarg, &error_fatal);
                  break;
 +            case QEMU_OPTION_vcpu:
 +#ifdef CONFIG_KVM
@@ -244,5 +226,5 @@ index aadb526138..7dcf5b8223 100644
                  vnc_parse(optarg);
                  break;
 -- 
-2.27.0
+2.32.0
 
