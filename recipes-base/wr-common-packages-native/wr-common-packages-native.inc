@@ -214,6 +214,7 @@ DEPENDS = "\
     xrandr-native \
     xtrans-native \
     xz-native \
+    yocto-cfg-fragments-native \
     zlib-native \
     zstd-native \
     "
