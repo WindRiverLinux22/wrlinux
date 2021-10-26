@@ -32,7 +32,6 @@ PNWHITELIST:meta-python += " \
 "
 PNWHITELIST_META_PYTHON = " \
     python3-dnspython \
-    python3-lxml \
     python3-parallax \
 "
 
