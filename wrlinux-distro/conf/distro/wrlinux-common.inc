@@ -39,6 +39,7 @@ TOOLCHAIN_OUTPUTNAME:pn-buildtools-tarball:forcevariable = "${SDK_ARCH}-buildtoo
 
 # Workaround for extensible SDK
 TOOLCHAIN_OUTPUTNAME:pn-uninative-tarball = "${SDK_ARCH}-nativesdk-libc"
+SDK_INHERIT_BLACKLIST:append = " packagefeed-stability"
 
 # Override these in wrlinux based distros to modify DISTRO_*
 WRLINUX_DEFAULT_DISTRO_FEATURES = "largefile multiarch pulseaudio virtualization"
