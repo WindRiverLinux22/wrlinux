@@ -21,3 +21,5 @@ SDK_POSTPROCESS_COMMAND:prepend:osv-wrlinux = " gen_buildtools_delete_target ;"
 gen_buildtools_delete_target() {
 	rm -rf ${SDK_OUTPUT}/${SDKTARGETSYSROOT}
 }
+
+do_build[recrdeptask] = "do_build"
