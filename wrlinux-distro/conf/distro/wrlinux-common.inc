@@ -171,4 +171,5 @@ SANITY_TESTED_DISTROS ?= " \
             rhel-8.2 \n \
             rhel-8.4 \n \
             sled-15 \n \
+            centos-7 \n \
             "
