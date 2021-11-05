@@ -17,7 +17,7 @@ ALLOW_EMPTY:${PN} = "1"
 
 RDEPENDS:${PN} = " \
     avahi-daemon \
-    ${NETWORK_MANAGER} \
+    bind \
     bind-utils \
     curl \
     mailx \
