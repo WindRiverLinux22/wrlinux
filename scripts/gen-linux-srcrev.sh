@@ -69,8 +69,8 @@ gen_kernel_rev()
 			fi
 			kver="${kver}${EXTRAVERSION}"
 
-			echo SRCREV_machine_kb-${prefix}$(echo $branch | sed 's,refs/heads/,,' | sed 's,/,-,g') ?= \"$(git rev-parse $branch)\"
-			echo LINUX_VERSION_kb-${prefix}$(echo $branch | sed 's,refs/heads/,,' | sed 's,/,-,g') = \"${kver}\"
+			echo SRCREV_machine:kb-${prefix}$(echo $branch | sed 's,refs/heads/,,' | sed 's,/,-,g') ?= \"$(git rev-parse $branch)\"
+			echo LINUX_VERSION:kb-${prefix}$(echo $branch | sed 's,refs/heads/,,' | sed 's,/,-,g') = \"${kver}\"
 		done
 	)
 }
@@ -121,7 +121,7 @@ echo "#     yocto-kernel-cache"
 echo "#"
 echo "# Any manual changes will be overwritten."
 echo "#"
-echo "# This will cause SRCREV_machine_kb-<KBRANCH> take priority over SRCREV_machine_<machine>"
+echo "# This will cause SRCREV_machine:kb-<KBRANCH> take priority over SRCREV_machine:<machine>"
 echo "MACHINEOVERRIDES .= \":kb-\${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', 'linux-yocto-dev', 'dev-', '', d)}\${@d.getVar('KBRANCH', True).replace(\"/\", \"-\")}\""
 
 for version in $vers; do
