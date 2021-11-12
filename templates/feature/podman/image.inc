@@ -1,1 +1,1 @@
-IMAGE_INSTALL += "podman"
+IMAGE_INSTALL += "podman kernel-module-xt-conntrack util-linux-nsenter"
