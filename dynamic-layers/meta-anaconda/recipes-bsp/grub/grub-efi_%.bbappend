@@ -27,7 +27,7 @@ do_mkpxeimage:class-target:anaconda() {
     cp ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE} .
     cp ${DEPLOY_DIR_IMAGE}/wrlinux-image-installer-initramfs-${MACHINE}.${INITRAMFS_FSTYPES} .
 
-    ./grub-mkstandalone -d ./grub-core --modules="${GRUB_BUILDIN}" \
+    grub-mkstandalone -d ./grub-core --modules="${GRUB_BUILDIN}" \
        -O ${GRUB_TARGET}-efi -o ./${PXE_UEFI_GRUB_IMAGE} \
        boot/grub/grub.cfg \
        ${KERNEL_IMAGETYPE} \
