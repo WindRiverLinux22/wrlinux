@@ -1,6 +1,0 @@
-#!/bin/sh
-set -e
-
-if [ -e /etc/default/auto-start-containers ]; then
-    . /etc/default/auto-start-containers
-fi

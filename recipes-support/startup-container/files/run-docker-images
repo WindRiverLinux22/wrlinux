@@ -1,6 +1,0 @@
-#!/bin/sh
-set -e
-
-if [ -e /etc/default/run-docker-images ]; then
-    . /etc/default/run-docker-images
-fi

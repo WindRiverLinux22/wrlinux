@@ -1,6 +1,0 @@
-#!/bin/sh
-set -e
-
-if [ -e /etc/default/load-docker-images ]; then
-    . /etc/default/load-docker-images
-fi
