@@ -4,7 +4,7 @@
 intel-x86-64
 
 ## 2. Create  debian-11 (bullseye) based package feed for LAT support
-See layers/wr-ostree/data/debian/README.txt for details
+See layers/meta-lat/data/debian/README.txt for details
 
 Then http://<web-server-url>/debian is accessible
 
@@ -12,7 +12,7 @@ Then http://<web-server-url>/debian is accessible
 ### 3.1 Setup project
 $ setup.sh --machines=intel-x86-64 --dl-layers \
     --distro=wrlinux-graphics \
-    --templates feature/ostree feature/lat feature/docker --layers wr-ostree
+    --templates feature/ostree feature/lat feature/docker --layers meta-lat
 
 ### 3.2 Source a build
 $ . ./oe-init-build-env
