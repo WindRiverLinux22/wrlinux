@@ -4,11 +4,11 @@
 
 # qemu-native should not depend on these packages
 DEPENDS:append = " dtc pixman util-linux"
-EXTRA_OECONF:append += "--disable-sdl --enable-fdt --disable-smartcard --cross-prefix=${TARGET_PREFIX}"
+EXTRA_OECONF:append = " --disable-sdl --enable-fdt --disable-smartcard --cross-prefix=${TARGET_PREFIX}"
 
 FILESEXTRAPATHS:append := ":${THISDIR}/files"
 
-CFLAGS:append += "-I${STAGING_INCDIR}/glib-2.0 -I${STAGING_LIBDIR}/glib-2.0/include "
+CFLAGS:append = " -I${STAGING_INCDIR}/glib-2.0 -I${STAGING_LIBDIR}/glib-2.0/include "
 
 # carry over cpu affinity patches from 1.3.0
 SRC_URI += " \

@@ -11,7 +11,7 @@ do_install:append() {
 }
 
 FILES:${PN}-initramfs += "/init.luks"
-FILES:${PN}-initramfs:remove += "/init.cryptfs"
+FILES:${PN}-initramfs:remove = " /init.cryptfs"
 
 RDEPENDS:${PN} += " \
 		rng-tools \

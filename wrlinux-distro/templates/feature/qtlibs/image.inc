@@ -1,4 +1,4 @@
-IMAGE_INSTALL:append += "\
+IMAGE_INSTALL += "\
     qtcharts \
     qtconnectivity \
     qtdeclarative \

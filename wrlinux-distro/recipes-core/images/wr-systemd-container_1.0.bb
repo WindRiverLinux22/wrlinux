@@ -9,7 +9,7 @@ IMAGE_INSTALL = "${WR_SYSTEMD_CONTAINER_APPS}"
 
 # Use local.conf to specify additional systemd services to disable. To overwrite
 # the default list use SERVICES_TO_DISABLE:pn-wr-systemd-container in local.conf
-SERVICES_TO_DISABLE:append += "${WR_SYSTEMD_CONTAINER_DISABLE_SERVICES}"
+SERVICES_TO_DISABLE += "${WR_SYSTEMD_CONTAINER_DISABLE_SERVICES}"
 
 # Use local.conf to enable systemd services
 SERVICES_TO_ENABLE += "${WR_SYSTEMD_CONTAINER_ENABLE_SERVICES}"
