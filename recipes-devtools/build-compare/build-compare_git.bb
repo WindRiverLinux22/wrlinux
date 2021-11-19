@@ -5,7 +5,7 @@ HOMEPAGE = "https://github.com/openSUSE/build-compare"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
 
-SRC_URI = "git://github.com/openSUSE/build-compare.git \
+SRC_URI = "git://github.com/openSUSE/build-compare.git;branch=master;protocol=https \
            file://0001-functions.sh-Fix-Process-Substitution-error.patch \
 "
 

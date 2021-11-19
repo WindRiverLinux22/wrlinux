@@ -1,7 +1,7 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRCREV = "870a6018c34644e5f9428c8913a206dc53be6fd7"
-SRC_URI = "git://github.com/OpenSCAP/scap-security-guide.git \
+SRC_URI = "git://github.com/OpenSCAP/scap-security-guide.git;branch=master;protocol=https \
             file://0001-update-auditd-service-path.patch \
             file://0002-Update-installed-package-environment-check.patch \
             file://0003-Add-sssd-platform-to-WRLinux1019-CPE-directory.patch \

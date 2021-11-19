@@ -6,7 +6,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=a8366463bacd4f2ec5edd419e8a113ff"
 
 SRC_URI = " \
-            git://github.com/xontab/${BPN}.git \
+            git://github.com/xontab/${BPN}.git;branch=master;protocol=https \
 "
 SRCREV = "e2b9adf4885cc4ed600cd9bccb77e0df8ff549aa"
 

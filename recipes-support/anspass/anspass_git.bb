@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=4fbd65380cdd255951079008b364516c"
 
 DEPENDS = "libgcrypt"
 
-SRC_URI = "git://github.com/WindRiver-OpenSourceLabs/anspass \
+SRC_URI = "git://github.com/WindRiver-OpenSourceLabs/anspass;branch=master;protocol=https \
            file://0001-anspassd.c-correct-blank-password-checking.patch \
 "
 
