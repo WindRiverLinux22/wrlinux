@@ -48,7 +48,6 @@ def run_cmd(cmd, logger=logger):
 
 def run_bitbake_cmd(target, logger):
     cmd = 'bitbake %s' % target
-    logger.info('Running %s' % cmd)
     output = run_cmd(cmd)
     return output
 
