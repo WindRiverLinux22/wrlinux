@@ -35,7 +35,7 @@ def get_project():
     return os.path.realpath("%s/../../../../" % runqemu_dir)
 
 def run_cmd(cmd, logger=logger):
-    logger.debug('Running %s' % cmd)
+    logger.info('Running %s' % cmd)
 
     try:
         output = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
@@ -48,7 +48,6 @@ def run_cmd(cmd, logger=logger):
 
 def run_bitbake_cmd(target, logger):
     cmd = 'bitbake %s' % target
-    logger.info('Running %s' % cmd)
     output = run_cmd(cmd)
     return output
 
