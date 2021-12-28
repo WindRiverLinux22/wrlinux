@@ -1,4 +1,4 @@
-From 6eb2d6a87fd5696f4d720eecfbccd836cfe49e99 Mon Sep 17 00:00:00 2001
+From 08a1b1eb5e72ca7de30a90e144149e2c6be44ce2 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Fri, 21 May 2021 17:33:41 +0800
 Subject: [PATCH] qemu-kvm: Add options to pin and prioritize vcpus
@@ -7,7 +7,7 @@ Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: Yang Shi <yang.shi@windriver.com>
 Signed-off-by: Paul Barrette <paul.barrette@windriver.com>
 Signed-off-by: Michael Barabanov <michael.barabanov@windriver.com>
-Rebase to v6.1.0
+Rebase to v6.2.0
 Signed-off-by: He Zhe <zhe.he@windriver.com>
 ---
  accel/kvm/kvm-accel-ops.c | 144 ++++++++++++++++++++++++++++++++++++++
@@ -192,10 +192,10 @@ index 868f1192d..4005562c1 100644
  /* vl.c */
  /* *-user doesn't have configurable SMP topology */
 diff --git a/qemu-options.hx b/qemu-options.hx
-index 83aa59a92..332eec4d9 100644
+index ae2c6dbbf..5bae1d54a 100644
 --- a/qemu-options.hx
 +++ b/qemu-options.hx
-@@ -1005,6 +1005,13 @@ DEFHEADING()
+@@ -1019,6 +1019,13 @@ DEFHEADING()
  
  DEFHEADING(Block device options:)
  
@@ -210,12 +210,12 @@ index 83aa59a92..332eec4d9 100644
      "-fda/-fdb file  use 'file' as floppy disk 0/1 image\n", QEMU_ARCH_ALL)
  DEF("fdb", HAS_ARG, QEMU_OPTION_fdb, "", QEMU_ARCH_ALL)
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 5ca11e746..fe1d817d0 100644
+index 620a1f136..fb83b935d 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -3350,6 +3350,11 @@ void qemu_init(int argc, char **argv, char **envp)
-             case QEMU_OPTION_smp:
-                 machine_parse_property_opt(qemu_find_opts("smp-opts"), "smp", optarg, &error_fatal);
+@@ -3411,6 +3411,11 @@ void qemu_init(int argc, char **argv, char **envp)
+                 machine_parse_property_opt(qemu_find_opts("smp-opts"),
+                                            "smp", optarg);
                  break;
 +            case QEMU_OPTION_vcpu:
 +#ifdef CONFIG_KVM
@@ -226,5 +226,5 @@ index 5ca11e746..fe1d817d0 100644
                  vnc_parse(optarg);
                  break;
 -- 
-2.32.0
+2.17.1
 
