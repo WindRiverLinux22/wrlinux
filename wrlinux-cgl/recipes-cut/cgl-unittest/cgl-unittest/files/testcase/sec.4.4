@@ -32,6 +32,14 @@ expect <<- END
 spawn $TOPDIR/ssl.ca-0.1/new-root-ca.sh
 
 expect  {
+	"*Enter PEM pass phrase:*"	{send "1111\r"}
+	}
+
+expect  {
+	"*Verifying - Enter PEM pass phrase:*"	{send "1111\r"}
+	}
+
+expect  {
 	"*Enter pass phrase for ca.key*"	{send "1111\r"}
 	}
 

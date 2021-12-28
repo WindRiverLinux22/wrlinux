@@ -35,13 +35,12 @@ expect <<- END
 spawn openssl genrsa -des3 -out ca.key 1024
 
 expect  {
-	eof		 {exit 1}
-	"*Enter pass phrase for ca.key*"	{send "1111\r"}
+	"*Enter PEM pass phrase:*"	{send "1111\r"}
 	}
 
 expect  {
-        "*Enter pass phrase for ca.key*"        {send "1111\r"}
-        }
+	"*Verifying - Enter PEM pass phrase:*"	{send "1111\r"}
+	}
 
 expect
 exit
@@ -91,13 +90,12 @@ expect <<- END
 spawn openssl genrsa -des3 -out server.key 1024
 
 expect  {
-        eof              {exit 1}
-        "*Enter pass phrase for server.key*"        {send "1111\r"}
-        }
+	"*Enter PEM pass phrase:*"	{send "1111\r"}
+	}
 
 expect  {
-        "*Enter pass phrase for server.key*"        {send "1111\r"}
-        }
+	"*Verifying - Enter PEM pass phrase:*"	{send "1111\r"}
+	}
 
 expect
 exit
