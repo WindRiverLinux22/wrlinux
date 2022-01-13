@@ -4,16 +4,16 @@
 # Explicitly allow these recipes in wrlinux cgl
 #
 
-# Whitelist the whole wrlinux-cgl layer
-PNWHITELIST_LAYERS:remove = "${@bb.utils.contains('DISTRO_FEATURES', 'cgl', 'wrlinux-cgl', '', d)}"
+# Recipes allowed the whole wrlinux-cgl layer
+RECIPE_LIST_LAYERS:remove = "${@bb.utils.contains('DISTRO_FEATURES', 'cgl', 'wrlinux-cgl', '', d)}"
 
 # Enable items for wrlinux-cgl distro
 #
 # For meta-cgl/meta-cgl-common
-PNWHITELIST:cgl-common += " \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'cgl', '${PNWHITELIST_CGL_COMMON}', '', d)}  \
+WRL_RECIPES:cgl-common += " \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'cgl', '${WRL_RECIPES_CGL_COMMON}', '', d)}  \
 "
-PNWHITELIST_CGL_COMMON = " \
+WRL_RECIPES_CGL_COMMON = " \
     cluster-glue \
     crmsh \
     libmailtools-perl \
@@ -27,19 +27,19 @@ PNWHITELIST_CGL_COMMON = " \
 "
 
 # For meta-openembedded/meta-python
-PNWHITELIST:meta-python += " \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'cgl', '${PNWHITELIST_META_PYTHON}', '', d)}  \
+WRL_RECIPES:meta-python += " \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'cgl', '${WRL_RECIPES_META_PYTHON}', '', d)}  \
 "
-PNWHITELIST_META_PYTHON = " \
+WRL_RECIPES_META_PYTHON = " \
     python3-dnspython \
     python3-parallax \
 "
 
 # For meta-openembedded/meta-networking
-PNWHITELIST:networking-layer += " \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'cgl', '${PNWHITELIST_META_NETWORKING}', '', d)}  \
+WRL_RECIPES:networking-layer += " \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'cgl', '${WRL_RECIPES_META_NETWORKING}', '', d)}  \
 "
-PNWHITELIST_META_NETWORKING = " \
+WRL_RECIPES_META_NETWORKING = " \
     bridge-utils \
     chrony \
     corosync \
@@ -77,10 +77,10 @@ PNWHITELIST_META_NETWORKING = " \
 "
 
 # For meta-openembedded/meta-oe
-PNWHITELIST:openembedded-layer += " \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'cgl', '${PNWHITELIST_META_OE}', '', d)}  \
+WRL_RECIPES:openembedded-layer += " \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'cgl', '${WRL_RECIPES_META_OE}', '', d)}  \
 "
-PNWHITELIST_META_OE = " \
+WRL_RECIPES_META_OE = " \
     c-ares \
     crash \
     doxygen \
@@ -98,10 +98,10 @@ PNWHITELIST_META_OE = " \
 "
 
 # For meta-openembedded/meta-perl
-PNWHITELIST:perl-layer += " \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'cgl', '${PNWHITELIST_META_PERL}', '', d)}  \
+WRL_RECIPES:perl-layer += " \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'cgl', '${WRL_RECIPES_META_PERL}', '', d)}  \
 "
-PNWHITELIST_META_PERL = " \
+WRL_RECIPES_META_PERL = " \
     libauthen-sasl-perl \
     libdigest-hmac-perl \
     libdigest-sha1-perl \
@@ -120,6 +120,6 @@ PNWHITELIST_META_PERL = " \
 "
 
 # For meta-virtualization
-PNWHITELIST:virtualization-layer += " \
+WRL_RECIPES:virtualization-layer += " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'cgl', 'lxc', '', d)} \
 "

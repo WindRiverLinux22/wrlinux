@@ -1,58 +1,77 @@
 # Class that allows you to restrict the recipes brought from a layer to
-# a specified list. This is similar in operation to blacklist.bbclass
-# but note the difference in how PNWHITELIST is set - we don't use varflags
+# a specified list. This is similar in operation to blocklist.bbclass
+# but note the difference in how *_RECIPES is set - we don't use varflags
 # here, the recipe name goes in the value and we use an override for the
 # layer name (although this is not strictly required - you can have one
-# PNWHITELIST value shared by all of the layers specified in
-# PNWHITELIST_LAYERS). The layer name used here is actually the name that
+# *_RECIPES value shared by all of the layers specified in
+# RECIPE_LIST_LAYERS). The layer name used here is actually the name that
 # gets added to BBFILE_COLLECTIONS in the layer's layer.conf, which may
 # differ from how the layer is otherwise known - e.g. meta-oe uses
 # "openembedded-layer".
 #
-# INHERIT += "whitelist"
-# PNWHITELIST_LAYERS = "layername"
-# PNWHITELIST:layername = "recipe1 recipe2"
+# INHERIT += "recipelists"
+# RECIPE_LIST_LAYERS = "layername"
+# For Core WRL Recipes:
+# WRL_RECIPES:<layername> = "recipe1 recipe2"
+# For recipes in CCM Generated Layers:
+# CCM_RECIPES:<ccm_layername> = "recipe1 recipe2"
+# For recipes in Layers that a customer creates
+# CUSTOMER_RECIPES:<customer_layername> = "recipe1 recipe2"
 #
 # If you would prefer to set a reason message other than the default, you
 # can do so:
 #
-# PNWHITELIST_REASON:layername = "not supported by ${DISTRO}"
+# RECIPE_LIST_REASON:layername = "not supported by ${DISTRO}"
 
 # Generic reason
-PNWHITELIST_KEY_MSG ?= "To override, add to your local.conf:"
-PNWHITELIST_CURRENT_LAYER ?= "${@bb.utils.get_file_layer(d.getVar('FILE'), d)}"
-PNWHITELIST_REASON ?= "Not supported in this configuration by Wind River. ${PNWHITELIST_KEY_MSG} PNWHITELIST:${PNWHITELIST_CURRENT_LAYER} += '${BPN}'"
-PNWHITELIST_REASON_ADDON ?= "You may also have to add: BB_NO_NETWORK = '0'"
-PNWHITELIST ?= ""
+RECIPE_LIST_KEY_MSG ?= "To override, add to your local.conf:"
+RECIPE_LIST_CURRENT_LAYER ?= "${@bb.utils.get_file_layer(d.getVar('FILE'), d)}"
+RECIPE_LIST_REASON ?= "Not supported in this configuration by Wind River. ${RECIPE_LIST_KEY_MSG} CUSTOMER_RECIPES:${RECIPE_LIST_CURRENT_LAYER} += '${BPN}'"
+RECIPE_LIST_REASON_ADDON ?= "You may also have to add: BB_NO_NETWORK = '0'"
 
 python() {
+    from pathlib import Path
+
     layer = bb.utils.get_file_layer(d.getVar('FILE'), d)
     if layer:
-        layers = (d.getVar('PNWHITELIST_LAYERS') or '').split()
+        cache_dir = d.getVar('CACHE')
+
+        layers = (d.getVar('RECIPE_LIST_LAYERS') or '').split()
+        if d.getVar('PNWHITELIST_LAYERS') is not None:
+            layers = layers + (d.getVar('PNWHITELIST_LAYERS') or '').split()
+            bb.warnonce("PNWHITELIST_LAYERS is deprecated please use RECIPE_LIST_LAYERS")
         if layer in layers:
             machine = d.getVar('MACHINE') or ''
             localdata = bb.data.createCopy(d)
             localdata.setVar('OVERRIDES', layer + ':' + machine)
-            whitelist = (localdata.getVar('PNWHITELIST') or '').split()
-            if not (d.getVar('PN') in whitelist or d.getVar('BPN') in whitelist):
-                reason = localdata.getVar('PNWHITELIST_REASON')
+            recipes = (localdata.getVar('WRL_RECIPES') or '').split()
+            recipes = recipes + (localdata.getVar('CCM_RECIPES') or '').split()
+            recipes = recipes + (localdata.getVar('CUSTOMER_RECIPES') or '').split()
+            if localdata.getVar('PNWHITELIST') is not None:
+                recipes = recipes + (localdata.getVar('PNWHITELIST') or '').split()
+                bb.warnonce("PNWHITELIST is deprecated please use CUSTOMER_RECIPES")
+            if not (d.getVar('PN') in recipes or d.getVar('BPN') in recipes):
+                reason = localdata.getVar('RECIPE_LIST_REASON')
+                if localdata.getVar('PNWHITELIST_REASON') is not None:
+                    reason = localdata.getVar('PNWHITELIST_REASON')
+                    bb.warnonce("PNWHITELIST_REASON is deprecated please use RECIPE_LIST_REASON")
                 if not reason:
-                    reason = 'not in PNWHITELIST for layer %s' % layer
+                    reason = 'not in recipe list for layer %s' % layer
                 raise bb.parse.SkipRecipe(reason)
 }
 
-python whitelist_noprovider_handler() {
+python recipelist_noprovider_handler() {
     import subprocess
 
     saved_distro_features = e.data.getVar('DISTRO_FEATURES')
 
-    key_msg = d.getVar('PNWHITELIST_KEY_MSG')
+    key_msg = d.getVar('RECIPE_LIST_KEY_MSG')
     reason = str(e)
     if not key_msg in reason:
         return
 
     pn = e.getItem()
-    bb.warn('%s is not whitelisted, figuring out PNWHITELIST...' % pn)
+    bb.warn('%s is not in the recipe list, figuring out complete list of recipes...' % pn)
 
     cache_dir = d.getVar('CACHE')
     cache_file = os.path.join(cache_dir, 'bb_cache.dat')
@@ -72,7 +91,7 @@ python whitelist_noprovider_handler() {
         skipped = ''
         skipreason = ''
 
-        # Try to find the one which is in whitelist.
+        # Try to find the one which is in recipes.
         for line in dumped_result.split('\n'):
             if not (line and '.bb' in line):
                 continue
@@ -169,7 +188,7 @@ python whitelist_noprovider_handler() {
         while next:
             if counter > 100:
                 # Something must be wrong, just break out
-                bb.error("Too many loops when calculating PNWHITELIST!")
+                bb.error("Too many loops when calculating recipe list!")
                 break
             new = set()
             for dep in next:
@@ -196,7 +215,7 @@ python whitelist_noprovider_handler() {
             add_lines.append(msg_suffix)
         add_lines.sort()
         pw_templates.sort()
-        addon = d.getVar('PNWHITELIST_REASON_ADDON')
+        addon = d.getVar('RECIPE_LIST_REASON_ADDON')
         if addon:
             add_lines.append('\n%s' % addon)
         if pw_templates:
@@ -207,8 +226,8 @@ python whitelist_noprovider_handler() {
         else:
             e._reasons = [msg_prefix] + add_lines
     except Exception as esc:
-        bb.error('whitelist_noprovider_handler() failed: %s' % esc)
+        bb.error('recipelist_noprovider_handler() failed: %s' % esc)
 }
 
-addhandler whitelist_noprovider_handler
-whitelist_noprovider_handler[eventmask] = "bb.event.NoProvider"
+addhandler recipelist_noprovider_handler
+recipelist_noprovider_handler[eventmask] = "bb.event.NoProvider"

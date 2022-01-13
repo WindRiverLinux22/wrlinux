@@ -14,16 +14,16 @@
 # Only warn for:
 # WRLINUX_SUPPORTED_RECIPE:pn-<BPN> = "0": In WRLinux, but not supported.
 #
-# EXTENDED_WRLINUX_RECIPES_LIST:
+# EXTENDED_WRLINUX_RECIPE_LIST:
 # Support extending wrlinux recipes list for some special layers
 #
 # Usage:
-# EXTENDED_WRLINUX_RECIPES_LIST += "conf/layername-recipes-list.inc"
+# EXTENDED_WRLINUX_RECIPE_LIST += "conf/layername-recipes-list.inc"
 #
 
 require conf/wrlinux-recipes-list.inc
-EXTENDED_WRLINUX_RECIPES_LIST ?= ""
-include ${EXTENDED_WRLINUX_RECIPES_LIST}
+EXTENDED_WRLINUX_RECIPE_LIST ?= ""
+include ${EXTENDED_WRLINUX_RECIPE_LIST}
 
 do_fetch[prefuncs] += "third_party_dl"
 

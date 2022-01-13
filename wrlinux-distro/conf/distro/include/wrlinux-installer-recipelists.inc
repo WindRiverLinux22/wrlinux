@@ -1,7 +1,7 @@
-PNWHITELIST_LAYERS:remove = "meta-anaconda"
+RECIPE_LIST_LAYERS:remove = "meta-anaconda"
 
-# Whitelist for meta-openembedded/meta-gnome
-PNWHITELIST:gnome-layer += "\
+# Recipes allowed for meta-openembedded/meta-gnome
+WRL_RECIPES:gnome-layer += "\
     keybinder \
     libgnomekbd \
     libnma \
@@ -13,8 +13,8 @@ PNWHITELIST:gnome-layer += "\
     libgtop \
 "
 
-# Whitelist for meta-openembedded/meta-python
-PNWHITELIST:meta-python += "\
+# Recipes allowed for meta-openembedded/meta-python
+WRL_RECIPES:meta-python += "\
     python3-blivet \
     python3-blivetgui \
     python3-coverage \
@@ -36,14 +36,14 @@ PNWHITELIST:meta-python += "\
     python3-wrapt \
 "
 
-# Whitelist for meta-openembedded/meta-filesystems
-PNWHITELIST:filesystems-layer += "\
+# Recipes allowed for meta-openembedded/meta-filesystems
+WRL_RECIPES:filesystems-layer += "\
     ntfs-3g-ntfsprogs \
     xfsprogs \
 "
 
-# Whitelist for meta-openembedded/meta-oe
-PNWHITELIST:openembedded-layer += "\
+# Recipes allowed for meta-openembedded/meta-oe
+WRL_RECIPES:openembedded-layer += "\
     augeas \
     libinih \
     libpwquality \
@@ -61,7 +61,7 @@ PNWHITELIST:openembedded-layer += "\
     xmlrpc-c \
 "
 
-# Whitelist for meta-openembedded/meta-networking
-PNWHITELIST:networking-layer += "\
+# Recipes allowed for meta-openembedded/meta-networking
+WRL_RECIPES:networking-layer += "\
     chrony \
 "
