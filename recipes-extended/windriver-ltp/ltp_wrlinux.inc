@@ -22,7 +22,7 @@ SRC_URI += " file://README \
             "
 
 do_compile(){
-	oe_runmake
+	oe_runmake HOSTCC="${CC_FOR_BUILD}" HOST_CFLAGS="${CFLAGS_FOR_BUILD}" HOST_LDFLAGS="${LDFLAGS_FOR_BUILD}"
 	cd ${S}/testcases/open_posix_testsuite/
 	oe_runmake generate-makefiles
 	oe_runmake conformance-all
