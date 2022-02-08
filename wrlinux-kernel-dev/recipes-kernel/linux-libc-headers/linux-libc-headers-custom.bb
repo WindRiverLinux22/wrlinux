@@ -3,7 +3,9 @@
 #
 require recipes-kernel/linux-libc-headers/linux-libc-headers.inc
 
+KERNEL_HEADER_DIR ??= "/usr-alt"
 PROVIDES = "${@bb.utils.contains("KERNEL_HEADER_DIR", "/usr", "linux-libc-headers", "", d)}"
+includedir = "${KERNEL_HEADER_DIR}/include"
 
 # The version of the customized kernel should be specified here, for example,
 # LINUX_VERSION = "4.19-rc7"
