@@ -20,7 +20,7 @@ RDEPENDS:${PN} = " \
     bind \
     bind-utils \
     curl \
-    mailx \
+    s-nail \
     msmtp \
     openssh-sftp-server \
     ppp \
