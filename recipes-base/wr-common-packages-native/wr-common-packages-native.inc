@@ -11,7 +11,6 @@ DEPENDS = "\
     autoconf-native \
     automake-native \
     bc-native \
-    binutils-native \
     bison-native \
     bmap-tools-native \
     btrfs-tools-native \
@@ -166,7 +165,6 @@ DEPENDS = "\
     pkgconfig-native \
     popt-native \
     postfix-native \
-    prelink-native \
     pseudo-native \
     python3-iniparse-native \
     python3-jinja2-native \
@@ -206,6 +204,7 @@ DEPENDS = "\
     util-linux-libuuid-native \
     util-linux-native \
     util-macros-native \
+    vala-native \
     virglrenderer-native \
     wayland-native \
     xcb-proto-native \
