@@ -119,7 +119,7 @@ search_keyword_with_subject() {
 export MAIL=/var/spool/mail/$USER
 #Empty mailbox, in case other mail destroy this test
 expect <<- END
-spawn mailx
+spawn s-nail
 
 expect {
 	eof		{exit 1}
@@ -151,7 +151,7 @@ su -s /bin/bash -c "/usr/sbin/logcheck -m root" logcheck
 sleep 5
 
 expect <<- END
-spawn mailx
+spawn s-nail
 
 expect {
 #If no mail in box, exit 1

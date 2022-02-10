@@ -21,7 +21,7 @@ clean()
 export MAIL=/var/spool/mail/$USER
 #- Run the logcheck script:
 # clear all mail  mail and type d *
-mesg=$((sleep 2;echo d \* )| mailx 2>&1)
+mesg=$((sleep 2;echo d \* )| s-nail 2>&1)
 
 #- Force an entry into the system log with the logger program:
 logger "Simulated ATTACK"
@@ -104,7 +104,7 @@ fi
 if [ "$MRA_available" = "1" ]; then
 	su -s /bin/bash -c "/usr/sbin/logcheck -m root" logcheck
 	sleep 30
-	mesg=$( (sleep 1; echo p; echo a;) | mailx \
+	mesg=$( (sleep 1; echo p; echo a;) | s-nail \
 		| grep  -e "System Events" \
 			-e "Security Alerts for kernel" )
 	if [ "X$mesg" = "X" ]; then
