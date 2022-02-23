@@ -1,0 +1,9 @@
+This template adds gcc 9 support in SDK.
+
+To use this template, add the following to your setup line:
+
+    --templates feature/gcc-9-sdk
+
+#@TYPE: Wrtemplate
+#@NAME: gcc-9-sdk
+#@DESCRIPTION: Adds gcc 9 support in SDK
