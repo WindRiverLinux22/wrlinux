@@ -119,3 +119,8 @@ EXTRA_OECONF_PATHS = "\
     --with-sysroot=/not/exist \
     --with-build-sysroot=${STAGING_DIR_TARGET} \
 "
+
+#
+# exclude these gcc 9.3 recipes from world
+#
+EXCLUDE_FROM_WORLD = "1"
