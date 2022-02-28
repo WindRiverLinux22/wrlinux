@@ -39,7 +39,7 @@ TOOLCHAIN_OUTPUTNAME:pn-buildtools-tarball:forcevariable = "${SDK_ARCH}-buildtoo
 
 # Workaround for extensible SDK
 TOOLCHAIN_OUTPUTNAME:pn-uninative-tarball = "${SDK_ARCH}-nativesdk-libc"
-SDK_INHERIT_BLACKLIST:append = " packagefeed-stability"
+ESDK_CLASS_INHERIT_DISABLE:append = " packagefeed-stability"
 
 # Override these in wrlinux based distros to modify DISTRO_*
 WRLINUX_DEFAULT_DISTRO_FEATURES = "largefile multiarch pulseaudio virtualization"
@@ -87,7 +87,7 @@ CONNECTIVITY_CHECK_URIS ?= "https://www.example.com/"
 BB_SIGNATURE_HANDLER ?= 'OEBasicHash'
 
 # Add our license to the acceptable restricted license list
-LICENSE_FLAGS_WHITELIST += "commercial_windriver"
+LICENSE_FLAGS_ACCEPTED += "commercial_windriver"
 
 # QA check settings - a little stricter than the OE-Core defaults
 WARN_TO_ERROR_QA ?= "already-stripped compile-host-path install-host-path \
@@ -140,15 +140,15 @@ SDK_LAYERS_EXCLUDE_PATTERN ?= ".*-dl$ .*-dl-[0-9.]+$"
 TARGET_SUPPORTED_KTYPES ??= "standard"
 
 # Packages blacklisted by default for wrlinux.
-PNBLACKLIST[bsd-headers] ?= "only glibc is supported for wrlinux"
-PNBLACKLIST[fts] ?= "only glibc is supported for wrlinux"
-PNBLACKLIST[gcompat] ?= "only glibc is supported for wrlinux"
-PNBLACKLIST[libssp-nonshared] ?= "only glibc is supported for wrlinux"
-PNBLACKLIST[libucontext] ?= "only glibc is supported for wrlinux"
-PNBLACKLIST[musl] ?= "only glibc is supported for wrlinux"
-PNBLACKLIST[musl-obstack] ?= "only glibc is supported for wrlinux"
-PNBLACKLIST[musl-utils] ?= "only glibc is supported for wrlinux"
-PNBLACKLIST[newlib] ?= "only glibc is supported for wrlinux"
+SKIP_RECIPE[bsd-headers] ?= "only glibc is supported for wrlinux"
+SKIP_RECIPE[fts] ?= "only glibc is supported for wrlinux"
+SKIP_RECIPE[gcompat] ?= "only glibc is supported for wrlinux"
+SKIP_RECIPE[libssp-nonshared] ?= "only glibc is supported for wrlinux"
+SKIP_RECIPE[libucontext] ?= "only glibc is supported for wrlinux"
+SKIP_RECIPE[musl] ?= "only glibc is supported for wrlinux"
+SKIP_RECIPE[musl-obstack] ?= "only glibc is supported for wrlinux"
+SKIP_RECIPE[musl-utils] ?= "only glibc is supported for wrlinux"
+SKIP_RECIPE[newlib] ?= "only glibc is supported for wrlinux"
 
 # do_kernel_version_sanity_check in oe-core checks if the defined version in
 # metadata(LINUX_VERSION) matches the version written in the source code. For

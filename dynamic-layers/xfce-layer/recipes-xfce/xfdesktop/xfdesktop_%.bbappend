@@ -2,7 +2,7 @@
 # Copyright (C) 2015 Wind River Systems, Inc.
 #
 
-OVERRIDES .= "${@bb.utils.contains('LICENSE_FLAGS_WHITELIST', 'commercial_windriver', ':wr-themes', '', d)}"
+OVERRIDES .= "${@bb.utils.contains('LICENSE_FLAGS_ACCEPTED', 'commercial_windriver', ':wr-themes', '', d)}"
 
 DEFAULT_WALLPAPER ?= "gray"
 

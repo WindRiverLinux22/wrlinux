@@ -75,11 +75,11 @@ KVM HOST preparation
 
        meta-openembedded/meta-networking/recipes-support/netperf/netperf_2.6.0.bb
 
-      to the LICENSE_FLAGS_WHITELIST variable in the local.conf file.
+      to the LICENSE_FLAGS_ACCEPTED variable in the local.conf file.
 
       For example, if LICENSE_FLAGS = "non-commercial", set
 
-       LICENSE_FLAGS_WHITELIST += "non-commercial"
+       LICENSE_FLAGS_ACCEPTED += "non-commercial"
 
       in the local.conf file.
 
@@ -110,11 +110,11 @@ KVM GUEST preparation
 
       meta-openembedded/meta-networking/recipes-support/netperf/netperf_2.6.0.bb
 
-      to the LICENSE_FLAGS_WHITELIST variable in the local.conf file.
+      to the LICENSE_FLAGS_ACCEPTED variable in the local.conf file.
 
       For example, if LICENSE_FLAGS = "non-commercial", set
 
-       LICENSE_FLAGS_WHITELIST += "non-commercial"
+       LICENSE_FLAGS_ACCEPTED += "non-commercial"
 
       in the local.conf file.
 
