@@ -1,5 +1,7 @@
 This template adds gcc 9 support in SDK.
 
+Note that this template forces to disable multilib.
+
 To use this template, add the following to your setup line:
 
     --templates feature/gcc-9-sdk
