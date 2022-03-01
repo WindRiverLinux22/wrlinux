@@ -13,6 +13,8 @@ documentation should be reviewed for this purpose. (http://dpdk.org/doc)
 
 2. Build Configuration
 ======================
+DPDK can only be built for intel-x86-64 and qemux86-64 BSP.
+
 When the DPDK feature is included in your build, either via setup or
 by editing local.conf, the resulting images will be configured to
 support DPDK and include the DPDK userspace applications.
