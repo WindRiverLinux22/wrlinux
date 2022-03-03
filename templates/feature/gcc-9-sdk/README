@@ -1,6 +1,7 @@
 This template adds gcc 9 support in SDK.
 
 Note that this template forces to disable multilib.
+This template is for SDK only, eSDK is not supported.
 
 To use this template, add the following to your setup line:
 
