@@ -117,8 +117,20 @@ If this is set, module text and rodata memory will be made read-only,
 and non-text memory will be made non-executable. This provides
 protection against certain security exploits (e.g. writing to text)
 
-7. Hardware segregation (x86 only)
+7. Privileged access control
 ----------------------------------
+Without privileged access control, supervisor code usually has full read
+and write access to user-space memory mappings (or has the ability to
+obtain full access). This has led to the development of several security
+exploits, including privilege escalation exploits, which operate by causing
+the kernel to access user-space memory when it did not intend to. Operating
+systems can block these exploits by using the following hardware or software
+features to force unintended user-space memory accesses to trigger page
+faults, and expose flawed kernel code which does not follow the intended
+procedures for accessing user-space memory.
+
+7.1 x86 features
+
 Supervisor Mode Access Prevention (SMAP) is a feature of some CPU
 implementations such as the Intel Broadwell microarchitecture that allows
 supervisor mode programs to optionally set user-space memory mappings so that
@@ -131,31 +143,44 @@ Execution Prevention (SMEP), which was introduced earlier. SMEP can be used to
 prevent supervisor-mode code from unintentionally executing user-space code.
 SMAP extends this protection to reads and writes.
 
-Without Supervisor Mode Access Prevention, supervisor code usually has full
-read and write access to user-space memory mappings (or has the ability to
-obtain full access). This has led to the development of several security
-exploits, including privilege escalation exploits, which operate by causing the
-kernel to access user-space memory when it did not intend to. Operating systems
-can block these exploits by using SMAP to force unintended user-space memory
-accesses to trigger page faults. Additionally, SMAP can expose flawed kernel
-code which does not follow the intended procedures for accessing user-space
-memory.
-
-However, the use of SMAP in an operating system may lead to a larger kernel size
-and slower user-space memory accesses from supervisor code, because SMAP must be
-temporarily disabled any time supervisor code intends to access user-space
-memory.
-
 To make sure if current CPU supports the features, run:
 cat /proc/cpuinfo |egrep 'smap|smep'
 
-CONFIG_X86_SMAP is enabled by default.
+SMAP is controlled by kconfig option CONFIG_X86_SMAP(enabled by default)
+and can be disabled via kernel boot parameter "nosmap". As mentioned in
+kernel source arch/x86/Kconfig, there is a small performance cost if this
+is enabled and turned on; There is also a small increase in the kernel size
+if this is enabled.
 
-For SMAP, as mentioned in kernel source arch/x86/Kconfig, there is a small
-performance cost if this enabled and turned on; there is also a small increase
-in the kernel size if this is enabled.
+SMEP is enabled by default where hardware is available and can be disabled
+via kernel boot parameter "nosmep". There is no apparent performance cost
+observed in this case.
 
-For SMEP, there is no claimed evident performance cost found.
+7.2 ARM/ARM64 features
+
+hardware PAN
+
+CONFIG_ARM64_PAN(ARMv8.1 only)
+Privileged Access Never(PAN; part of the ARMv8.1 Extensions) prevents the
+kernel or hypervisor from accessing user-space (EL0) memory directly. It
+will cause any unprotected (not using copy_to_user et al) memory access to
+fail with a permission fault. The feature is enabled by default and
+detected at runtime, and will remain as a 'nop' instruction if the cpu does
+not implement the feature.
+
+software emulated PAN
+
+CONFIG_ARM64_SW_TTBR0_PAN(ARM64 only)
+This feature prevents the kernel from accessing user-space memory directly
+by pointing TTBR0_EL1 to a reserved zeroed area and reserved ASID. The user
+access routines restore the valid TTBR0_EL1 temporarily. This feature is
+disabled by default, as there is performance impact.
+
+CONFIG_CPU_SW_DOMAIN_PAN(ARMv7 only)
+This feature provides emulated segregation of user-space memory when
+running in kernel mode, by using the ARM Domain access control feature.
+This feature is disabled by default as there is performance impact.
+
 
 8. Meltdown and Spectre
 -----------------------
