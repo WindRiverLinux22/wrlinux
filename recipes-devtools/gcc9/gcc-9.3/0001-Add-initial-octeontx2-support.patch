@@ -1,0 +1,81 @@
+From 593533189ea51e49705c526d2f912a579fdb0d26 Mon Sep 17 00:00:00 2001
+From: Andrew Pinski <apinski@marvell.com>
+Date: Fri, 10 Jan 2020 23:00:39 +0000
+Subject: [PATCH] Add initial octeontx2 support.
+
+This adds octeontx2 naming.  It currently uses the cortexa57
+cost model and schedule model until I submit this.  This is
+more a place holder to get the naming of the cores in GCC 10.
+I will submit the cost model in the next couple of days.
+
+ChangeLog:
+* config/aarch64/aarch64-cores.def (octeontx2): New define.
+(octeontx2t98): New define.
+(octeontx2t96): New define.
+(octeontx2t93): New define.
+(octeontx2f95): New define.
+(octeontx2f95n): New define.
+(octeontx2f95mm): New define.
+* config/aarch64/aarch64-tune.md: Regenerate.
+* doc/invoke.texi (-mcpu=): Document the new cpu types.
+
+Upstream-Status: Backport [38c69700bb2ae7dbf1dc938fb8dba04a17bd891c]
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ gcc/config/aarch64/aarch64-cores.def | 10 ++++++++++
+ gcc/config/aarch64/aarch64-tune.md   |  2 +-
+ gcc/doc/invoke.texi                  |  6 +++++-
+ 3 files changed, 16 insertions(+), 2 deletions(-)
+
+diff --git a/gcc/config/aarch64/aarch64-cores.def b/gcc/config/aarch64/aarch64-cores.def
+index 82d91d62519..4a1fef94ea0 100644
+--- a/gcc/config/aarch64/aarch64-cores.def
++++ b/gcc/config/aarch64/aarch64-cores.def
+@@ -104,6 +104,16 @@ AARCH64_CORE("ares",  ares, cortexa57, 8_2A,  AARCH64_FL_FOR_ARCH8_2 | AARCH64_F
+ AARCH64_CORE("neoverse-n1",  neoversen1, cortexa57, 8_2A,  AARCH64_FL_FOR_ARCH8_2 | AARCH64_FL_F16 | AARCH64_FL_RCPC | AARCH64_FL_DOTPROD | AARCH64_FL_PROFILE, neoversen1, 0x41, 0xd0c, -1)
+ AARCH64_CORE("neoverse-e1",  neoversee1, cortexa53, 8_2A,  AARCH64_FL_FOR_ARCH8_2 | AARCH64_FL_F16 | AARCH64_FL_RCPC | AARCH64_FL_DOTPROD | AARCH64_FL_SSBS, cortexa53, 0x41, 0xd4a, -1)
+ 
++/* Cavium ('C') cores. */
++AARCH64_CORE("octeontx2",      octeontx2,      cortexa57, 8_2A,  AARCH64_FL_FOR_ARCH8_2 | AARCH64_FL_CRYPTO | AARCH64_FL_PROFILE, cortexa57, 0x43, 0x0b0, -1)
++AARCH64_CORE("octeontx2t98",   octeontx2t98,   cortexa57, 8_2A,  AARCH64_FL_FOR_ARCH8_2 | AARCH64_FL_CRYPTO | AARCH64_FL_PROFILE, cortexa57, 0x43, 0x0b1, -1)
++AARCH64_CORE("octeontx2t96",   octeontx2t96,   cortexa57, 8_2A,  AARCH64_FL_FOR_ARCH8_2 | AARCH64_FL_CRYPTO | AARCH64_FL_PROFILE, cortexa57, 0x43, 0x0b2, -1)
++/* Note OcteonTX2 T93 is an alias to OcteonTX2 T96. */
++AARCH64_CORE("octeontx2t93",   octeontx2t93,   cortexa57, 8_2A,  AARCH64_FL_FOR_ARCH8_2 | AARCH64_FL_CRYPTO | AARCH64_FL_PROFILE, cortexa57, 0x43, 0x0b2, -1)
++AARCH64_CORE("octeontx2f95",   octeontx2f95,   cortexa57, 8_2A,  AARCH64_FL_FOR_ARCH8_2 | AARCH64_FL_CRYPTO | AARCH64_FL_PROFILE, cortexa57, 0x43, 0x0b3, -1)
++AARCH64_CORE("octeontx2f95n",  octeontx2f95n,  cortexa57, 8_2A,  AARCH64_FL_FOR_ARCH8_2 | AARCH64_FL_CRYPTO | AARCH64_FL_PROFILE, cortexa57, 0x43, 0x0b4, -1)
++AARCH64_CORE("octeontx2f95mm", octeontx2f95mm, cortexa57, 8_2A,  AARCH64_FL_FOR_ARCH8_2 | AARCH64_FL_CRYPTO | AARCH64_FL_PROFILE, cortexa57, 0x43, 0x0b5, -1)
++
+ /* HiSilicon ('H') cores. */
+ AARCH64_CORE("tsv110",  tsv110, tsv110, 8_2A,  AARCH64_FL_FOR_ARCH8_2 | AARCH64_FL_CRYPTO | AARCH64_FL_F16 | AARCH64_FL_AES | AARCH64_FL_SHA2, tsv110,   0x48, 0xd01, -1)
+ 
+diff --git a/gcc/config/aarch64/aarch64-tune.md b/gcc/config/aarch64/aarch64-tune.md
+index 2b1ec85ae31..1590736ba63 100644
+--- a/gcc/config/aarch64/aarch64-tune.md
++++ b/gcc/config/aarch64/aarch64-tune.md
+@@ -1,5 +1,5 @@
+ ;; -*- buffer-read-only: t -*-
+ ;; Generated automatically by gentune.sh from aarch64-cores.def
+ (define_attr "tune"
+-	"cortexa35,cortexa53,cortexa57,cortexa72,cortexa73,thunderx,thunderxt88p1,thunderxt88,octeontx,octeontxt81,octeontxt83,thunderxt81,thunderxt83,emag,xgene1,falkor,qdf24xx,exynosm1,phecda,thunderx2t99p1,vulcan,thunderx2t99,cortexa55,cortexa75,cortexa76,ares,neoversen1,neoversee1,tsv110,saphira,cortexa57cortexa53,cortexa72cortexa53,cortexa73cortexa35,cortexa73cortexa53,cortexa75cortexa55,cortexa76cortexa55"
++	"cortexa35,cortexa53,cortexa57,cortexa72,cortexa73,thunderx,thunderxt88p1,thunderxt88,octeontx,octeontxt81,octeontxt83,thunderxt81,thunderxt83,emag,xgene1,falkor,qdf24xx,exynosm1,phecda,thunderx2t99p1,vulcan,thunderx2t99,cortexa55,cortexa75,cortexa76,ares,neoversen1,neoversee1,octeontx2,octeontx2t98,octeontx2t96,octeontx2t93,octeontx2f95,octeontx2f95n,octeontx2f95mm,tsv110,saphira,cortexa57cortexa53,cortexa72cortexa53,cortexa73cortexa35,cortexa73cortexa53,cortexa75cortexa55,cortexa76cortexa55"
+ 	(const (symbol_ref "((enum attr_tune) aarch64_tune)")))
+diff --git a/gcc/doc/invoke.texi b/gcc/doc/invoke.texi
+index 0ab6c9c6449..501ce26d040 100644
+--- a/gcc/doc/invoke.texi
++++ b/gcc/doc/invoke.texi
+@@ -15828,7 +15828,11 @@ performance of the code.  Permissible values for this option are:
+ @samp{cortex-a76}, @samp{ares}, @samp{exynos-m1}, @samp{emag}, @samp{falkor},
+ @samp{neoverse-e1},@samp{neoverse-n1},@samp{qdf24xx}, @samp{saphira},
+ @samp{phecda}, @samp{xgene1}, @samp{vulcan}, @samp{octeontx},
+-@samp{octeontx81},  @samp{octeontx83}, @samp{thunderx}, @samp{thunderxt88},
++@samp{octeontx81},  @samp{octeontx83},
++@samp{octeontx2}, @samp{octeontx2t98}, @samp{octeontx2t96}
++@samp{octeontx2t93}, @samp{octeontx2f95}, @samp{octeontx2f95n},
++@samp{octeontx2f95mm}
++@samp{thunderx}, @samp{thunderxt88},
+ @samp{thunderxt88p1}, @samp{thunderxt81}, @samp{tsv110},
+ @samp{thunderxt83}, @samp{thunderx2t99},
+ @samp{cortex-a57.cortex-a53}, @samp{cortex-a72.cortex-a53},
+-- 
+2.17.1
+
