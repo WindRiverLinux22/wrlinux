@@ -1,0 +1,21 @@
+This template adds clang support in SDK.
+
+Note that this template forces to disable multilib.
+This template is for SDK only, eSDK is not supported.
+
+For users using clang in SDK, they can run commands like below:
+
+  CC="$CLANGCC" CXX="$CLANGCXX" CPP="CLANGCPP" <cmd>
+
+Below is an example to build a project using clang in SDK:
+1. CC="$CLANGCC" CXX="$CLANGCXX" CPP="CLANGCPP" /path/to/source/configure $CONFIGURE_FLAGS
+2. make -j
+3. make DESTDIR=/path/to/install install
+
+To use this template, add the following to your setup line:
+
+    --templates feature/clang-sdk
+
+#@TYPE: Wrtemplate
+#@NAME: clang-sdk
+#@DESCRIPTION: Adds clang support in SDK
