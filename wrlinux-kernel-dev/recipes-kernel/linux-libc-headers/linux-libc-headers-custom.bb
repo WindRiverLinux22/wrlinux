@@ -11,7 +11,7 @@ includedir = "${KERNEL_HEADER_DIR}/include"
 # LINUX_VERSION = "4.19-rc7"
 LINUX_VERSION_EXTENSION:append = "-custom"
 
-KBRANCH ?= "standard/base"
+KBRANCH ?= "v5.17/standard/base"
 SRCREV_machine = "${AUTOREV}"
 PV = "${LINUX_VERSION}+git${SRCPV}"
 
