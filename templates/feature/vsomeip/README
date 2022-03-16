@@ -1,0 +1,9 @@
+This template adds vsomeip to the filesystem.
+
+To use this template, add the following to your setup line:
+
+    --templates feature/vsomeip
+
+#@TYPE: Wrtemplate
+#@NAME: vsomeip
+#@DESCRIPTION: Add vsomeip to the image
