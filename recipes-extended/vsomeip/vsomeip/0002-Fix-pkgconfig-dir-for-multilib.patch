@@ -1,0 +1,28 @@
+From 70f9ebf5a367caf417c5c96fca594ae6788c6d31 Mon Sep 17 00:00:00 2001
+From: Yi Zhao <yi.zhao@windriver.com>
+Date: Wed, 2 Mar 2022 14:51:13 +0800
+Subject: [PATCH] Fix pkgconfig dir for multilib
+
+Upstream-Status: Pending
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index d859b46..ebecb9b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -580,7 +580,7 @@ endif()
+ # create pkg-config file
+ if(NOT WIN32)
+         configure_file(vsomeip3.pc.in ${PROJECT_BINARY_DIR}/vsomeip3.pc @ONLY)
+-        install(FILES ${PROJECT_BINARY_DIR}/vsomeip3.pc DESTINATION lib/pkgconfig)
++        install(FILES ${PROJECT_BINARY_DIR}/vsomeip3.pc DESTINATION ${INSTALL_LIB_DIR}/pkgconfig)
+ endif()
+ 
+ ##############################################################################
+-- 
+2.25.1
+
