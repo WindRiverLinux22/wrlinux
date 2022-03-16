@@ -1,0 +1,9 @@
+This template adds wireguard to the filesystem.
+
+To use this template, add the following to your setup line:
+
+    --templates feature/wireguard
+
+#@TYPE: Wrtemplate
+#@NAME: wireguard
+#@DESCRIPTION: Add wireguard to the image
