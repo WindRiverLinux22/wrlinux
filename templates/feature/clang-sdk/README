@@ -12,6 +12,9 @@ Below is an example to build a project using clang in SDK:
 2. make -j
 3. make DESTDIR=/path/to/install install
 
+This template does not support the following BSPs:
+* marvell-cn96xx
+
 To use this template, add the following to your setup line:
 
     --templates feature/clang-sdk
