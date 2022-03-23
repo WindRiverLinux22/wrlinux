@@ -6,7 +6,7 @@ DESCRIPTION = "Monit is a free open source utility for managing and monitoring, 
 HOMEPAGE = "http://mmonit.com/monit/"
 BUGTRACKER = "https://savannah.nongnu.org/bugs/?group=monit"
 
-LICENSE = "GPLv2"
+LICENSE = "GPL-2.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
 DEPENDS = "openssl ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)} bison-native"
 

@@ -5,7 +5,7 @@ the following IETF RFC: RFC6275 (Mobile IPv6), RFC3963 (NEMO), RFC3776 and \
 RFC4877 (IPsec and IKEv2)."
 HOMEPAGE = "http://umip.org/"
 SECTION = "System Environment/Base"
-LICENSE = "GPLv2"
+LICENSE = "GPL-2.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=073dc31ccb2ebed70db54f1e8aeb4c33"
 
 DEPENDS = "openssl indent-native bison-native"

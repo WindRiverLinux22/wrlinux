@@ -17,4 +17,4 @@ RDEPENDS:${PN}:append:osv-wrlinux = " wr-init"
 FILERDEPENDS_${PN}:osv-wrlinux = "/bin/sh /usr/bin/run-parts /sbin/start-stop-daemon /sbin/ifup"
 
 # override the default in package-core-boot.bb
-EFI_PROVIDER ??= "${@bb.utils.contains('INCOMPATIBLE_LICENSE', 'GPLv3', '', 'grub-efi', d)}"
+EFI_PROVIDER ??= "${@bb.utils.contains('INCOMPATIBLE_LICENSE', 'GPL-3.0-only', '', 'grub-efi', d)}"

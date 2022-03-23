@@ -4,7 +4,7 @@
 SUMMARY = "ipsec-test"
 DESCRIPTION = "The ipsec-test package contains a ipsec-test World program"
 SECTION = "apps"
-LICENSE = "GPLv2"
+LICENSE = "GPL-2.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e"
 
 SRC_URI = "\

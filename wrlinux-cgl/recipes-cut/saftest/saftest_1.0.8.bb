@@ -12,7 +12,7 @@ DESCRIPTION = "\
 	integrated. \
 	"
 HOMEPAGE = "http://saftest.sourceforge.net/"
-LICENSE = "GPL-2.0"
+LICENSE = "GPL-2.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=355f36536dcc01e402dfc786f521dc6c"
 S = "${WORKDIR}/saftest"
 SECTION = "apps"
