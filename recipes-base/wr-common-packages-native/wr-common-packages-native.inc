@@ -208,6 +208,7 @@ DEPENDS = "\
     util-linux-native \
     util-macros-native \
     vala-native \
+    vim-native \
     virglrenderer-native \
     wayland-native \
     xcb-proto-native \
