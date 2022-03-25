@@ -1,0 +1,42 @@
+From 9f069eef082635b92e43fb61c2ca04d7756a118c Mon Sep 17 00:00:00 2001
+From: Jakub Jelinek <jakub@redhat.com>
+Date: Fri, 8 Nov 2019 19:53:18 +0100
+Subject: [PATCH 1/2] backport: re PR sanitizer/92154 (new glibc breaks arm
+ bootstrap due to libsanitizer)
+
+	Backported from mainline
+	2019-10-22  Tamar Christina  <tamar.christina@arm.com>
+
+	PR sanitizer/92154
+	* sanitizer_common/sanitizer_platform_limits_posix.cc:
+	Cherry-pick compiler-rt revision r375220.
+
+From-SVN: r277981
+
+Upstream-Status: Backport [ce9568e9e9c]
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ .../sanitizer_common/sanitizer_platform_limits_posix.cc     | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.cc b/libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.cc
+index de90f3b5ef6..d56434d1aed 100644
+--- a/libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.cc
++++ b/libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.cc
+@@ -1136,8 +1136,12 @@ CHECK_SIZE_AND_OFFSET(ipc_perm, uid);
+ CHECK_SIZE_AND_OFFSET(ipc_perm, gid);
+ CHECK_SIZE_AND_OFFSET(ipc_perm, cuid);
+ CHECK_SIZE_AND_OFFSET(ipc_perm, cgid);
+-#if !defined(__aarch64__) || !SANITIZER_LINUX || __GLIBC_PREREQ (2, 21)
++#if (!defined(__aarch64__) || !SANITIZER_LINUX || __GLIBC_PREREQ (2, 21)) && \
++    !defined(__arm__)
+ /* On aarch64 glibc 2.20 and earlier provided incorrect mode field.  */
++/* On Arm glibc 2.31 and later provide a different mode field, this field is
++   never used by libsanitizer so we can simply ignore this assert for all glibc
++   versions.  */
+ CHECK_SIZE_AND_OFFSET(ipc_perm, mode);
+ #endif
+ 
+-- 
+2.17.1
+

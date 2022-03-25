@@ -1,0 +1,78 @@
+From e5975c66d5a125be3c777cb64284b87bdc261316 Mon Sep 17 00:00:00 2001
+From: Jakub Jelinek <jakub@redhat.com>
+Date: Fri, 20 Dec 2019 17:58:35 +0100
+Subject: [PATCH 2/2] backport: re PR sanitizer/92154 (new glibc breaks arm
+ bootstrap due to libsanitizer)
+
+	Backported from mainline
+	2019-11-26  Jakub Jelinek  <jakub@redhat.com>
+
+	PR sanitizer/92154
+	* sanitizer_common/sanitizer_platform_limits_posix.h: Cherry-pick
+	llvm-project revision 947f9692440836dcb8d88b74b69dd379d85974ce.
+	* sanitizer_common/sanitizer_platform_limits_posix.cc: Likewise.
+
+From-SVN: r279653
+
+Upstream-Status: Backport [75003cdd23c]
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ .../sanitizer_platform_limits_posix.cc            |  9 +++------
+ .../sanitizer_platform_limits_posix.h             | 15 +--------------
+ 2 files changed, 4 insertions(+), 20 deletions(-)
+
+diff --git a/libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.cc b/libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.cc
+index d56434d1aed..17f2c78b389 100644
+--- a/libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.cc
++++ b/libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.cc
+@@ -1136,12 +1136,9 @@ CHECK_SIZE_AND_OFFSET(ipc_perm, uid);
+ CHECK_SIZE_AND_OFFSET(ipc_perm, gid);
+ CHECK_SIZE_AND_OFFSET(ipc_perm, cuid);
+ CHECK_SIZE_AND_OFFSET(ipc_perm, cgid);
+-#if (!defined(__aarch64__) || !SANITIZER_LINUX || __GLIBC_PREREQ (2, 21)) && \
+-    !defined(__arm__)
+-/* On aarch64 glibc 2.20 and earlier provided incorrect mode field.  */
+-/* On Arm glibc 2.31 and later provide a different mode field, this field is
+-   never used by libsanitizer so we can simply ignore this assert for all glibc
+-   versions.  */
++#if !SANITIZER_LINUX || __GLIBC_PREREQ (2, 31)
++/* glibc 2.30 and earlier provided 16-bit mode field instead of 32-bit
++   on many architectures.  */
+ CHECK_SIZE_AND_OFFSET(ipc_perm, mode);
+ #endif
+ 
+diff --git a/libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.h b/libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.h
+index e3e4b93a62e..9f05c4e9ea7 100644
+--- a/libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.h
++++ b/libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.h
+@@ -210,26 +210,13 @@ namespace __sanitizer {
+     u64 __unused1;
+     u64 __unused2;
+ #elif defined(__sparc__)
+-#if defined(__arch64__)
+     unsigned mode;
+-    unsigned short __pad1;
+-#else
+-    unsigned short __pad1;
+-    unsigned short mode;
+     unsigned short __pad2;
+-#endif
+     unsigned short __seq;
+     unsigned long long __unused1;
+     unsigned long long __unused2;
+-#elif defined(__mips__) || defined(__aarch64__) || defined(__s390x__)
+-    unsigned int mode;
+-    unsigned short __seq;
+-    unsigned short __pad1;
+-    unsigned long __unused1;
+-    unsigned long __unused2;
+ #else
+-    unsigned short mode;
+-    unsigned short __pad1;
++    unsigned int mode;
+     unsigned short __seq;
+     unsigned short __pad2;
+ #if defined(__x86_64__) && !defined(_LP64)
+-- 
+2.17.1
+

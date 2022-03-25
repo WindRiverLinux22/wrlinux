@@ -1,0 +1,43 @@
+From 2ae0a3598ef25ca1bd29e9c832794ea51fa9b640 Mon Sep 17 00:00:00 2001
+From: Chen Qi <Qi.Chen@windriver.com>
+Date: Thu, 17 Feb 2022 10:58:09 +0800
+Subject: [PATCH] bid_functions.h: decrease the alignment to 8 bytes
+
+New version gcc has stricter array alignment checking.
+https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=50bc94898fac1bd9cc1dabf227208fb5d369c4c4
+
+As said in the above commit message, it breaks bootstrap.
+"""
+Unfortunately, the patch breaks bootstrap, because libbid uses this mess
+(forms arrays with 24 byte long elements with 16 byte element alignment).
+I don't really see justification for that, so I've decreased the alignment
+to 8 bytes instead.
+"""
+
+Or in order to use new gcc (>=11) cross compiler to to compile old gcc's
+libgcc, we need to do the same as in the above commit, decreasing
+the alignment to 8 bytes.
+
+Upstream-Status: Inapppropriate [WRLinux Specific]
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ libgcc/config/libbid/bid_functions.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libgcc/config/libbid/bid_functions.h b/libgcc/config/libbid/bid_functions.h
+index 3a9c83a00f5..a00bfe06972 100644
+--- a/libgcc/config/libbid/bid_functions.h
++++ b/libgcc/config/libbid/bid_functions.h
+@@ -81,7 +81,7 @@ ALIGN (16)
+ #define SQRT80 sqrtw
+ #endif
+ 
+-     typedef ALIGN (16)
++     typedef ALIGN (8)
+      struct {
+        UINT64 w[3];
+      } UINT192;
+-- 
+2.17.1
+
