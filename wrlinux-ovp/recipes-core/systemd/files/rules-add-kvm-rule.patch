@@ -1,6 +1,6 @@
-From 32cb9a8326b579678dec55ed571e27e682d0abd5 Mon Sep 17 00:00:00 2001
-From: Mark Asselstine <mark.asselstine@windriver.com>
-Date: Fri, 26 Feb 2016 15:45:30 +0000
+From 1fc30ef8f7f7376a3191de5d25fe41aa56f7db53 Mon Sep 17 00:00:00 2001
+From: Chen Qi <Qi.Chen@windriver.com>
+Date: Mon, 28 Mar 2022 19:33:22 -0700
 Subject: [PATCH] udev rules: add kvm rule
 
 Based on commit e8c942d0df396e3c756a7261a8bffcb8c9847a1a.
@@ -15,10 +15,14 @@ Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 Update context of the patch on 20210727.
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
+
+Update context of the patch on 20220329
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
  rules.d/99-kvm.rules | 1 +
- rules.d/meson.build  | 1 +
- 2 files changed, 2 insertions(+)
+ rules.d/meson.build  | 3 ++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
  create mode 100644 rules.d/99-kvm.rules
 
 diff --git a/rules.d/99-kvm.rules b/rules.d/99-kvm.rules
@@ -29,14 +33,19 @@ index 0000000000..c2f7317aac
 @@ -0,0 +1 @@
 +KERNEL=="kvm", GROUP="kvm", MODE="0660"
 diff --git a/rules.d/meson.build b/rules.d/meson.build
-index 598649a562..94d3270ff1 100644
+index e6533e001a..37e76acff1 100644
 --- a/rules.d/meson.build
 +++ b/rules.d/meson.build
-@@ -27,6 +27,7 @@ rules = files('''
-         78-sound-card.rules
-         80-net-setup-link.rules
-         81-net-dhcp.rules
-+        99-kvm.rules
- '''.split())
+@@ -27,7 +27,8 @@ rules = files(
+         '75-probe_mtd.rules',
+         '78-sound-card.rules',
+         '80-net-setup-link.rules',
+-        '81-net-dhcp.rules')
++        '81-net-dhcp.rules',
++        '99-kvm.rules')
  
  if conf.get('HAVE_KMOD') == 1
+         rules += files('80-drivers.rules')
+-- 
+2.33.0
+
