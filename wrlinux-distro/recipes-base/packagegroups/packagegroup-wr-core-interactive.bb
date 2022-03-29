@@ -24,5 +24,5 @@ RDEPENDS:${PN} = " \
     vim \
     vim-common \
     vim-syntax \
-    ${@bb.utils.contains('INCOMPATIBLE_LICENSE', 'GPLv3+', '', 'screen', d)} \
+    ${@bb.utils.contains('INCOMPATIBLE_LICENSE', 'GPL-3.0-or-later', '', 'screen', d)} \
     "

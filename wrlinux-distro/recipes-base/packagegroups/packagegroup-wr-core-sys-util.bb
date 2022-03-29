@@ -42,7 +42,7 @@ RDEPENDS:${PN} = " \
     watchdog \
     crda \
     wireless-regdb-static \
-    ${@bb.utils.contains('INCOMPATIBLE_LICENSE', 'GPLv3+', '', 'parted', d)} \
+    ${@bb.utils.contains('INCOMPATIBLE_LICENSE', 'GPL-3.0-or-later', '', 'parted', d)} \
     "
 RRECOMMENDS:${PN} = " \
     mtd-utils-jffs2 \

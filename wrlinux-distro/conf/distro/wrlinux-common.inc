@@ -53,7 +53,7 @@ DISTRO_EXTRA_RDEPENDS += " ${WRLINUX_DEFAULT_EXTRA_RDEPENDS}"
 DISTRO_EXTRA_RRECOMMENDS += " ${WRLINUX_DEFAULT_EXTRA_RRECOMMENDS}"
 
 # do not include qemu-config by default
-#WRLINUXQEMUDEPS = "${@bb.utils.contains("INCOMPATIBLE_LICENSE", "GPLv3", "", "qemu-config",d)}"
+#WRLINUXQEMUDEPS = "${@bb.utils.contains("INCOMPATIBLE_LICENSE", "GPL-3.0-only", "", "qemu-config",d)}"
 WRLINUXQEMUDEPS = ""
 
 DISTRO_EXTRA_RDEPENDS:append:qemuall = " ${WRLINUXQEMUDEPS}"
