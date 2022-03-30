@@ -1,0 +1,15 @@
+This template adds gcc 8 support in SDK.
+
+Note that this template forces to disable multilib.
+This template is for SDK only, eSDK is not supported.
+
+This template does not support the following BSPs:
+* marvell-cn96xx
+
+To use this template, add the following to your setup line:
+
+    --templates feature/gcc-8-sdk
+
+#@TYPE: Wrtemplate
+#@NAME: gcc-8-sdk
+#@DESCRIPTION: Adds gcc 8 support in SDK
