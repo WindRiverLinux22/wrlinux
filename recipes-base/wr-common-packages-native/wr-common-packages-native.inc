@@ -126,6 +126,7 @@ DEPENDS = "\
     libxml2-native \
     libxrandr-native \
     libxrender-native \
+    libxshmfence-native \
     libxslt-native \
     libxtst-native \
     libxxf86vm-native \
@@ -168,12 +169,12 @@ DEPENDS = "\
     pseudo-native \
     python3-flit-core-native \
     python3-iniparse-native \
+    python3-installer-native \
     python3-jinja2-native \
     python3-m2crypto-native \
     python3-mako-native \
     python3-markupsafe-native \
     python3-native \
-    python3-pip-native \
     python3-setuptools-native \
     python3-six-native \
     python3-wheel-native \
@@ -211,6 +212,7 @@ DEPENDS = "\
     vim-native \
     virglrenderer-native \
     wayland-native \
+    wayland-protocols-native \
     xcb-proto-native \
     xmlto-native \
     xorgproto-native \
