@@ -11,6 +11,7 @@ WRL_RECIPES:gnome-layer += "\
     network-manager-applet \
     usermode \
     libgtop \
+    gtk4 \
 "
 
 # Recipes allowed for meta-openembedded/meta-python
@@ -59,6 +60,9 @@ WRL_RECIPES:openembedded-layer += "\
     tigervnc \
     uthash \
     xmlrpc-c \
+    graphene \
+    libsass \
+    sassc \
 "
 
 # Recipes allowed for meta-openembedded/meta-networking
