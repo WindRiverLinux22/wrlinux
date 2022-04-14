@@ -15,16 +15,16 @@ TOPDIR=${CUTDIR-/opt/cut/}
 clean()
 {
 	echo "Clean System..."
-	rm -rf lsb-test-pam-2.0-2.src.rpm
+	rpm -e spmtest
 	echo "Finish"
 }
 
 echo "******Install RPM******"
-rpm -ivh $TOPDIR/resource/lsb-test-pam-2.0-2.src.rpm
-check "lsb-test-pam-2.0-2.src.rpm can not be installed"
+rpm -ivh $TOPDIR/resource/spmtest-1.0-r0.noarch.rpm
+check "spmtest-1.0-r0.noarch.rpm can not be installed"
 
 echo "******Update RPM******"
-rpm -Uvh $TOPDIR/resource/lsb-test-pam-2.0-2.src.rpm
-check "lsb-test-pam-2.0-2.src.rpm update fail"
+rpm -Uvh $TOPDIR/resource/spmtest-1.1-r0.noarch.rpm
+check "spmtest-1.1-r0.noarch.rpm update fail"
 
 result PASSED

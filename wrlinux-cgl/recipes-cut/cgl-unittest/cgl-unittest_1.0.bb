@@ -51,7 +51,8 @@ SRC_URI = "\
 	file://files/resource/avl.28.2.img \
 	file://files/resource/avl.28.2.img_info \
 	file://files/resource/openssl.cnf-test \
-	file://files/resource/lsb-test-pam-2.0-2.src.rpm;unpack=no \
+	file://files/resource/spmtest-1.0-r0.noarch.rpm;unpack=no \
+	file://files/resource/spmtest-1.1-r0.noarch.rpm;unpack=no \
 	file://files/env/runtime_env \
 	file://files/Makefile \
 	file://files/function.sh \
