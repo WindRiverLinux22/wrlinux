@@ -1,0 +1,10 @@
+This template adds nerdctl (Docker-compatible CLI for
+containerd) to the filesystem.
+
+To use this template, add the following to your setup line:
+
+    --templates feature/nerdctl
+
+#@TYPE: Wrtemplate
+#@NAME: nerdctl
+#@DESCRIPTION: Add nerdctl to the image
