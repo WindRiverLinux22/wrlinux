@@ -13,3 +13,5 @@ SRCREV_machine:qemux86-64 = "${AUTOREV}"
 SRCREV_machine:qemumips64 = "${AUTOREV}"
 SRCREV_machine = "${AUTOREV}"
 SRCREV_meta = "${AUTOREV}"
+
+KERNEL_VERSION_SANITY_SKIP ?= "1"
