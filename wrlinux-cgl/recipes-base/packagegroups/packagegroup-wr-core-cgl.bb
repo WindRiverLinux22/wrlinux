@@ -43,6 +43,7 @@ RDEPENDS:${PN} = "\
 	ecryptfs-utils \
 	edac-utils \
 	freediameter \
+	frr \
 	ippool \
 	iscsi-initiator-utils \
 	lksctp-tools \
@@ -58,15 +59,6 @@ RDEPENDS:${PN} = "\
 	crmsh \
 	passwdqc \
 	postgresql \
-	quagga \
-	quagga-bgpd \
-	quagga-isisd \
-	quagga-ospf6d \
-	quagga-ospfclient \
-	quagga-ospfd \
-	quagga-ripd \
-	quagga-ripngd \
-	${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'quagga-watchquagga', '', d)} \
 	resource-agents \
 	rng-tools \
 	rpcbind \

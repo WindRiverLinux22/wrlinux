@@ -45,6 +45,7 @@ WRL_RECIPES_META_NETWORKING = " \
     corosync \
     kronosnet \
     freediameter \
+    frr \
     geoip \
     geoip-perl \
     ifenslave \
@@ -63,7 +64,6 @@ WRL_RECIPES_META_NETWORKING = " \
     openipmi \
     open-isns \
     openl2tp \
-    quagga \
     rdate \
     rdist \
     samba \
