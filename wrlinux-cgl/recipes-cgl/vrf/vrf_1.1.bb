@@ -30,6 +30,7 @@ SRC_URI    = "file://vrf-1.1.tgz \
               file://0001-vrf-create-override-systemd-wired-network-config.patch \
               file://0001-vrf-start-change-cgroup-pattern.patch \
               file://0001-vrf-change-the-search-pattern-for-os-release.patch \
+              file://0001-vrf-replace-quagga-with-frr.patch \
 "
 
 S  = "${WORKDIR}/wrlinux-vrf"

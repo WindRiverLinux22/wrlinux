@@ -1,0 +1,138 @@
+From 41d05aa8804d8b02e5c3ad1ec75961eedfdf8a51 Mon Sep 17 00:00:00 2001
+From: Yi Zhao <yi.zhao@windriver.com>
+Date: Thu, 28 Apr 2022 09:23:30 +0800
+Subject: [PATCH] vrf: replace quagga with frr
+
+Issue: LINUXEXEC-19630
+
+Upstream-Status: Inappropriate [no upstream]
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ package/wrlinux-cgl_package.list | 72 ++++++++++++++++++--------------
+ 1 file changed, 40 insertions(+), 32 deletions(-)
+
+diff --git a/package/wrlinux-cgl_package.list b/package/wrlinux-cgl_package.list
+index b5f65c0..cc2d353 100644
+--- a/package/wrlinux-cgl_package.list
++++ b/package/wrlinux-cgl_package.list
+@@ -21,8 +21,8 @@
+ #will be run at the end of make rootfs,
+ #user can write a startup script
+ 
+-VRF_PACKAGE_LIST="default quagga sshd rsyslog ncurses"
+-#VRF_PACKAGE_LIST="quagga syslogng sshd \
++VRF_PACKAGE_LIST="default frr sshd rsyslog ncurses"
++#VRF_PACKAGE_LIST="frr syslogng sshd \
+ #                  nfs auditd ppp logrotate \
+ #                  xinetd apache2 radiusd cron \
+ #                  initscripts"
+@@ -36,11 +36,13 @@ SYSV_VRF_PACKAGE_FUNCTION_func_last_run () {
+   ln -s ${VRF_INITD_BASE}/init.d/functions.initscripts ${VRF_ROOTFS}/${VRF_INITD_BASE}/init.d/functions
+ 
+   if [ "$fs" != "union" ]; then
+-    #start quagga in rc
+-    if [ -f ${VRF_ROOTFS}/${VRF_INITD_BASE}/init.d/quagga ]; then
+-        sed -i -e 's/^DAEMONS="zebra"/DAEMONS="zebra ripd ospfd"/' \
+-            ${VRF_ROOTFS}/${VRF_INITD_BASE}/init.d/quagga
+-        echo "${VRF_INITD_BASE}/init.d/quagga start" >> \
++    #start frr in rc
++    if [ -f ${VRF_ROOTFS}/etc/frr/daemons ]; then
++		sed -i -e 's/^ripd=.*/ripd=yes/' \
++			-e 's/^ospfd=.*/ospfd=yes/' \
++			${VRF_ROOTFS}/etc/frr/daemons
++
++        echo "${VRF_INITD_BASE}/init.d/frr start" >> \
+              ${VRF_ROOTFS}/${VRF_RC_BASE}/rc
+     fi
+ 
+@@ -52,8 +54,8 @@ SYSV_VRF_PACKAGE_FUNCTION_func_last_run () {
+   else
+     #with union fs, the /etc/ may be empty still when run in vrf_create
+     cat <<-EOF >>${VRF_ROOTFS}/${VRF_RC_BASE}/rc
+-	if [ -f ${VRF_INITD_BASE}/init.d/quagga ]; then
+-	    ${VRF_INITD_BASE}/init.d/quagga start
++	if [ -f ${VRF_INITD_BASE}/init.d/frr ]; then
++	    ${VRF_INITD_BASE}/init.d/frr start
+ 	fi
+ 	if [ -f ${VRF_INITD_BASE}/init.d/sshd ]; then
+ 	    ${VRF_INITD_BASE}/init.d/sshd start
+@@ -69,9 +71,16 @@ SYSTEMD_VRF_PACKAGE_FUNCTION_func_last_run () {
+       mkdir -p ${VRF_ROOTFS}/etc/systemd/system/wr-vrf.target.wants
+   fi
+ 
+-  for i in bgpd ospf6d ospfd ripd ripngd zebra; do \
+-      ln -s /lib/systemd/system/$i.service ${VRF_ROOTFS}/etc/systemd/system/wr-vrf.target.wants/$i.service
+-  done
++  if [ -f ${VRF_ROOTFS}/etc/frr/daemons ]; then
++	  sed -i -e 's/^bgpd=.*/bgpd=yes/' \
++		  -e 's/^ospfd=.*/ospfd=yes/' \
++		  -e 's/^ospf6d=.*/ospf6d=yes/' \
++		  -e 's/^ripd=.*/ripd=yes/' \
++		  -e 's/^ripngd=.*/ripngd=yes/' \
++		  ${VRF_ROOTFS}/etc/frr/daemons
++  fi
++
++  ln -s /lib/systemd/system/frr.service ${VRF_ROOTFS}/etc/systemd/system/wr-vrf.target.wants/frr.service
+ 
+   if [ ! -f /lib/systemd/system/vrf-getty@.service ]; then
+       cp /lib/systemd/system/getty@.service /lib/systemd/system/vrf-getty@.service
+@@ -110,36 +119,35 @@ SYSTEMD_VRF_PACKAGE_FUNCTION_default () {
+     create_only_dir /var
+ }
+ 
+-SYSV_VRF_PACKAGE_UNION_quagga=""
+-SYSV_VRF_PACKAGE_quagga="$SYSV_VRF_PACKAGE_UNION_quagga \
+-    /etc/default/quagga /etc/default/watchquagga /etc/quagga/* \
+-    ${VRF_INITD_BASE}/init.d/watchquagga \
+-    ${VRF_INITD_BASE}/init.d/quagga \
++SYSV_VRF_PACKAGE_UNION_frr=""
++SYSV_VRF_PACKAGE_frr="$SYSV_VRF_PACKAGE_UNION_frr \
++    /etc/frr/* \
++    ${VRF_INITD_BASE}/init.d/frr \
+ "
+ #parameter: 1.fs_type(union, minimum)
+-SYSV_VRF_PACKAGE_FUNCTION_quagga () {
+-    #user: quagga group:quagga, quaggavty
+-    dup_user_group quagga quagga
++SYSV_VRF_PACKAGE_FUNCTION_frr () {
++    #user: frr group:frr, frrvty
++    dup_user_group frr frr
+ 
+-    create_only_dir /var/run/quagga
+-    create_only_dir /var/log/quagga
++    create_only_dir /var/run/frr
++    create_only_dir /var/log/frr
+ }
+ 
+-SYSTEMD_VRF_PACKAGE_UNION_quagga=""
+-SYSTEMD_VRF_PACKAGE_quagga="$SYSTEMD_VRF_PACKAGE_UNION_quagga \
+-    /etc/default/quagga /etc/quagga/* \
+-    /etc/tmpfiles.d/quagga.conf \
+-    /lib/systemd/system/zebra.service \
++SYSTEMD_VRF_PACKAGE_UNION_frr=""
++SYSTEMD_VRF_PACKAGE_frr="$SYSTEMD_VRF_PACKAGE_UNION_frr \
++    /etc/frr/* \
++    /etc/tmpfiles.d/frr.conf \
++    /lib/systemd/system/frr.service \
+ "
+-SYSTEMD_VRF_PACKAGE_FUNCTION_quagga () {
+-    #user: quagga group:quagga, quaggavty
+-    dup_user_group quagga quagga
++SYSTEMD_VRF_PACKAGE_FUNCTION_frr () {
++    #user: frr group:frr, frrvty
++    dup_user_group frr frr
+ 
+-    create_only_dir /var/log/quagga
++    create_only_dir /var/log/frr
+ }
+ 
+ SYSTEMD_VRF_PACKAGE_UNION_rsyslog=""
+-SYSTEMD_VRF_PACKAGE_rsyslog="$SYSTEMD_VRF_PACKAGE_UNION_quagga \
++SYSTEMD_VRF_PACKAGE_rsyslog="$SYSTEMD_VRF_PACKAGE_UNION_frr \
+     /etc/rsyslog.conf \
+ "
+ 
+-- 
+2.25.1
+
