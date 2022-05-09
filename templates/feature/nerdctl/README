@@ -1,6 +1,11 @@
 This template adds nerdctl (Docker-compatible CLI for
 containerd) to the filesystem.
 
+The current nerdctl support does not include the following
+two aspects:
+* build container images on target
+* lazy-pulling
+
 To use this template, add the following to your setup line:
 
     --templates feature/nerdctl
