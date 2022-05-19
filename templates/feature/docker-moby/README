@@ -1,0 +1,9 @@
+This template adds docker-moby to the filesystem.
+
+To use this template, add the following to your setup line:
+
+    --templates feature/docker-moby
+
+#@TYPE: Wrtemplate
+#@NAME: docker-moby
+#@DESCRIPTION: Add docker-moby to the image
