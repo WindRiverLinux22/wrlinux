@@ -38,7 +38,7 @@ IMAGE_INSTALL:remove = "\
 IMAGE_INSTALL:append = " ${@bb.utils.contains('OSTREE_BOOTLOADER', 'u-boot', 'u-boot-uenv', '', d)}"
 
 # For nxp-s32g2xx
-IMAGE_INSTALL:append:nxp-s32g2xx = " u-boot-s32"
+IMAGE_INSTALL:append:nxp-s32g2xx = " u-boot-s32 atf-s32g"
 
 NO_RECOMMENDATIONS = "1"
 
