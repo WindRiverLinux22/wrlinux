@@ -79,24 +79,23 @@ vgdisplay -v vg_test
 checkerr "pv ${DISK0} is not deleted from vg"
 
 echo -e "\n******Create logical volume on vg_test, size is 50M******"
-lvcreate -L 50 -n lv_test1 vg_test
+lvcreate -L 48 -n lv_test1 vg_test
 checkerr "Create LV fail"
 
+echo -e "\n*****Check the size of lv_test1, should be 48M*****"
+lv_size=`lvs | grep 'lv_test1' | awk '{print $NF}' | awk -F '.' '{print $1}'`
+if [ ${lv_size} -lt 48 ]; then
+	cuterr "The size of new LV is not 48M"
+fi
+
 echo -e "\n******Create filesystem and use this logical volume******"
-mke2fs -I 128 /dev/vg_test/lv_test1
+mke2fs /dev/vg_test/lv_test1
 checkerr "Create filesystem fail"
 
 echo -e "\n*****Mount lv_test1 to ${tmp_dir}/lv*****"
 mkdir -p ${tmp_dir}/lv
 mount /dev/vg_test/lv_test1 ${tmp_dir}/lv
 checkerr "Mount lv_test1 fail"
-
-echo -e "\n*****Check the size of lv_test1, should be 50M*****"
-df -h | grep ${tmp_dir}/lv | tee ${tmp_dir}/smm.9.0.log
-lv_size=`grep ${tmp_dir}/lv ${tmp_dir}/smm.9.0.log | sed 's/^\/[^ ]*//' | awk '{print $1}' | sed 's/[KM]//'`
-if [ ${lv_size} -lt 50 ]; then
-	cuterr "The size of new LV is not 50M"
-fi
 
 echo -e "\n*****Write something to lv_test1*****"
 echo "windriver test" > ${tmp_dir}/lv/test
@@ -115,13 +114,13 @@ echo -e "\n*****Run resize2fs on lv_test1*****"
 resize2fs -f /dev/vg_test/lv_test1
 checkerr "execute resize2fs fail"
 
-echo -e "\nMount lv_test1 and check the size changed to 70M"
-mount /dev/vg_test/lv_test1 ${tmp_dir}/lv
-df -h | grep ${tmp_dir}/lv | tee ${tmp_dir}/smm.9.0.log
-lv_size=`grep ${tmp_dir}/lv ${tmp_dir}/smm.9.0.log | sed 's/^\/[^ ]*//' | awk '{print $1}' | sed 's/[KM]//'`
-if [ ${lv_size} -lt 70 ]; then
-        cuterr "The size of new LV is not 70M"
+echo -e "\nMount lv_test1 and check the size changed to 68M"
+lv_size=`lvs | grep 'lv_test1' | awk '{print $NF}' | awk -F '.' '{print $1}'`
+if [ ${lv_size} -lt 68 ]; then
+	cuterr "The size of new LV is not 68M"
 fi
+
+mount /dev/vg_test/lv_test1 ${tmp_dir}/lv
 
 echo -e "\n******Check test file ${tmp_dir}/lv/test is not changed******"
 if [ "`cat ${tmp_dir}/lv/test`" != "windriver test" ]; then
@@ -132,7 +131,7 @@ echo -e "\n******Reduce the size of logical volume to 20M******"
 umount ${tmp_dir}/lv
 resize2fs -f /dev/vg_test/lv_test1 20M
 checkerr "execute resize2fs fail"
-lvreduce -f -L-50M /dev/vg_test/lv_test1
+lvreduce -f -L-48M /dev/vg_test/lv_test1
 checkerr "execute lvreduce fail"
 
 echo -e "\n*****Run e2fsck on lv_test1*****"
@@ -141,10 +140,9 @@ checkerr "execute e2fsck fail"
 
 echo -e "\n*****Mount lv_test1 and check the size changed to 20M*****"
 mount /dev/vg_test/lv_test1 ${tmp_dir}/lv
-df -h | grep ${tmp_dir}/lv | tee ${tmp_dir}/smm.9.0.log
-lv_size=`grep ${tmp_dir}/lv ${tmp_dir}/smm.9.0.log | sed 's/^\/[^ ]*//' | awk '{print $1}' | sed 's/[KM]//'`
+lv_size=`lvs | grep 'lv_test1' | awk '{print $NF}' | awk -F '.' '{print $1}'`
 if [ ${lv_size} -lt 20 ]; then
-        cuterr "The size of new LV is not 20M"
+	cuterr "The size of new LV is not 20M"
 fi
 
 echo -e "\n******Check test file ${tmp_dir}/lv/test is not changed******"
