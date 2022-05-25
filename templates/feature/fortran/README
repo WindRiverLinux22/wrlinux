@@ -1,0 +1,12 @@
+This template enables FORTRAN support in gcc and adds required libraries
+to the target image.
+
+To use, add
+
+--templates feature/fortran
+
+as a setup option.
+
+#@TYPE: Wrtemplate
+#@NAME: fortran
+#@DESCRIPTION: Enable FORTRAN support from gcc
