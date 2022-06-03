@@ -3748,3 +3748,10 @@ WRLINUX_SUPPORTED_RECIPE:pn-zram ?= "0 "
 WRLINUX_SUPPORTED_RECIPE:pn-zsh ?= "0 "
 WRLINUX_SUPPORTED_RECIPE:pn-zstd ?= "1 #feature/lat"
 WRLINUX_SUPPORTED_RECIPE:pn-zsync-curl ?= "0 "
+
+WRLINUX_SUPPORTED_RECIPE:pn-imx-gpu-viv ?= '0'
+WRLINUX_SUPPORTED_RECIPE:pn-imx-gpu-viv-demos ?= '0'
+WRLINUX_SUPPORTED_RECIPE:pn-imx-gpu-sdk ?= '0'
+WRLINUX_SUPPORTED_RECIPE:pn-imx-gpu-g2d ?= '0'
+WRLINUX_SUPPORTED_RECIPE:pn-imx-dpu-g2d ?= '0'
+WRLINUX_SUPPORTED_RECIPE:pn-imx-gpu-apitrace ?= '0'
