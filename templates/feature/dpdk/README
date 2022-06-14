@@ -13,7 +13,10 @@ documentation should be reviewed for this purpose. (http://dpdk.org/doc)
 
 2. Build Configuration
 ======================
-DPDK can only be built for intel-x86-64 and qemux86-64 BSP.
+
+2.1 Intel BSP Specification
+---------------------------
+DPDK can be built for intel-x86-64 and qemux86-64 BSP.
 
 When the DPDK feature is included in your build, either via setup or
 by editing local.conf, the resulting images will be configured to
@@ -41,6 +44,18 @@ DPDK requires to walk through its process' address space via /proc/self/pagemap
 to get its usage of physical memory. That exposes its process' address space and
 its physical memory location to a kernel exploitation. Please review your
 security policies to ensure this risk is mitigated if needed.
+
+2.2 NXP BSP Specification
+---------------------------
+For NXP bsp, users should follow the above configuration to make related
+bsp to use this dpdk template, and users should notice that the provider of
+dpdk for NXP bsps is meta-imx layer. Besides, NXP bsp will specify the dpdk
+version in machine conf by default, like:
+        PREFERRED_VERSION_dpdk= "21.11"
+
+in conf/machine/<bsp-name>.conf.
+Users can build the project as normal, the outcomes will include the dpdk
+package in rootfs.
 
 3. DPDK Linuxapp Setup
 ======================
@@ -105,6 +120,76 @@ eal_flags_autotest requires -m parameter with a correct value.
 Various DPDK example applications are built along with DPDK. To include
 these in your image add the 'dpdk-example' package to your image using
 IMAGE_INSTALL:append or similar in your local.conf.
+
+4.1 DPDK verification for NXP BSP
+---------------------------------
+For NXP bsp, the followings show how to verify the DPDK feature.
+
+4.1.1 Boot Arguments
+--------------------
+The following boot arguments can be used in order to obtain the best performance
+for DPDK applications on each NXP platform:
+
+nxp-ls1043 platform:
+	default_hugepagesz=2M hugepagesz=2M hugepages=512 isolcpus=1-3 bportals=s0 qportals=s0 iommu.passthrough=1
+
+nxp-ls1046 platform:
+	default_hugepagesz=1024M hugepagesz=1024M hugepages=4 isolcpus=1-3 bportals=s0 qportals=s0 iommu.passthrough=1
+
+nxp-ls1028 platform:
+	default_hugepagesz=2M hugepagesz=2M hugepages=256 isolcpus=1 iommu.passthrough=1
+
+4.1.2 Sample Applications
+-------------------------
+For NXP bsp, there are various network architectures support DPDK, such as DPAA and ENETC.
+The next section will show how to test DPDK based on DPAA and ENETC.
+
+4.1.2.1 DPDK on DPAA
+--------------------
+In order to verify the DPDK on DPAA, you can use the steps like the following
+to run the sample applications on nxp-ls1043 and nxp-ls1046 platform with
+fsl-ls1043a-rdb-usdpaa.dtb and fsl-ls1046a-rdb-usdpaa.dtb files that can be found
+in tmp-glibc/deploy/images/nxp-ls1043 and tmp-glibc/deploy/images/nxp-ls1046 directory.
+
+Take the l2fwd as example:
+
+ <1>. Select the policy configuration file
+	For ls1043 platform
+	# fmc -c /usr/share/dpdk/dpaa/usdpaa_config_ls1043.xml \
+		-p /usr/share/dpdk/dpaa/usdpaa_policy_hash_ipv4_1queue.xml -a
+	For ls1046 platform
+	# fmc -c /usr/share/dpdk/dpaa/usdpaa_config_ls1046.xml \
+		-p /usr/share/dpdk/dpaa/usdpaa_policy_hash_ipv4_1queue.xml -a
+ <2>. Setup hugepages for DPDK application
+      This step can be ignored if hugepages are already mounted.
+      Use command mount | grep hugetlbfs to check if hugepages are already setup.
+	# mkdir /mnt/hugepages
+	# mount -t hugetlbfs none /mnt/hugepages
+ <3>. Run the layer 2 forwarding application:
+	For ls1043 platform
+	# /usr/share/dpdk/examples/dpdk-l2fwd -c 0x2 -n 1 -- -p 0x1 -q 1 -T 0
+	For ls1046 platform
+	# /usr/share/dpdk/examples/dpdk-l2fwd -c 0x2 -n 1 -- -p 0x1 -q 1 -T 0 -b 7
+
+4.1.2.2 DPDK on ENETC
+---------------------
+In order to verify the DPDK on DPAA, you can use the steps like the following
+to run the sample applications on nxp-ls1028 platform with fsl-ls1028a-rdb-dpdk.dtb
+file that can be found in tmp-glibc/deploy/images/nxp-ls1028 directory.
+
+Take the l2fwd as example:
+
+ <1>. Bind Ethernet devices to "vfio-pci" driver.
+	This script enables two Ethernet devices to be used by DPDK applications by binding them to "vfio_pci" driver.
+	These devices on box are labeled as "1G MAC0" and "1G SWP0".
+	# cd /usr/local/dpdk/enetc/
+	# ./dpdk_configure_1028ardb.sh
+
+ <2>. Run the layer 2 forwarding application:
+	# /usr/share/dpdk/examples/dpdk-l2fwd -c 0x2 -n 1 -- -p 0x1 -q 1 -T 0
+
+Note: Please deploy a PCIe NIC on board if you intent to use NFS rootfs, because all
+      the network interfaces are assigned to user space applications.
 
 5. DPDK compilation with optimization
 =====================================
