@@ -19,7 +19,7 @@ SRCREV_machine:kb-v5.10-standard-arm-versatile-926ejs ?= "ef0a86962ec1ff63e1f2cb
 LINUX_VERSION:kb-v5.10-standard-arm-versatile-926ejs = "5.10.121"
 SRCREV_machine:kb-v5.10-standard-base ?= "97b065764b090d52493a9300f11cb1c988368b40"
 LINUX_VERSION:kb-v5.10-standard-base = "5.10.121"
-SRCREV_machine:kb-v5.10-standard-bcm-2xxx-rpi ?= "6b131ab30c48615c05292c2a7a9033a51078df9d"
+SRCREV_machine:kb-v5.10-standard-bcm-2xxx-rpi ?= "2ca0c98f9afb66343a90aff1b4bb316b290fafbc"
 LINUX_VERSION:kb-v5.10-standard-bcm-2xxx-rpi = "5.10.121"
 SRCREV_machine:kb-v5.10-standard-beaglebone ?= "7e5d87a5ca95218ab929dbcd5c1d9e742143cfb3"
 LINUX_VERSION:kb-v5.10-standard-beaglebone = "5.10.121"
@@ -97,7 +97,7 @@ SRCREV_machine:kb-v5.15-standard-arm-versatile-926ejs ?= "718d6e78d83aa36b177d20
 LINUX_VERSION:kb-v5.15-standard-arm-versatile-926ejs = "5.15.46"
 SRCREV_machine:kb-v5.15-standard-base ?= "7d6bb4300a230d090a6c7a375128b75e95470e94"
 LINUX_VERSION:kb-v5.15-standard-base = "5.15.46"
-SRCREV_machine:kb-v5.15-standard-bcm-2xxx-rpi ?= "afaa7347c47ed9cfe35131627954fef056bafe85"
+SRCREV_machine:kb-v5.15-standard-bcm-2xxx-rpi ?= "b8de8b09e5046e25fc08ede50deb32a1196a9318"
 LINUX_VERSION:kb-v5.15-standard-bcm-2xxx-rpi = "5.15.46"
 SRCREV_machine:kb-v5.15-standard-beaglebone ?= "bc2b77e9372f8a151c02018c94cc2b2cdb784359"
 LINUX_VERSION:kb-v5.15-standard-beaglebone = "5.15.46"
@@ -150,4 +150,4 @@ LINUX_VERSION:kb-v5.15-standard-xilinx-zynqmp = "5.15.46"
 
 # yocto-kernel-cache entries
 KERNEL_CACHE_BRANCH_5.15 = "yocto-5.15"
-SRCREV_meta_5.15 = "20ee9bd879893884093bad3d70ddf75c7c18026c"
+SRCREV_meta_5.15 = "989e8f3250269d7b51e11e3cc4424425ce6479b8"
