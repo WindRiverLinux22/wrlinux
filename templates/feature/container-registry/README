@@ -1,0 +1,9 @@
+This template adds docker-registry to the filesystem.
+
+To use this template, add the following to your setup line:
+
+    --templates feature/container-registry
+
+#@TYPE: Wrtemplate
+#@NAME: container-registry
+#@DESCRIPTION: Add docker-registry to the image
