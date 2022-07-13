@@ -10,7 +10,7 @@
 # 2, stop tracing and clear trace file record.
 # 3, set funtion tracer and only trace the functions.
 # related to file operation such as do_sys_open,
-# ksys_read, ksys_write, __close_fd, do_unlinkat
+# ksys_read, ksys_write, close_fd, do_unlinkat
 # 4, run a test program which open file, read file,
 # write file, close file, change file attribute and
 # remove file.
@@ -61,7 +61,7 @@ echo > trace
 # do_sys_open or do_sys_openat2 to track file open
 # ksys_read to track file read
 # ksys_write to track file write
-# __close_fd to track file close
+# close_fd to track file close
 # do_unlinkat to track file remove
 # do_fchmodat to track file attributes change
 echo > set_ftrace_filter 
@@ -79,7 +79,9 @@ echo do_sys_openat2 >> set_ftrace_filter
 
 echo ksys_read >>  set_ftrace_filter
 echo ksys_write >>  set_ftrace_filter
-echo __close_fd >>  set_ftrace_filter
+# From v5.11 kernel,  __close_fd renamed to close_fd
+# 8760c909f54a file: Rename __close_fd to close_fd and remove the files parameter
+echo close_fd >>  set_ftrace_filter
 echo do_unlinkat >>  set_ftrace_filter
 echo do_fchmodat >>  set_ftrace_filter
 
@@ -101,7 +103,7 @@ fi
 cat trace|grep file_test-${pid_f}|grep do_sys_open || cutfail
 cat trace|grep file_test-${pid_f}|grep ksys_read || cutfail
 cat trace|grep file_test-${pid_f}|grep ksys_write || cutfail
-cat trace|grep file_test-${pid_f}|grep __close_fd || cutfail
+cat trace|grep file_test-${pid_f}|grep close_fd || cutfail
 cat trace|grep file_test-${pid_f}|grep do_fchmodat || cutfail
 cat trace|grep file_test-${pid_f}|grep do_unlinkat || cutfail
 cutpass
