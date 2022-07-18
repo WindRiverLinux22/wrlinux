@@ -74,6 +74,6 @@ ssh root@$CLIENT_IP -- "which systemctl && systemctl restart strongswan || servi
 	cuterr "Failed to restart strongswan on remote target"
 
 # establish the link
-swanctl --initiate --child host-host
+swanctl --initiate --child host-host || cuterr "Failed to bring up IPSec tunnel"
 
 sh /opt/cut/scripts/ipsec.sh

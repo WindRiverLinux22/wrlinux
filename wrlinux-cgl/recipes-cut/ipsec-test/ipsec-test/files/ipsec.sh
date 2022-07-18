@@ -38,15 +38,6 @@ then
 	cutfail
 fi
 
-swanctl --initiate --child host-host
-if [ $? -ne 0 ]
-then
-	echo "****************************************" 
-	echo "Failed to bring up IPSec tunnel"
-	echo "****************************************" 
-	cutfail
-fi
-
 
 # look for ESP packets
 # -i parameter guarantee tcpdump catch the expected
