@@ -5,7 +5,6 @@ The images are built from Wind River Linux, which support ostree, docker, kubern
 ## Features
 Arch: aarch64 (cortexa72)
 Package Manager: dnf
-glibc: 2.31
 Features: ostree docker kubernetes xfce
 
 ### ostree

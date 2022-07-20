@@ -15,13 +15,11 @@ The images are built from Wind River Linux, which support docker, kubernetes, xf
 ### x86-64
     Arch: x86_64 (corei7_64)
     Package Manager: dnf
-    glibc: 2.31
     Features: docker kubernetes xfce
 
 ### rpi4
     Arch: aarch64 (cortexa72)
     Package Manager: dnf
-    glibc: 2.31
     Features: docker kubernetes xfce
 
 ## Image types
