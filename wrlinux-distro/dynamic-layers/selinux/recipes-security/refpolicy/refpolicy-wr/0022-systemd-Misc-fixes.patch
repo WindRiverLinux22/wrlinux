@@ -1,0 +1,105 @@
+From 0b357dba73275f547c73fee4427418aa127b78f4 Mon Sep 17 00:00:00 2001
+From: Chris PeBenito <Christopher.PeBenito@microsoft.com>
+Date: Mon, 2 May 2022 15:39:07 +0000
+Subject: [PATCH] systemd: Misc fixes.
+
+Signed-off-by: Chris PeBenito <Christopher.PeBenito@microsoft.com>
+
+Upstream-Status: Backport
+[https://github.com/SELinuxProject/refpolicy/commit/39657b7f61de189c87d66a8025d7be056f61e129]
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ policy/modules/system/init.if    | 18 ++++++++++++++++++
+ policy/modules/system/logging.te |  1 +
+ policy/modules/system/systemd.te | 12 ++++++------
+ 3 files changed, 25 insertions(+), 6 deletions(-)
+
+diff --git a/policy/modules/system/init.if b/policy/modules/system/init.if
+index 8ca29f654..f4776dc1b 100644
+--- a/policy/modules/system/init.if
++++ b/policy/modules/system/init.if
+@@ -3307,6 +3307,24 @@ interface(`init_list_unit_dirs',`
+ 	init_search_units($1)
+ ')
+ 
++########################################
++## <summary>
++##	Get the attributes of systemd unit files
++## </summary>
++## <param name="domain">
++##	<summary>
++##	Domain allowed access.
++##	</summary>
++## </param>
++#
++interface(`init_getattr_generic_units_files',`
++	gen_require(`
++		type systemd_unit_t;
++	')
++
++	allow $1 systemd_unit_t:file read_file_perms;
++')
++
+ ########################################
+ ## <summary>
+ ##	Read systemd unit files
+diff --git a/policy/modules/system/logging.te b/policy/modules/system/logging.te
+index badf56f16..1cae795d6 100644
+--- a/policy/modules/system/logging.te
++++ b/policy/modules/system/logging.te
+@@ -566,6 +566,7 @@ ifdef(`init_systemd',`
+ 	logging_send_syslog_msg(syslogd_t)
+ 
+ 	systemd_manage_journal_files(syslogd_t)
++	systemd_watch_journal_dirs(syslogd_t)
+ 
+ 	udev_read_runtime_files(syslogd_t)
+ 
+diff --git a/policy/modules/system/systemd.te b/policy/modules/system/systemd.te
+index 654c6a42a..3699957c9 100644
+--- a/policy/modules/system/systemd.te
++++ b/policy/modules/system/systemd.te
+@@ -466,6 +466,7 @@ init_search_runtime(systemd_generator_t)
+ init_setattr_runtime_files(systemd_generator_t)
+ init_write_runtime_files(systemd_generator_t)
+ init_list_unit_dirs(systemd_generator_t)
++init_getattr_generic_units_files(systemd_generator_t)
+ init_read_generic_units_symlinks(systemd_generator_t)
+ init_read_script_files(systemd_generator_t)
+ 
+@@ -854,9 +855,8 @@ dev_read_sysfs(systemd_modules_load_t)
+ files_mmap_read_kernel_modules(systemd_modules_load_t)
+ files_read_etc_files(systemd_modules_load_t)
+ 
+-fs_getattr_tmpfs(systemd_modules_load_t)
+-fs_search_cgroup_dirs(systemd_modules_load_t)
+-fs_getattr_cgroup(systemd_modules_load_t)
++fs_getattr_all_fs(systemd_modules_load_t)
++fs_search_all(systemd_modules_load_t)
+ 
+ modutils_read_module_config(systemd_modules_load_t)
+ modutils_read_module_deps(systemd_modules_load_t)
+@@ -1335,8 +1335,8 @@ fs_getattr_cgroup(systemd_sessions_t)
+ 
+ # sys_admin for sysctls such as kernel.kptr_restrict and kernel.dmesg_restrict
+ # sys_ptrace for kernel.yama.ptrace_scope
+-allow systemd_sysctl_t self:capability { sys_admin sys_ptrace };
+-dontaudit systemd_sysctl_t self:capability net_admin;
++# net_admin for network sysctls
++allow systemd_sysctl_t self:capability { net_admin sys_admin sys_ptrace };
+ 
+ kernel_read_kernel_sysctls(systemd_sysctl_t)
+ kernel_request_load_module(systemd_sysctl_t)
+@@ -1355,7 +1355,7 @@ systemd_log_parse_environment(systemd_sysctl_t)
+ # Sysusers local policy
+ #
+ 
+-allow systemd_sysusers_t self:capability { chown fsetid };
++allow systemd_sysusers_t self:capability { dac_read_search chown fsetid };
+ allow systemd_sysusers_t self:process setfscreate;
+ allow systemd_sysusers_t self:unix_dgram_socket sendto;
+ 
+-- 
+2.25.1
+

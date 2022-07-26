@@ -1,0 +1,44 @@
+From 40ba59b64289ecc764d5818cf9d9d40856f244c6 Mon Sep 17 00:00:00 2001
+From: Kenton Groombridge <me@concord.sh>
+Date: Tue, 30 Nov 2021 12:11:56 -0500
+Subject: [PATCH] unconfined: fixes for bluetooth dbus chat and systemd
+
+Signed-off-by: Kenton Groombridge <me@concord.sh>
+
+Upstream-Status: Backport
+
+Reference to upstream patch:
+https://github.com/SELinuxProject/refpolicy/commit/d0ab31758247ed696af50a0fc6a3d48180e6e72f
+
+Signed-off-by: Li Wang <li.wang@windriver.com>
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ policy/modules/system/unconfined.te | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/policy/modules/system/unconfined.te b/policy/modules/system/unconfined.te
+index 4972094cb..73842745a 100644
+--- a/policy/modules/system/unconfined.te
++++ b/policy/modules/system/unconfined.te
+@@ -60,6 +60,7 @@ ifdef(`init_systemd',`
+ 	init_service_status(unconfined_t)
+ 	# for systemd --user:
+ 	init_pgm_spec_user_daemon_domain(unconfined_t)
++	allow unconfined_t self:system { status start stop reload };
+ 
+ 	optional_policy(`
+ 		systemd_dbus_chat_resolved(unconfined_t)
+@@ -76,6 +77,10 @@ optional_policy(`
+ 	bind_run_ndc(unconfined_t, unconfined_r)
+ ')
+ 
++optional_policy(`
++	bluetooth_dbus_chat(unconfined_t)
++')
++
+ optional_policy(`
+ 	bootloader_run(unconfined_t, unconfined_r)
+ ')
+-- 
+2.25.1
+

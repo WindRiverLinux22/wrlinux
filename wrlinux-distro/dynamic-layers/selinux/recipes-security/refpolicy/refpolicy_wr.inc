@@ -25,6 +25,10 @@ SRC_URI += "\
         file://0016-policy-modules-services-postfix-allow-postfix_postdr.patch \
         file://0017-Revert-kernel-Drop-unlabeled_t-as-a-files_mountpoint.patch \
         file://0018-policy-modules-roles-sysadm-allow-sysadm_t-to-read-f.patch \
+        file://0019-unconfined-Add-missing-capability2-perms.patch \
+        file://0020-unconfined-fixes-for-bluetooth-dbus-chat-and-systemd.patch \
+        file://0021-domain-Allow-lockdown-for-all-domains.patch \
+        file://0022-systemd-Misc-fixes.patch \
         "
 
 OSTREE_POLICY_PATCHES = "\

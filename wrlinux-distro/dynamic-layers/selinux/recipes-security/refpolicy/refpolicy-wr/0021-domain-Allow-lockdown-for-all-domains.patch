@@ -1,0 +1,40 @@
+From 557509088baa98ad38690e7e60546666877fb464 Mon Sep 17 00:00:00 2001
+From: Chris PeBenito <chpebeni@linux.microsoft.com>
+Date: Tue, 1 Feb 2022 09:27:06 -0500
+Subject: [PATCH] domain: Allow lockdown for all domains.
+
+The checks for this class were removed in 5.16.  This object
+class will be removed in the future.
+
+For more info:
+https://lore.kernel.org/selinux/163243191040.178880.4295195865966623164.stgit@olly
+
+Signed-off-by: Chris PeBenito <chpebeni@linux.microsoft.com>
+
+Upstream-Status: Backport
+[https://github.com/SELinuxProject/refpolicy/commit/ffe2f2294f88a9ff430135ab600a5d9c870e3f63]
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ policy/modules/kernel/domain.te | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/policy/modules/kernel/domain.te b/policy/modules/kernel/domain.te
+index 6922cbc4b..2ab6829a7 100644
+--- a/policy/modules/kernel/domain.te
++++ b/policy/modules/kernel/domain.te
+@@ -103,6 +103,11 @@ kernel_dontaudit_link_key(domain)
+ # create child processes in the domain
+ allow domain self:process { fork sigchld };
+ 
++# lockdown checks were removed in 5.16.  The class will be removed
++# from the policy in the future. For reference:
++# https://lore.kernel.org/selinux/163243191040.178880.4295195865966623164.stgit@olly
++allow domain self:lockdown { integrity confidentiality };
++
+ # glibc get_nprocs requires read access to /sys/devices/system/cpu/online
+ dev_read_cpu_online(domain)
+ 
+-- 
+2.25.1
+
