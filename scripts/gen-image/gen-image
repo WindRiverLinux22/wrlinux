@@ -378,9 +378,6 @@ class GenImage(object):
         line = 'require %s\n' % self.bin_image_conf
         check_and_write(self.local_conf, line)
 
-        line = 'BBLAYERS += "%s/layers/wrlinux/wrlinux-kernel-dev"\n' % self.project
-        check_and_write(self.bblayers_conf, line)
-
         bitbake_e = ''
         logger.info('Figuring out machine ...')
         bitbake_e = self.do_build('-e')
