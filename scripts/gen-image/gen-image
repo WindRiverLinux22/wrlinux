@@ -830,6 +830,9 @@ class GenImage(object):
 
     def ip_review(self):
         logger.info('Generating sources for IP review')
+        if os.path.exists(self.tmpdir):
+            logger.info('Removing %s' % self.tmpdir)
+            shutil.rmtree(self.tmpdir)
         logger.info('Using prefile %s' % self.ip_conf)
         # The docker won't be built in a world build since it is started with "virtual/".
         self.do_build('world docker %s -r %s --runall=deploy_archives' % (' '.join(self.images), self.ip_conf))
