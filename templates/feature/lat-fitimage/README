@@ -1,0 +1,5 @@
+This template adds FIT image support to LAT
+
+To use this template, add the following to your setup line:
+
+    --templates feature/lat-fitimage
