@@ -50,7 +50,7 @@ auth   required   pam_faillock.so authfail deny=5 even_deny_root  root_unlock_ti
     fi
 
     if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','false','true',d)}; then
-        echo "d /var/run/console 0755 root root - -" >>  ${D}${sysconfdir}/tmpfiles.d/pam.conf
+        echo "d /run/console 0755 root root - -" >>  ${D}${sysconfdir}/tmpfiles.d/pam.conf
     else
         echo "d root root 0755 /var/run/console none" >> ${D}${sysconfdir}/default/volatiles/99_pam
     fi
