@@ -398,7 +398,7 @@ class GenImage(object):
         logger.info('Preparing build for %s' % self.machine)
         self.repos_dir = os.path.join(self.handoff_dir, self.machine, 'repos')
 
-        self.machines_ws = ["intel-x86-64", "bcm-2xxx-rpi4", "nxp-imx8"]
+        self.machines_ws = ["intel-x86-64", "bcm-2xxx-rpi4", "nxp-imx8", "nxp-s32g"]
         self.handoff_name_ws = "%s-%s" % (self.handoff_name, self.machine)
         self.handoff_dir_ws = os.path.join(self.handoff_dir, self.handoff_name_ws)
 
