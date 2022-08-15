@@ -48,7 +48,7 @@ if not present.
 
 ## How to install/boot binary image
 
-### On Board
+### On Host PC
 Under Linux, insert a USB flash drive.  Assuming the USB flash drive
 takes device /dev/sdX, use dd to copy the image to it.  Before the image
 can be burned onto a USB drive, it should be un-mounted. Some Linux distros
@@ -71,8 +71,10 @@ Now burn the image onto the USB drive:
     $ sync
     $ eject /dev/sdX
 
-This should give you a bootable micro SD card device. Insert the
-SD card into SD slot, and then power on.
+This should give you a bootable micro SD card device.
+
+### On Board
+Insert the SD card into SD slot, and then power on.
 
 The image will be installed on the boot disk (SD card) by default, you can
 press any key except 'y' to stop the installation and select other disks to
