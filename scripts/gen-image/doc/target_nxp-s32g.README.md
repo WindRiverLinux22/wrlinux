@@ -40,8 +40,11 @@ NOTE: On target, run ostree_upgrade.sh to update the image rather than
 if not present.
 
 ## Supported BSPs
-- NXP S32G399ARDB3
-- NXP S32G3XXAEVB
+- NXP S32G399A-EVB: Board: S32GRV-PLATEVB (SCH-30081 REV B, 700-30081 REV B)
+                    S32G-PROCEVB-S
+                    CPU: NXP S32G399A rev. 1.0
+- NXP S32G399A-RDB3: Board: S32G399A-VNP-RDB3 (SCH-53060 REV E1, 700-53060 REV X2)
+                     CPU: NXP S32G399A rev. 1.0
 
 ## How to install/boot binary image
 
