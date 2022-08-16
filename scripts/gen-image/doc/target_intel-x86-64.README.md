@@ -71,14 +71,13 @@ Now burn the image onto the USB drive:
     $ sync
     $ eject /dev/sdX
 
-This should give you a bootable micro SD card device.
+This should give you a bootable USB flash device.
 
 ### On Board
-Insert the SD card into SD slot, and then power on.
+Insert the device into a bootable USB socket on the target, and power on.
 
-The image will be installed on the boot disk (SD card) by default, you can
-press any key except 'y' to stop the installation and select other disks to
-install:
+The image will be installed on the boot disk (USB) by default, you can press
+any key except 'y' to stop the installation and select other disks to install:
 
 ## Erasing /dev/sda in 60 sec ## 'y' = start ## Any key to abort ##
 ## Erasing /dev/sda in 59 sec ## 'y' = start ## Any key to abort ##
