@@ -27,6 +27,7 @@ import hashlib
 import git
 import socket
 import datetime
+import tarfile
 
 logger = logging.getLogger('gen-image')
 
@@ -893,12 +894,12 @@ class GenImage(object):
                         sha256 = ""
                         # Use the HEAD commit's ID as sha256 for git repo
                         s_path = '%s/%s' % (topdir, s)
-                        if s.endswith('.tar.gz'):
-                            cmd = "tar --list --wildcards '*/*/.git/HEAD' -zf %s" % s_path
+                        if os.path.isfile(s_path) and tarfile.is_tarfile(s_path):
+                            cmd = "tar --list --wildcards '*/*/.git/HEAD' -f %s" % s_path
                             retval, output = subprocess.getstatusoutput(cmd)
                             if retval == 0:
                                 # Only extract the "./git" dir
-                                cmd = "tar -x --wildcards '*/*/.git/' -zf %s" % s_path
+                                cmd = "tar -x --wildcards '*/*/.git/' -f %s" % s_path
                                 subprocess.check_call(cmd, shell=True, cwd=topdir)
                                 g = git.cmd.Git('%s/%s' % (topdir, os.path.dirname(output)))
                                 sha256 = g.log('-1', '--format=%H', 'HEAD') + '(git)'
@@ -913,10 +914,10 @@ class GenImage(object):
                                 # the checksum mistmatch, so save checksum of in
                                 # the dir rather than the tarball itself to fix the
                                 # checksum issues.
-                                cmd = "tar --list --wildcards 'tmp*/' -zf %s" % s_path
+                                cmd = "tar --list --wildcards 'tmp*/' -f %s" % s_path
                                 retval, output = subprocess.getstatusoutput(cmd)
                                 if retval == 0:
-                                    cmd = "tar -xzf %s" % s_path
+                                    cmd = "tar -xf %s" % s_path
                                     subprocess.check_call(cmd, shell=True, cwd=topdir)
                                     extracted_dir = output.split('/')[0]
                                     if extracted_dir:
