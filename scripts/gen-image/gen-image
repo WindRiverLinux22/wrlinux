@@ -902,7 +902,7 @@ class GenImage(object):
                                 cmd = "tar -x --wildcards '*/*/.git/' -f %s" % s_path
                                 subprocess.check_call(cmd, shell=True, cwd=topdir)
                                 g = git.cmd.Git('%s/%s' % (topdir, os.path.dirname(output)))
-                                sha256 = g.log('-1', '--format=%H', 'HEAD') + '(git)'
+                                sha256 = "%s(git) *%s" % (g.log('-1', '--format=%H', 'HEAD'), s)
                                 extracted_dir = output.split('/')[0]
                                 if extracted_dir:
                                     shutil.rmtree('%s/%s' % (topdir, extracted_dir))
@@ -911,31 +911,35 @@ class GenImage(object):
                             elif s.startswith(i):
                                 # The archiver.bbclass creates a tarball for 'dir'
                                 # sources with a random directory name, which makes
-                                # the checksum mistmatch, so save checksum of in
+                                # the checksum mistmatch, so save checksum of files in
                                 # the dir rather than the tarball itself to fix the
                                 # checksum issues.
+                                extracted_dir = ""
                                 cmd = "tar --list --wildcards 'tmp*/' -f %s" % s_path
                                 retval, output = subprocess.getstatusoutput(cmd)
                                 if retval == 0:
+                                    extracted_dir = output.split('/')[0]
+                                if "-recipe.tar." in s:
+                                    extracted_dir = '-'.join(s.split('-')[:-1]) + "-recipe"
+                                # Also extract foo-recipe.tar.xz to save the
+                                # files' checksum since different foo-recipe.tar.xz
+                                # have different checksums because of the creation time.
+                                if extracted_dir:
                                     cmd = "tar -xf %s" % s_path
                                     subprocess.check_call(cmd, shell=True, cwd=topdir)
-                                    extracted_dir = output.split('/')[0]
-                                    if extracted_dir:
-                                        extracted_dir_path = '%s/%s' % (topdir, extracted_dir)
-                                        for root, dirs, files in os.walk(extracted_dir_path):
-                                            for file in files:
-                                                f_path = '%s/%s' % (root, file)
-                                                if sha256:
-                                                    sha256 += "\n%s" % get_sha256(f_path)
-                                                else:
-                                                    sha256 = get_sha256(f_path)
-                                        shutil.rmtree(extracted_dir_path)
-                                    else:
-                                        logger.warning('Failed to figure out extracted_dir: %s' % output)
+                                    extracted_dir_path = '%s/%s' % (topdir, extracted_dir)
+                                    for root, dirs, files in os.walk(extracted_dir_path):
+                                        for file in files:
+                                            f_path = '%s/%s' % (root, file)
+                                            if sha256:
+                                                sha256 += "\n%s *%s/%s" % (get_sha256(f_path), s, file)
+                                            else:
+                                                sha256 = "%s *%s/%s" % (get_sha256(f_path), s, file)
+                                    shutil.rmtree(extracted_dir_path)
 
                         if not sha256:
-                            sha256 = get_sha256(s_path)
-                        f.write('%s *%s\n' % (sha256, s))
+                            sha256 = "%s *%s" % (get_sha256(s_path), s)
+                        f.write('%s\n' % (sha256))
 
                 suffix = get_sha256(outfile)[:7]
                 tarball = '%s_%s.tar.gz' % (i, suffix)
