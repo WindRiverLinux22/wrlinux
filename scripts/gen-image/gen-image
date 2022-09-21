@@ -639,7 +639,7 @@ class GenImage(object):
             # Regenerate wic image to support disk resize
             if os.path.exists(self.ostree_repo):
                 date_since_epoch = datetime.datetime.now().strftime('%s')
-                cmd = "%s/layers/meta-lat/scripts/bootfs.sh -L -b %s -s 0 -a 'instdate=@%s instw=60'" % (self.project, image, date_since_epoch)
+                cmd = "%s/layers/meta-lat/scripts/bootfs.sh -l 0 -b %s -s 0 -a 'instdate=@%s instw=60'" % (self.project, image, date_since_epoch)
                 run_cmd(cmd)
 
             new_image = ""
