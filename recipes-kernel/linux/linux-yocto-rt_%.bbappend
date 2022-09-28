@@ -7,7 +7,4 @@ TARGET_SUPPORTED_KTYPES:append:qemuall = " preempt-rt"
 # qemuarma9 doesn't support preempt-rt.
 TARGET_SUPPORTED_KTYPES:remove:qemuarma9 = "preempt-rt"
 
-SRCREV_machine = "${AUTOREV}"
-SRCREV_meta = "${AUTOREV}"
-
 KERNEL_VERSION_SANITY_SKIP ?= "1"
