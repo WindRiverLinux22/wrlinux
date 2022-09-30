@@ -139,10 +139,13 @@ nxp-ls1046 platform:
 nxp-ls1028 platform:
 	default_hugepagesz=2M hugepagesz=2M hugepages=256 isolcpus=1 iommu.passthrough=1
 
+nxp-lx2xxx platform:
+	default_hugepagesz=1024m hugepagesz=1024m hugepages=8 isolcpus=1-15 iommu.passthrough=1
+
 4.1.2 Sample Applications
 -------------------------
-For NXP bsp, there are various network architectures support DPDK, such as DPAA and ENETC.
-The next section will show how to test DPDK based on DPAA and ENETC.
+For NXP bsp, there are various network architectures support DPDK, such as DPAA and ENETC and DPAA2.
+The next section will show how to test DPDK based on DPAA and ENETC and DPAA2.
 
 4.1.2.1 DPDK on DPAA
 --------------------
@@ -190,6 +193,20 @@ Take the l2fwd as example:
 
 Note: Please deploy a PCIe NIC on board if you intent to use NFS rootfs, because all
       the network interfaces are assigned to user space applications.
+
+4.1.2.3 DPDK on DPAA2
+---------------------
+In order to verify the DPDK on DPAA2, you can use the steps like the following
+to run the sample applications on nxp-lx2xxx platform.
+Take the l2fwd as example:
+  1. Setup the MAX_QUEUES and configure the DPAA2 resource container:
+	 # export MAX_QUEUES=8
+	 # /usr/share/dpdk/dpaa2/dynamic_dpl.sh dpmac.3 dpmac.4
+  2. Setup the environment variable using the container name reported by
+     dynamic_dpl.sh command:
+	 # export DPRC=dprc.2
+  3. Run the layer 2 forwarding application:
+	 # /usr/share/dpdk/examples/dpdk-l2fwd -c 0x3 -n 1 --file-prefix=p1 --socket-mem=1024 -- -p 0x3 -q 1
 
 5. DPDK compilation with optimization
 =====================================
