@@ -51,7 +51,7 @@ SRCREV_machine:kb-v5.15-standard-preempt-rt-intel-sdk-5.15-intel-socfpga ?= "1bb
 LINUX_VERSION:kb-v5.15-standard-preempt-rt-intel-sdk-5.15-intel-socfpga = "5.15.72"
 SRCREV_machine:kb-v5.15-standard-preempt-rt-nxp-sdk-5.10-nxp-s32g ?= "26d41118249ba4aee04b498ecea9b7a190b9ea7d"
 LINUX_VERSION:kb-v5.15-standard-preempt-rt-nxp-sdk-5.10-nxp-s32g = "5.15.72"
-SRCREV_machine:kb-v5.15-standard-preempt-rt-nxp-sdk-5.15-nxp-soc ?= "3f5c51bbfc24a5271604e9e2eb42770acb5b5ae4"
+SRCREV_machine:kb-v5.15-standard-preempt-rt-nxp-sdk-5.15-nxp-soc ?= "9c8576dea29bdac3aa27cfc9e2f7367054220d0a"
 LINUX_VERSION:kb-v5.15-standard-preempt-rt-nxp-sdk-5.15-nxp-soc = "5.15.72"
 SRCREV_machine:kb-v5.15-standard-preempt-rt-sdkv5.15-xlnx-soc ?= "3603d71b2a5d3a6516a41c9acd62952907f443d8"
 LINUX_VERSION:kb-v5.15-standard-preempt-rt-sdkv5.15-xlnx-soc = "5.15.72"
@@ -84,4 +84,4 @@ LINUX_VERSION:kb-v5.15-standard-xilinx-zynqmp = "5.15.72"
 
 # yocto-kernel-cache entries
 KERNEL_CACHE_BRANCH_5.15 = "yocto-5.15"
-SRCREV_meta_5.15 = "4e2a70c73dd12e24590d7e9f4cb09509828ab889"
+SRCREV_meta_5.15 = "e46ff0469445b23b7012eac2588cb7e38009a4c3"
