@@ -46,6 +46,10 @@ if not present.
 - Intel Snow Ridge: Intel Atom(R) P5362 processor
 - qemux86-64
 
+NOTE: The image's default serial console is ttyS0, you can use
+update-grub-console.sh to set the correct serial console according to your
+boards, run "update-grub-console.sh --help" to see more info.
+
 ## How to install/boot binary image
 
 ### On Host PC

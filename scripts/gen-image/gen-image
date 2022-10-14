@@ -671,6 +671,9 @@ class GenImage(object):
         if os.path.exists(write_sd_sh):
             deploy_files.add(write_sd_sh)
 
+        if self.machine == "intel-x86-64":
+            deploy_files.add(os.path.join(self.doc_dir, 'update-grub-console.sh'))
+
         self.do_deploy('%s/target' % self.machine, deploy_files)
 
         logger.info('Deploying %s/repos/ostree_repo...' % self.machine)
