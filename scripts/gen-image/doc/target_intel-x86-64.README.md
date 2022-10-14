@@ -44,6 +44,7 @@ if not present.
 - Intel Tiger Lake UP3: 11th Gen Intel(R) Core(TM) processors
 - Intel Ice Lake-SP: 3rd Gen Intel(R) Xeon(R) Scalable processor
 - Intel Snow Ridge: Intel Atom(R) P5362 processor
+- Intel Elkhart Lake: Intel Atom(R) x6425RE Processor
 - qemux86-64
 
 NOTE: The image's default serial console is ttyS0, you can use
