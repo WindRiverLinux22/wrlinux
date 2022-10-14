@@ -380,7 +380,7 @@ class GenImage(object):
         check_and_write(self.local_conf, line)
 
         bitbake_e = ''
-        logger.info('Figuring out machine ...')
+        logger.info('Determining machine ...')
         bitbake_e = self.do_build('-e')
         for line in bitbake_e.split('\n'):
             if line.startswith('PKGDATA_DIR='):
