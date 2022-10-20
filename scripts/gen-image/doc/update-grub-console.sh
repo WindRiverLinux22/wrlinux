@@ -25,7 +25,8 @@ if [ $# -ne 2 ]; then
 fi
 
 # Root privilege is required
-if [ $EUID -ne 0 ]; then
+euid=$(id -u)
+if [ $euid -ne 0 ]; then
     echo "Root privilege is required." >&2
     exit 1
 fi
