@@ -967,8 +967,10 @@ class GenImage(object):
 
         dst_dir_container = os.path.join(self.local_upload_dir_date, 'containers')
         dst_dir_ws = os.path.join(self.local_upload_dir_date, 'ws')
+        dst_dir_readmes = os.path.join(self.local_upload_dir_date, 'READMEs')
         os.makedirs(dst_dir_container)
         os.makedirs(dst_dir_ws)
+        os.makedirs(dst_dir_readmes)
         local_sources = os.path.join(local_handoff_dir, 'sources')
         os.makedirs(local_sources)
         for m in os.listdir(self.handoff_dir):
@@ -980,6 +982,12 @@ class GenImage(object):
                     cmd = 'cp -aln %s/* %s' % (file_prefix, local_sources)
                     run_cmd(cmd)
                     continue
+
+                wildcard = "%s/*/*.README.md" % file_prefix
+                files = glob.glob(wildcard)
+                if len(files) >= 1:
+                    cmd = 'cp -aln %s %s' % (wildcard, dst_dir_readmes)
+                    run_cmd(cmd)
 
                 if m.startswith('%s-' % self.handoff_name):
                     cmd = 'cp -alf %s %s' % (file_prefix, dst_dir_ws)
