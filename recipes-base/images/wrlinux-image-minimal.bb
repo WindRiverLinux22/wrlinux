@@ -14,10 +14,6 @@ TARGET_CORE_BOOT ?= " \
     systemd-extra-utils \
 "
 
-# Install kernel-module-i40e for Intel x86 Ice Lake-SP, and only intel-x86-64
-# has this module
-TARGET_CORE_BOOT:append:x86-64 = " kernel-module-i40e"
-
 # Control the installed packages strictly
 WRTEMPLATE_IMAGE = "0"
 
