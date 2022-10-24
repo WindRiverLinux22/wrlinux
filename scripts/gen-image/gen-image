@@ -760,7 +760,7 @@ class GenImage(object):
                     g.format_patch('m/master..HEAD', '-o', extra_patches_layer)
 
             except Exception as esc:
-                logger.warning('%s: %' % (layer, esc))
+                logger.warning('%s: %s' % (layer, esc))
 
     def post(self):
         with open(self.local_conf, 'a') as f:
