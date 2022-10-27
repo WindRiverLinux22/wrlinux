@@ -11,7 +11,6 @@
 
 PACKAGES += "kernel-extra-headers-misc"
 DESCRIPTION:kernel-extra-headers-misc = "Set of misc/custom userspace headers."
-KERNEL_MODULE_DEPEND_BLACKLIST = " kernel-extra-headers-misc"
 
 FILES:kernel-extra-headers-misc = "${KERNEL_ALT_HEADER_DIR}"
 DEPENDS += "rsync-native"
