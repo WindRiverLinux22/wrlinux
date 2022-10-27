@@ -1,0 +1,10 @@
+This template use podman and skopeo to support cosign
+based signed container
+
+To use the template, add "--templates feature/signed-container"
+as a setup option.
+
+#@TYPE: Wrtemplate
+#@NAME: signed-container
+#@DESCRIPTION: use podman and skopeo to support cosign based signed container
+
