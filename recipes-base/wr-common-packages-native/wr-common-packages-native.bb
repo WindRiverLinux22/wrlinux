@@ -40,7 +40,7 @@ NATIVE_SS_OUTPUT ?= "${DEPLOY_DIR}/sstate-native/host-tools-${BUILD_ARCH}.tar.gz
 # wrlinux-x/scripts/gen_common_native_package_list.sh
 require wr-common-packages-native.inc
 
-X11_BLACKLIST ?= "\
+X11_SKIPLIST ?= "\
     font-util-native \
     libfontenc-native \
     libice-native \
@@ -54,7 +54,7 @@ X11_BLACKLIST ?= "\
     mkfontscale-native \
     xtrans-native \
 "
-DEPENDS:remove = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', '${X11_BLACKLIST}', d)}"
+DEPENDS:remove = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', '${X11_SKIPLIST}', d)}"
 
 # u-boot-s32-tools-native is for nxp-s32g series only, and conflicted with
 # u-boot-tools-native

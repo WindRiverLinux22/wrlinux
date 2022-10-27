@@ -55,7 +55,7 @@ Build bootloader
     $ . ./oe-init-build-env
     $ cat << _EOF >> conf/local.conf
 BB_NO_NETWORK = '0'
-PNWHITELIST:wr-axxiaarm += 'u-boot-lsi'
+WRL_RECIPES:wr-axxiaarm += 'u-boot-lsi'
 _EOF
     $ bitbake u-boot-lsi
 
