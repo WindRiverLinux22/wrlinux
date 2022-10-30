@@ -116,7 +116,7 @@ def package_compare_impl(pkgtype, d):
                 if line.startswith('PKGV:'):
                     pkgvvalues[pkg] = line.split(':', 1)[1].strip()
                 elif line.startswith('PKG:%s:' % pkg):
-                    rpkgnames[pkg] = line.split(':', 1)[1].strip()
+                    rpkgnames[pkg] = line.split(':')[2].strip()
                 elif line.startswith('RDEPENDS:%s:' % pkg):
                     rdepends[pkg] = line.split(':', 1)[1].strip()
 
