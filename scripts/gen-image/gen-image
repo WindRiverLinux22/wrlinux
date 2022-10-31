@@ -150,6 +150,7 @@ class GenImage(object):
         self.bin_image_conf = os.path.join(self.data_dir, 'wrlinux-bin-image.conf')
         self.container_conf = os.path.join(self.data_dir, 'wrlinux-container.conf')
         self.ip_conf = os.path.join(self.data_dir, 'wrlinux-ip.conf')
+        self.update_conf = os.path.join(self.data_dir, 'wrlinux-packages-update.conf')
 
         parser = argparse.ArgumentParser(
             description="Gen images for specified machine",
@@ -181,6 +182,9 @@ class GenImage(object):
         parser.add_argument('--repo-url', '--rpm-url',
             default=None,
             help='Specify the url to download (rsync) rpm packages, these packages will be used by packagefeed-stability.bbclass, the RPM_URL is the prepfix of the url, e.g, rsync://RPM_URL/<machine>/repos/rpm/', action="store")
+        parser.add_argument('--update',
+            default=False,
+            help='Compared with the packages downloaded from repo-url, only deploy different or newly added packages, other packages will be dropped.', action="store_true")
         parser.add_argument('-p', '--product', choices=['lincd', 'lts-21', 'lts-22'], required=False,
             default='lts-22',
             help='Specify the product', action="store")
@@ -713,12 +717,43 @@ class GenImage(object):
                 logger.info('Removing unneeded data: %s' % e_path)
                 shutil.rmtree(e_path)
 
-        self.do_build('package-index')
+        package_index = "package-index"
+        if self.args.update:
+            rpm_dir += "-updates"
+            package_index += " -R %s" % self.update_conf
+            # The updated packages are saved by packagefeed-stability.bbclass
+            prediff_dir = '%s-prediff' % self.deploy_dir_rpm
+            fmt = os.path.join(prediff_dir, "pkg-compare-manifest-*")
+            update_manifests = glob.glob(fmt)
+
+            # Let it go on when no updates
+            if not update_manifests:
+                logger.warning('Failed to find "%s", no packages updated?' % fmt)
+
+            deploy_dir_rpm_update = '%s-updates' % self.deploy_dir_rpm
+            if os.path.exists(deploy_dir_rpm_update):
+                logger.info('Removing %s' % deploy_dir_rpm_update)
+                shutil.rmtree(deploy_dir_rpm_update)
+
+            # Create package arch dirs even if they are empty, otherwise,
+            # "dnf update" would report 404 errors
+            for arch in existed_archs:
+                os.makedirs(os.path.join(deploy_dir_rpm_update, arch))
+
+            for manifest in update_manifests:
+                with open(manifest) as mf:
+                    for pkg in mf.readlines():
+                        # Remove "\n"
+                        pkg = pkg.strip()
+                        dst = pkg.replace(self.deploy_dir_rpm, deploy_dir_rpm_update)
+                        os.link(pkg, dst)
+
+        self.do_build(package_index)
 
         if not os.path.exists(self.repos_dir):
             os.makedirs(self.repos_dir)
 
-        logger.info('Deploying %s/repos/rpm' % self.machine)
+        logger.info('Deploying %s'% rpm_dir)
         dst_dir = os.path.join(self.repos_dir, 'rpm')
         shutil.copytree(rpm_dir, dst_dir)
 
