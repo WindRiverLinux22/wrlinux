@@ -25,8 +25,9 @@ Upstream-Status: Pending
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- functions.sh | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ functions.sh |    6 ++++--
+ pkg-diff.sh  |    4 +++-
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/functions.sh b/functions.sh
 index ce89dbe..e1f3b29 100755
@@ -63,6 +64,22 @@ index ce89dbe..e1f3b29 100755
      [ "$difffound" = 1 ] && RES=1
      return $RES
  }
--- 
-2.26.2
-
+diff --git a/pkg-diff.sh b/pkg-diff.sh
+index 9818a36..be5bb7f 100755
+--- a/pkg-diff.sh
++++ b/pkg-diff.sh
+@@ -1202,11 +1202,13 @@ case $oldpkg in
+   *.deb|*.ipk)
+     adjust_controlfile $dir/old $dir/new
+     files=()
++    find_files=$local_tmpdir/old_new_files
++    cd ${dir} ; find old new -type f | sed -e 's/^...//' | sort -u > $find_files
+     while read
+     do
+       : "${REPLY}"
+       files+=( "${REPLY}" )
+-    done < <(cd ${dir} ; find old new -type f | sed -e 's/^...//' | sort -u)
++    done < $find_files
+   ;;
+ esac
+ 
