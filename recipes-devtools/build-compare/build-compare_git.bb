@@ -28,4 +28,6 @@ do_install() {
     install -m 755 srpm-check.sh ${D}/${bindir}
 }
 
-RDEPENDS:${PN} += "bash"
+RDEPENDS:${PN} += "bash util-linux"
+
+DEPENDS:class-native = "util-linux-native"
