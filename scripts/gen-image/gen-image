@@ -436,11 +436,8 @@ class GenImage(object):
         if not bitbake_e:
             bitbake_e = self.do_build('-e')
 
-        feed_uris_defined = False
         self.support_lat = False
         for line in bitbake_e.split('\n'):
-            if line.startswith('PACKAGE_FEED_URIS='):
-                feed_uris_defined = True
             if line.startswith('PACKAGE_FEED_ARCHS='):
                 self.feed_archs = line.split('=')[1].replace('"', '').split()
             if line.startswith('ALL_MULTILIB_PACKAGE_ARCHS='):
@@ -474,15 +471,6 @@ class GenImage(object):
             raise Exception("Failed to figure tmpdir!")
 
         self.tmpdir_bn = os.path.basename(self.tmpdir)
-
-        if not feed_uris_defined:
-            port = '9310'
-            hostname = socket.gethostname()
-            uri = 'http://%s:%s/outdir' % (hostname, port)
-            logger.warning('PACKAGE_FEED_URIS is not defined, setting it to %s' % uri)
-
-            line = 'PACKAGE_FEED_URIS = "%s"\n' % uri
-            check_and_write(self.local_conf, line)
 
         if self.args.repo_url:
             self.download_repos()
