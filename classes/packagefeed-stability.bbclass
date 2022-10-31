@@ -25,7 +25,8 @@
 # package files so they will definitely be copied the next time.
 
 python() {
-    if bb.data.inherits_class('native', d) or bb.data.inherits_class('cross', d):
+    if bb.data.inherits_class('native', d) or bb.data.inherits_class('cross', d) or \
+        bb.data.inherits_class('nopackages', d):
         return
     # Package backend agnostic intercept
     # This assumes that the package_write task is called package_write_<pkgtype>
