@@ -35,7 +35,7 @@ Source code required to build the sdk is provided here:
 https://distro.windriver.com/dist/wrlinux/lts-22/sources
 
 Open Source Compliance Artifacts:
-https://open.windriver.com/env/Linux/Binary/LTS/22/index.html
+https://open.windriver.com/env/Linux/lts/22/index.html
 
 ## License
 The sdk is provided under the GPL-2.0 license.
