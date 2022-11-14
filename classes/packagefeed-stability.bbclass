@@ -178,7 +178,7 @@ def package_compare_impl(pkgtype, d):
                         oldfiles = glob.glob(destpathspec)
                         if oldfiles:
                             oldfile = oldfiles[-1]
-                            result = subprocess.call(['pkg-diff.sh', oldfile, srcpath])
+                            result = subprocess.call(['env', 'PSEUDO_DISABLED=1', 'pkg-diff.sh', oldfile, srcpath])
                             if result != 0:
                                 docopy = True
                                 bb.note("%s and %s are different, will copy packages" % (oldfile, srcpath))
