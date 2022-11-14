@@ -7,9 +7,10 @@ DEPENDS = "boost dlt-daemon"
 
 SRC_URI = "git://github.com/GENIVI/${BPN}.git;branch=master;protocol=https;name=vsomeip \
            git://github.com/google/googletest.git;branch=main;protocol=https;name=googletest;destsuffix=googletest \
-           file://0001-Support-boost-1.75.patch \
-           file://0002-Fix-pkgconfig-dir-for-multilib.patch \
-           file://0003-Install-example-configuration-files-to-etc-vsomeip.patch \
+           file://0001-Fix-pkgconfig-dir-for-multilib.patch \
+           file://0002-Install-example-configuration-files-to-etc-vsomeip.patch \
+           file://0003-Support-boost-1.76.patch \
+           file://0004-Add-boost-1.78-support-so-that-vsomeip3-will-compile.patch \
           "
 
 SRCREV_vsomeip = "13f9c89ced6ffaeb1faf485152e27e1f40d234cd"
