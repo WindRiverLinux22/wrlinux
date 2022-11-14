@@ -25,8 +25,7 @@
 # package files so they will definitely be copied the next time.
 
 python() {
-    if bb.data.inherits_class('native', d) or bb.data.inherits_class('cross', d) or \
-        bb.data.inherits_class('nopackages', d):
+    if bb.data.inherits_class('native', d) or bb.data.inherits_class('cross', d):
         return
     # Package backend agnostic intercept
     # This assumes that the package_write task is called package_write_<pkgtype>
@@ -52,7 +51,8 @@ python() {
 
             d.appendVarFlag('do_build', 'recrdeptask', ' ' + pkgcomparefunc)
 
-            if d.getVarFlag(pkgwritefunc, 'noexec') or not d.getVarFlag(pkgwritefunc, 'task'):
+            if bb.data.inherits_class('nopackages', d) or d.getVarFlag(pkgwritefunc, 'noexec') or \
+                not d.getVarFlag(pkgwritefunc, 'task'):
                 # Packaging is disabled for this recipe, we shouldn't do anything
                 continue
 
