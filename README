@@ -12,10 +12,9 @@ This layer depends on the openembedded-core and wr-templates layers.
 
 Maintenance
 -----------
-This layer is maintained by Wind River Systems, Inc.
+The maintainer of this layer is Wind River Systems, Inc.
 Contact <support@windriver.com> or your support representative for more
-information on submitting changes.
-
+information on submitting changes and patches.
 
 Building the wrlinux layer
 -----------------------------------
