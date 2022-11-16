@@ -140,6 +140,11 @@ def package_compare_impl(pkgtype, d):
     docopy = False
     manifest, _ = oe.sstatesig.sstate_get_manifest_filename(pkgwritetask, d)
     mlprefix = d.getVar('MLPREFIX')
+    pcmanifest = os.path.join(prepath, d.expand('pkg-compare-manifest-${MULTIMACH_TARGET_SYS}-${PN}'))
+    pcmanifest_oldlines = []
+    if os.path.exists(pcmanifest):
+        with open(pcmanifest, 'r') as f:
+            pcmanifest_oldlines = f.readlines()
     # Copy recipe's all packages if one of the packages are different to make
     # they have the same PR.
     with open(manifest, 'r') as f:
@@ -174,10 +179,18 @@ def package_compare_impl(pkgtype, d):
                         destpathspec = destpath
 
                     oldfile = None
+                    oldfiles = glob.glob(destpathspec)
+                    if oldfiles:
+                        oldfile = oldfiles[-1]
+                        # Save old packages for removing in case this is a
+                        # fresh build with old packges
+                        for oldline in oldfiles:
+                            oldline = '%s\n' % oldfile
+                            if not oldline in pcmanifest_oldlines:
+                                with open(pcmanifest, 'a') as f:
+                                    f.write(oldline)
                     if not docopy:
-                        oldfiles = glob.glob(destpathspec)
-                        if oldfiles:
-                            oldfile = oldfiles[-1]
+                        if oldfile:
                             result = subprocess.call(['env', 'PSEUDO_DISABLED=1', 'pkg-diff.sh', oldfile, srcpath])
                             if result != 0:
                                 docopy = True
@@ -191,18 +204,13 @@ def package_compare_impl(pkgtype, d):
     # Remove all the old files and copy again if docopy
     if docopy:
         bb.note('Copying packages for recipe %s' % pn)
-        pcmanifest = os.path.join(prepath, d.expand('pkg-compare-manifest-${MULTIMACH_TARGET_SYS}-${PN}'))
         try:
             with open(pcmanifest, 'r') as f:
                 for line in f:
                     fn = line.rstrip()
-                    if fn:
-                        try:
-                            os.remove(fn)
-                            bb.note('Removed old package %s' % fn)
-                        except OSError as e:
-                            if e.errno == errno.ENOENT:
-                                pass
+                    if fn and os.path.exists(fn):
+                        os.remove(fn)
+                        bb.note('Removed old package %s' % fn)
         except IOError as e:
             if e.errno == errno.ENOENT:
                 pass
@@ -229,6 +237,9 @@ def package_compare_impl(pkgtype, d):
                     shutil.copyfile(srcpath, destpath)
                 f.write('%s\n' % destpath)
     else:
+        # Remove pcmanifest if no package is copied
+        if os.path.exists(pcmanifest):
+            os.unlink(pcmanifest)
         bb.note('Not copying packages for recipe %s' % pn)
 
 do_cleansstate[postfuncs] += "pfs_cleanpkgs"
