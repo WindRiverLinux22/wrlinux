@@ -24,6 +24,9 @@
 # Note that running -c cleanall on a recipe will purposely delete the old
 # package files so they will definitely be copied the next time.
 
+# Skip comparing if PE, PV and PR are the same when set to 1
+PACKAGE_COMPARE_FAST ?= "0"
+
 python() {
     if bb.data.inherits_class('native', d) or bb.data.inherits_class('cross', d):
         return
@@ -90,6 +93,23 @@ def package_compare_impl(pkgtype, d):
     deploydir = d.getVar('DEPLOY_DIR_%s' % pkgtype.upper())
     prepath = deploydir + '-prediff/'
 
+    pkgwritetask = 'package_write_%s' % pkgtype
+    manifest, _ = oe.sstatesig.sstate_get_manifest_filename(pkgwritetask, d)
+
+    # Skip comparing if PE, PV and PR are the same
+    skip = True
+    if bb.utils.to_boolean(d.getVar('PACKAGE_COMPARE_FAST')):
+        with open(manifest, 'r') as f:
+            for line in f.readlines():
+                bn = os.path.basename(line.strip())
+                line_new = os.path.join(deploydir, bn)
+                if not os.path.exists(line_new):
+                    skip = False
+                    break
+    if skip:
+        bb.note("Skipping package comparing since all packages' PE, PV and PR are the same")
+        return
+
     # Find out PKGR values are
     pkgdatadir = d.getVar('PKGDATA_DIR')
     packages = []
@@ -137,10 +157,8 @@ def package_compare_impl(pkgtype, d):
     else:
         pvprefix = None
 
-    pkgwritetask = 'package_write_%s' % pkgtype
     files = []
     docopy = False
-    manifest, _ = oe.sstatesig.sstate_get_manifest_filename(pkgwritetask, d)
     mlprefix = d.getVar('MLPREFIX')
     pcmanifest = os.path.join(prepath, d.expand('pkg-compare-manifest-${MULTIMACH_TARGET_SYS}-${PN}'))
     pcmanifest_oldlines = []
