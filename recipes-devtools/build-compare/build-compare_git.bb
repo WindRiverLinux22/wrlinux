@@ -5,7 +5,8 @@ HOMEPAGE = "https://github.com/openSUSE/build-compare"
 LICENSE = "GPL-2.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
 
-SRC_URI = "git://github.com/openSUSE/build-compare.git;branch=master;protocol=https"
+SRC_URI = "git://github.com/openSUSE/build-compare.git;branch=master;protocol=https \
+           file://0001-functions.sh-Fixes-for-kernel-comparing.patch"
 
 # Date matches entry in build-compare.changes and date of SRCREV.
 #

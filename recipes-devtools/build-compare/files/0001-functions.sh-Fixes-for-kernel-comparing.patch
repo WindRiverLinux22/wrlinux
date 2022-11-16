@@ -1,0 +1,62 @@
+From e72bcfeb239dd306d0a66d2acd852b724bcdad9a Mon Sep 17 00:00:00 2001
+From: Robert Yang <liezhi.yang@windriver.com>
+Date: Mon, 14 Nov 2022 09:34:05 +0000
+Subject: [PATCH] functions.sh: Fixes for kernel comparing
+
+* Drop VERSION in QF_TAGS since pr server prints checksums into VERSION, e.g.,
+  5.15.59+gitAUTOINC+4e2eac0faa_cef3008cf5, it makes kernel's version always
+  be different.
+
+* Skip RELEASE checking for kernel, linux-yocto doesn't have
+  such a requirement (RELEASE must be the same).
+
+The skipping will make it go on the comparing, such as compare package's
+contents.
+
+Upstream-Status: Inappropriate [oe specific]
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ functions.sh | 19 +------------------
+ 1 file changed, 1 insertion(+), 18 deletions(-)
+
+diff --git a/functions.sh b/functions.sh
+index ce89dbe..09ddf1c 100755
+--- a/functions.sh
++++ b/functions.sh
+@@ -65,7 +65,7 @@ do
+ done
+ 
+ # don't look at RELEASE, it contains our build number
+-QF_TAGS="%{NAME} %{VERSION} %{EPOCH}\\n"
++QF_TAGS="%{NAME} %{EPOCH}\\n"
+ QF_TAGS="${QF_TAGS}%{SUMMARY}\\n%{DESCRIPTION}\\n"
+ # the DISTURL tag can be used as checkin ID
+ QF_TAGS="${QF_TAGS}%{VENDOR} %{DISTRIBUTION} %{DISTURL}\\n"
+@@ -329,23 +329,6 @@ function cmp_rpm_meta ()
+     get_value QF_TAGS $rpm_meta_new > $file2
+     comp_file rpmtags $file1 $file2 $rpm_meta_old $rpm_meta_new || return 1
+ 
+-    # This might happen when?!
+-    echo "comparing RELEASE"
+-    if [ "${version_release_old%.*}" != "${version_release_new%.*}" ] ; then
+-      case $name_new in
+-        kernel-*)
+-          # Make sure all kernel packages have the same %RELEASE
+-          echo "release prefix mismatch"
+-          if test -z "$check_all"; then
+-            return 1
+-          fi
+-          difffound=1
+-          ;;
+-        # Every other package is allowed to have a different RELEASE
+-        *) ;;
+-      esac
+-    fi
+-
+     get_value QF_PROVIDES $rpm_meta_old | trim_release_old | sort > $file1
+     get_value QF_PROVIDES $rpm_meta_new | trim_release_new | sort > $file2
+     comp_file PROVIDES $file1 $file2 $rpm_meta_old $rpm_meta_new || return 1
+-- 
+2.32.0
+
