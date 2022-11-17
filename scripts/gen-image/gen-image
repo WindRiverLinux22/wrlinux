@@ -734,7 +734,11 @@ class GenImage(object):
                         # Remove "\n"
                         pkg = pkg.strip()
                         dst = pkg.replace(self.deploy_dir_rpm, deploy_dir_rpm_update)
-                        os.link(pkg, dst)
+                        if os.path.exists(pkg):
+                            os.link(pkg, dst)
+                        else:
+                            # It may be removed
+                            logger.info("%s not found (ignored)" % pkg)
 
         self.do_build(package_index)
 
