@@ -154,6 +154,9 @@ def package_compare_impl(pkgtype, d):
     pvu = d.getVar('PV', False)
     if '$' + '{SRCPV}' in pvu:
         pvprefix = pvu.split('$' + '{SRCPV}', 1)[0]
+        # Expand Var such as LINUX_VERSION
+        d.setVar('PACKAGE_COMPARE_PVPREFIX', pvprefix)
+        pvprefix = d.getVar('PACKAGE_COMPARE_PVPREFIX')
     else:
         pvprefix = None
 
@@ -188,10 +191,7 @@ def package_compare_impl(pkgtype, d):
                             if pvprefix:
                                 pkgv = pkgvvalues[pkg]
                                 if pkgv.startswith(pvprefix):
-                                    pkgvsuffix = pkgv[len(pvprefix):]
-                                    if '+' in pkgvsuffix:
-                                        newpkgv = pvprefix + '*+' + pkgvsuffix.split('+', 1)[1]
-                                        destpathspec = destpathspec.replace(pkgv, newpkgv)
+                                    destpathspec = destpathspec.replace(pkgv, pvprefix + "*")
                             pkgname = pkg
                             break
                     else:
