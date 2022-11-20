@@ -69,8 +69,11 @@ python() {
             d.setVar(pkgcomparefunc, d.getVar('do_package_compare', False))
             d.setVarFlags(pkgcomparefunc, d.getVarFlags('do_package_compare', False))
             d.appendVarFlag(pkgcomparefunc, 'depends', ' build-compare-native:do_populate_sysroot')
-            target_arch = d.getVar('TARGET_ARCH')
-            d.appendVarFlag(pkgcomparefunc, 'depends', ' gcc-cross-%s:do_populate_sysroot' % target_arch)
+            # Target recipe uses gcc-cross' objdump, but nativesdk uses host's objdump
+            if (not bb.utils.to_boolean(d.getVar('INHIBIT_DEFAULT_DEPS'))) and \
+                    (not bb.data.inherits_class('nativesdk', d)):
+                target_arch = d.getVar('TARGET_ARCH')
+                d.appendVarFlag(pkgcomparefunc, 'depends', ' gcc-cross-%s:do_populate_sysroot' % target_arch)
             bb.build.addtask(pkgcomparefunc, 'do_build', 'do_packagedata ' + pkgwritefunc, d)
 }
 
