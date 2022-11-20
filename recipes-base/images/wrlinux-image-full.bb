@@ -5,14 +5,14 @@ DESCRIPTION = "A full functional image that boots to a console."
 
 require wrlinux-bin-image.inc
 
-TARGET_IMAGE_INSTALL ?= " \
+TARGET_CORE_BOOT ?= " \
     kernel-modules \
     packagegroup-core-boot \
     gsettings-desktop-schemas \
 "
 
 IMAGE_INSTALL += "\
-    ${@bb.utils.contains('IMAGE_ENABLE_CONTAINER', '1', '${CONTAINER_CORE_BOOT}', '${TARGET_IMAGE_INSTALL}', d)} \
+    ${@bb.utils.contains('IMAGE_ENABLE_CONTAINER', '1', '${CONTAINER_CORE_BOOT}', '${TARGET_CORE_BOOT}', d)} \
     openssh \
     ca-certificates \
     "

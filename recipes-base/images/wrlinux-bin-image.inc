@@ -10,6 +10,8 @@ CONTAINER_CORE_BOOT ?= " \
     ${VIRTUAL-RUNTIME_update-alternatives} \
 "
 
+TARGET_CORE_BOOT:append:x86-64 = " efibootmgr"
+
 # Only need tar.bz2 for container image
 IMAGE_FSTYPES:remove = " \
     ${@bb.utils.contains('IMAGE_ENABLE_CONTAINER', '1', 'live wic wic.bmap otaimg', '', d)} \
