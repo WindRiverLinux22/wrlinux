@@ -1,0 +1,27 @@
+This feature enables packages to preserve buildtime.
+
+By default, SOURCE_DATE_EPOCH is set to the date of the source
+code git repo's latest commit of the current branch, or is set
+to the date of some specific file such as Changelog. This is a
+requirement for reproducible build. See the following links for
+more info.
+
+  https://reproducible-builds.org/docs/source-date-epoch/
+  https://gcc.gnu.org/onlinedocs/cpp/Environment-Variables.html
+  https://wiki.debian.org/ReproducibleBuilds/StandardEnvironmentVariables#Checklist
+  https://wiki.yoctoproject.org/wiki/Reproducible_Builds
+
+But if users want to preserve buildtime for some purpose. They
+can use this template.
+
+To use, add
+
+--templates feature/preserve-buildtime
+
+as a setup option.
+
+
+#@TYPE: Wrtemplate
+#@NAME: preserve-buildtime
+#@DESCRIPTION: Preserve buildtime of packages.
+
