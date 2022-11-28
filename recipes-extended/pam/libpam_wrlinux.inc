@@ -40,12 +40,15 @@ python do_patch () {
 do_install:append() {
     if ${@bb.utils.contains('PACKAGECONFIG', 'faillock', 'true', 'false', d)}; then
         sed -i '/end of pam-auth-update config/i \
-            # faillock is required to reset the fail count on success\
+# faillock is required to reset the fail count on success\
 account    required            pam_faillock.so' \
             ${D}${sysconfdir}/pam.d/common-account
         sed -i '/pam_unix.so/i \
-auth   required   pam_faillock.so preauth  deny=5  even_deny_root root_unlock_time=60 unlock_time=0 \
-auth   required   pam_faillock.so authfail deny=5 even_deny_root  root_unlock_time=60 unlock_time=0' \
+auth    required    pam_faillock.so preauth deny=5 even_deny_root unlock_time=60' \
+            ${D}${sysconfdir}/pam.d/common-auth
+        sed -i '/pam_unix.so/a \
+auth    [default=die]    pam_faillock.so authfail deny=5 even_deny_root unlock_time=60 \
+auth    sufficient       pam_faillock.so authsucc deny=5 even_deny_root unlock_time=60' \
             ${D}${sysconfdir}/pam.d/common-auth
     fi
 
