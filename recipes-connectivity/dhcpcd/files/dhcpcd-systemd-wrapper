@@ -28,6 +28,10 @@ else
     for i in $INTERFACES; do
 	if test "x$i" = "x$nfs_iface"; then
             echo "dhcpcd skipping nfsroot interface $i"
+            if [ -e /proc/net/pnp ]; then
+                echo "dhcpcd using resolvconf to handle /proc/net/pnp for $i"
+                resolvconf -a $i -f </proc/net/pnp
+            fi
 	else
 	    interfaces="$interfaces $i"
 	fi
