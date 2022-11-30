@@ -11,8 +11,10 @@ DEPENDS = "\
     autoconf-native \
     automake-native \
     bc-native \
+    binutils-native \
     bison-native \
     bmap-tools-native \
+    boost-build-native \
     btrfs-tools-native \
     bzip2-native \
     ca-certificates-native \
@@ -20,6 +22,7 @@ DEPENDS = "\
     cargo-native \
     cdrtools-native \
     chrpath-native \
+    clang-native \
     cmake-native \
     coreutils-native \
     cpio-native \
@@ -84,6 +87,7 @@ DEPENDS = "\
     libcroco-native \
     libdnf-native \
     libdrm-native \
+    libedit-native \
     libepoxy-native \
     libffi-native \
     libfontenc-native \
@@ -108,6 +112,7 @@ DEPENDS = "\
     libsm-native \
     libsolv-native \
     libssh2-native \
+    libtasn1-native \
     libtirpc-native \
     libtool-native \
     libunistring-native \
@@ -155,6 +160,7 @@ DEPENDS = "\
     opkg-utils-native \
     orc-native \
     ovmf-native \
+    p11-kit-native \
     pango-native \
     parted-native \
     patch-native \
@@ -175,6 +181,8 @@ DEPENDS = "\
     python3-mako-native \
     python3-markupsafe-native \
     python3-native \
+    python3-pycryptodome-native \
+    python3-pyelftools-native \
     python3-setuptools-native \
     python3-six-native \
     python3-wheel-native \
@@ -201,6 +209,7 @@ DEPENDS = "\
     tcl-native \
     texinfo-dummy-native \
     tzcode-native \
+    u-boot-s32-tools-native \
     u-boot-tools-native \
     unifdef-native \
     unzip-native \
