@@ -3,6 +3,7 @@ IMAGE_INSTALL += "openscap \
                   pam-plugin-pwhistory \
                   pam-plugin-timestamp \
                   pam-passwdqc \
+                  libpwquality \
                   audispd-plugins \
                   libcap-bin \
                   libuser \
