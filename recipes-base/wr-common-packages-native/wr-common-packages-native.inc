@@ -173,7 +173,11 @@ DEPENDS = "\
     popt-native \
     postfix-native \
     pseudo-native \
+    python3-asn1crypto-native \
+    python3-cffi-native \
+    python3-cryptography-native \
     python3-flit-core-native \
+    python3-idna-native \
     python3-iniparse-native \
     python3-installer-native \
     python3-jinja2-native \
@@ -181,10 +185,19 @@ DEPENDS = "\
     python3-mako-native \
     python3-markupsafe-native \
     python3-native \
+    python3-packaging-native \
+    python3-pycparser-native \
     python3-pycryptodome-native \
     python3-pyelftools-native \
+    python3-pyparsing-native \
+    python3-semantic-version-native \
     python3-setuptools-native \
+    python3-setuptools-rust-native \
+    python3-setuptools-scm-native \
     python3-six-native \
+    python3-toml-native \
+    python3-tomli-native \
+    python3-typing-extensions-native \
     python3-wheel-native \
     qemu-helper-native \
     qemu-native \
