@@ -1,0 +1,12 @@
+# default interface config file for dhcpcd
+#
+# Specify either INTERFACES or INTERFACES_REGEX
+#
+# INTERFACES to specify interface names, e.g.,
+# INTERFACES="eth0 eth1"
+#
+# INTERFACE_REGEXES to specify interface regexes, seperated by space, e.g.,
+# INTERFACE_REGEXES="eth.* pfe.*"
+#
+# If none of them is specified, dhcpcd runs against all supported interfaces
+INTERFACE_REGEXES="eth.* pfe.*"

@@ -19,13 +19,38 @@ while read dev mtpt fstype rest; do
 done
 exec 0<&9 9<&-
 
+# get interfaces to parse
+if [ -n "$INTERFACES" ]; then
+    DHCPCD_INTERFACES="$INTERFACES"
+elif [ -n "$INTERFACE_REGEXES" ]; then
+    rm -f /tmp/dhcpcd_interfaces
+    for if_regex in $INTERFACE_REGEXES; do
+	ip link show | grep -w "$if_regex: " | while read -r line; do
+	    interface=`echo $line | cut -d: -f2 | sed -e 's# ##g'`
+	    if echo $line | grep -q NO-CARRIER; then
+		has_carrier=no
+	    else
+		has_carrier=yes
+	    fi
+	    if [ "$has_carrier" = "yes" ]; then
+		echo -n "$interface "
+	    fi
+	done >> /tmp/dhcpcd_interfaces
+    done
+    DHCPCD_INTERFACES="`cat /tmp/dhcpcd_interfaces`"
+    rm -f /tmp/dhcpcd_interfaces
+else
+    /sbin/dhcpcd --nobackground -L -q -f /etc/dhcpcd.conf
+    exit $?
+fi
+
 if [ $nfsroot -eq 0 ]; then
-    interfaces="$INTERFACES"
+    interfaces="$DHCPCD_INTERFACES"
 else
     if [ -x /bin/ip -o -x /sbin/ip ] ; then
 	nfs_iface=`ip route get $nfs_addr | grep dev | sed -e 's/^.*dev \([-a-z0-9.]*\).*$/\1/'`
     fi
-    for i in $INTERFACES; do
+    for i in $DHCPCD_INTERFACES; do
 	if test "x$i" = "x$nfs_iface"; then
             echo "dhcpcd skipping nfsroot interface $i"
             if [ -e /proc/net/pnp ]; then
