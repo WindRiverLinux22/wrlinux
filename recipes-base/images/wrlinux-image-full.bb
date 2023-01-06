@@ -45,6 +45,12 @@ CONTAINER_IMAGE_REMOVE ?= "\
     u-boot \
     wr-themes \
     packagegroup-xfce-extended \
+    intel-microcode \
+    iucode-tool \
+    rtl8723bs-bt \
+    grub-efi \
+    lmsensors \
+    efibootmgr \
 "
 
 # No k8s by default
