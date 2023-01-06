@@ -726,7 +726,8 @@ class GenImage(object):
             # Create package arch dirs even if they are empty, otherwise,
             # "dnf update" would report 404 errors
             for arch in existed_archs:
-                os.makedirs(os.path.join(deploy_dir_rpm_update, arch))
+                if not arch.startswith('.pkgdata.tar.bz2'):
+                    os.makedirs(os.path.join(deploy_dir_rpm_update, arch))
 
             for manifest in update_manifests:
                 with open(manifest) as mf:
