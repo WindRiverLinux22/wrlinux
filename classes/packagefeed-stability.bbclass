@@ -52,12 +52,12 @@ python() {
             if bb.data.inherits_class('populate_sdk_ext', d):
                 d.appendVarFlag('do_populate_sdk_ext', 'recrdeptask', ' ' + pkgcomparefunc)
 
-            d.appendVarFlag('do_build', 'recrdeptask', ' ' + pkgcomparefunc)
-
             if bb.data.inherits_class('nopackages', d) or d.getVarFlag(pkgwritefunc, 'noexec') or \
                 not d.getVarFlag(pkgwritefunc, 'task'):
                 # Packaging is disabled for this recipe, we shouldn't do anything
                 continue
+
+            d.appendVarFlag('do_build', 'recrdeptask', ' ' + pkgcomparefunc)
 
             if deploydirvarref in sstate_outputdirs:
                 deplor_dir_pkgtype = d.expand(deploydirvarref + '-prediff')
