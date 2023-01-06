@@ -202,7 +202,7 @@ def package_compare_impl(pkgtype, d):
                         destpathspec = destpath
 
                     oldfile = None
-                    oldfiles = glob.glob(destpathspec)
+                    oldfiles = sorted(glob.glob(destpathspec), key=os.path.getmtime)
                     if oldfiles:
                         oldfile = oldfiles[-1]
                         # Save old packages for removing in case this is a
