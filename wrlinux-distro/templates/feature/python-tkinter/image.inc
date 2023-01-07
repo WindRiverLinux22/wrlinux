@@ -1,1 +1,1 @@
-IMAGE_INSTALL:append = " python3-tkinter"
+IMAGE_INSTALL += "python3-tkinter"
