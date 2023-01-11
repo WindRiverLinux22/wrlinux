@@ -1,0 +1,8 @@
+[Unit]
+Description=Boot log to tracing file
+
+[Service]
+ExecStart=@BINDIR@/boot-tf -b
+
+[Install]
+WantedBy=multi-user.target
