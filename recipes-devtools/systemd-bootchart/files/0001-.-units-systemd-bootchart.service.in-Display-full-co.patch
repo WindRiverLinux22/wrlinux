@@ -1,0 +1,38 @@
+From f1bcc5afb756ea95690bbf5971b7f9e370e648e6 Mon Sep 17 00:00:00 2001
+From: Robert Yang <liezhi.yang@windriver.com>
+Date: Thu, 12 Jan 2023 08:02:13 +0000
+Subject: [PATCH] ./units/systemd-bootchart.service.in: Display full command
+ lines with arguments
+
+This can avoid confusions and make it easier for debugging.
+
+E.g.:
+Before the change:
+systemd-bootcha
+
+Now:
+@lib/systemd/systemd-bootchart -r -C
+
+Upstream-Status: Inappropriate [Configuration]
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ units/systemd-bootchart.service.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/units/systemd-bootchart.service.in b/units/systemd-bootchart.service.in
+index 396817f..162715f 100644
+--- a/units/systemd-bootchart.service.in
++++ b/units/systemd-bootchart.service.in
+@@ -14,7 +14,7 @@ Documentation=man:systemd-bootchart.service(1) man:bootchart.conf(5)
+ DefaultDependencies=no
+ 
+ [Service]
+-ExecStart=@rootlibexecdir@/systemd-bootchart -r
++ExecStart=@rootlibexecdir@/systemd-bootchart -r -C
+ 
+ [Install]
+ WantedBy=sysinit.target
+-- 
+2.32.0
+

@@ -1,0 +1,3 @@
+SYSTEMD_BOOTCHART_INC_WRLINUX = ""
+SYSTEMD_BOOTCHART_INC_WRLINUX:osv-wrlinux = "systemd-bootchart_wrlinux.inc"
+require ${SYSTEMD_BOOTCHART_INC_WRLINUX}
