@@ -16,7 +16,7 @@ inherit systemd features_check allarch
 
 REQUIRED_DISTRO_FEATURES = "systemd"
 
-RDEPENDS:${PN} += "systemd-bootchart systemd-analyze python3"
+RDEPENDS:${PN} += "systemd-bootchart systemd-analyze python3 tftpy"
 
 SYSTEMD_SERVICE:${PN} = "boot-tf.service"
 
