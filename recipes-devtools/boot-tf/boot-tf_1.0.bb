@@ -3,16 +3,22 @@ DESCRIPTION = "Convert svg file to tracing file (json), or merge multiple json f
                 The svg file is from systemd-bootchart or 'systemd-analyze plot'"
 
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://boot-tf;beginline=3;endline=5;md5=47704aaf7707f93a6a453d6870a9864e"
+LIC_FILES_CHKSUM = "file://boot-tf;beginline=3;endline=5;md5=47704aaf7707f93a6a453d6870a9864e \
+    file://bootlogConst.py;beginline=3;endline=5;md5=33047b843311917876019c26a2ef0d7f \
+    file://bootlogParser.py;beginline=6;endline=10;md5=b3c8a4ff191ec4429fa780a9db3a7f0e \
+    "
 
 SRC_URI = "file://boot-tf \
-           file://boot-tf.service"
+           file://boot-tf.service \
+           file://bootlogConst.py \
+           file://bootlogParser.py \
+"
 
 S = "${WORKDIR}"
 
 INHIBIT_DEFAULT_DEPS = "1"
 
-inherit systemd features_check allarch
+inherit systemd features_check allarch python3-dir
 
 REQUIRED_DISTRO_FEATURES = "systemd"
 
@@ -23,9 +29,14 @@ SYSTEMD_SERVICE:${PN} = "boot-tf.service"
 do_install() {
     install -d ${D}${bindir}
     install -m 0755 ${WORKDIR}/boot-tf ${D}${bindir}
+    install -m 0755 ${WORKDIR}/bootlogConst.py ${D}${bindir}
+    install -d ${D}${PYTHON_SITEPACKAGES_DIR}
+    install -m 0644 ${WORKDIR}/bootlogParser.py ${D}${PYTHON_SITEPACKAGES_DIR}
     install -d ${D}${systemd_system_unitdir}
     install -m 0644 ${WORKDIR}/boot-tf.service ${D}${systemd_system_unitdir}
     sed -i -e 's,@BINDIR@,${bindir},g' ${D}${systemd_system_unitdir}/boot-tf.service
 }
 
-FILES:${PN} += "${systemd_system_unitdir}"
+FILES:${PN} += "${systemd_system_unitdir} \
+                ${PYTHON_SITEPACKAGES_DIR} \
+                "
