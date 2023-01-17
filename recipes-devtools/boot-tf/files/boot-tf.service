@@ -2,7 +2,7 @@
 Description=Boot log to tracing file
 
 [Service]
-ExecStart=@BINDIR@/boot-tf -b
+ExecStart=@BINDIR@/boot-tf -b -s -o /var/lib/tftproot @BOOT_TF_VX_DOWNLOAD@ @BOOT_TF_UPLOAD@
 
 [Install]
 WantedBy=multi-user.target

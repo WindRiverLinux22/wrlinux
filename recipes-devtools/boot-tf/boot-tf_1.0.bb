@@ -26,6 +26,12 @@ RDEPENDS:${PN} += "systemd-bootchart systemd-analyze python3 tftpy"
 
 SYSTEMD_SERVICE:${PN} = "boot-tf.service"
 
+# Download vxworks logs from a tftp server, the format is like "--vxworks 10.0.0.1"
+BOOT_TF_VX_DOWNLOAD ??= ""
+
+# Upload logs to a tftp server, the format is like "--upload 10.0.0.1"
+BOOT_TF_UPLOAD ??= ""
+
 do_install() {
     install -d ${D}${bindir}
     install -m 0755 ${WORKDIR}/boot-tf ${D}${bindir}
@@ -35,6 +41,8 @@ do_install() {
     install -d ${D}${systemd_system_unitdir}
     install -m 0644 ${WORKDIR}/boot-tf.service ${D}${systemd_system_unitdir}
     sed -i -e 's,@BINDIR@,${bindir},g' ${D}${systemd_system_unitdir}/boot-tf.service
+    sed -i -e 's,@BOOT_TF_VX_DOWNLOAD@,${BOOT_TF_VX_DOWNLOAD},g' ${D}${systemd_system_unitdir}/boot-tf.service
+    sed -i -e 's,@BOOT_TF_UPLOAD@,${BOOT_TF_UPLOAD},g' ${D}${systemd_system_unitdir}/boot-tf.service
 }
 
 FILES:${PN} += "${systemd_system_unitdir} \
