@@ -1,10 +1,16 @@
 This template installs systemd-bootchart and boot-tf to the image and generates
-bootchart-*.svg and tracing file bootchart-*.json in /run/log/, the
+bootchart-*.svg and tracing file bootchart-*.json:
+- The bootchart-*.svg is saved in /run/log/
+- The bootchart-*.json and boot-tf.manifest is saved in /var/lib/tftproot
+
 systemd-bootchart requires a few seconds (usually, about 10 seconds) to
 complete the running, and then boot-tf will convert the bootchart-*.svg to
 bootchart-*.json.
 
+User can download bootchart-*.json and boot-tf.manifest via:
+$ boot-tf -l <addr>
+
 #@TYPE: Wrtemplate
 #@NAME: systemd-bootchart
 #@DESCRIPTION: Enable systemd-bootchart and generate bootchart-*.svg and
-tracing file bootchart-*.json in /run/log/ on the image
+tracing file bootchart-*.json.
