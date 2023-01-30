@@ -12,6 +12,7 @@ SRC_URI = "file://boot-tf \
            file://boot-tf.service \
            file://bootlogConst.py \
            file://bootlogParser.py \
+           file://README.md \
 "
 
 S = "${WORKDIR}"
@@ -43,6 +44,9 @@ do_install() {
     sed -i -e 's,@BINDIR@,${bindir},g' ${D}${systemd_system_unitdir}/boot-tf.service
     sed -i -e 's,@BOOT_TF_VX_DOWNLOAD@,${BOOT_TF_VX_DOWNLOAD},g' ${D}${systemd_system_unitdir}/boot-tf.service
     sed -i -e 's,@BOOT_TF_UPLOAD@,${BOOT_TF_UPLOAD},g' ${D}${systemd_system_unitdir}/boot-tf.service
+
+    install -d ${D}${datadir}/doc/${BPN}
+    install -m 0644 ${WORKDIR}/README.md ${D}${datadir}/doc/${BPN}
 }
 
 FILES:${PN} += "${systemd_system_unitdir} \

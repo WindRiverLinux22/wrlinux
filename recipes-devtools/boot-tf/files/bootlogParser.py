@@ -74,6 +74,7 @@ class VxBootTF(object):
     def __init__(self):
         self.events = []
         self.txtFiles = []
+        self.vmLoadTimes = []
 
     def logFileToJSON(self, filepath, vmID = 1):
         """
@@ -105,6 +106,10 @@ class VxBootTF(object):
                 if event_flags is FLAG_BEGIN:
                     # add to pending list until we find corresponding FLAG_END
                     pending_logs.append(traceLn)
+                    if pid_base == HV_PID_BASE:
+                        if traceLn.name.startswith('Loading VM image guestOS'):
+                            if 'linux' in traceLn.name.lower():
+                                self.vmLoadTimes.append(traceLn)
 
                 elif event_flags is FLAG_END:
                     # check pending_logs for corresponding message ID
@@ -254,10 +259,12 @@ class VxBootTF(object):
         if HV_FNAME in dict(self.txtFiles):
             jsonFmt = self.logFileToJSON(HV_FNAME)
             self.events.append(tuple(asdict(x) for x in jsonFmt))
-            self.txtFiles.remove((HV_FNAME, 0))
+            #self.txtFiles.remove((HV_FNAME, 0))
 
         i = 1
         for vmLogFile in self.txtFiles:
+            if vmLogFile[0] == HV_FNAME:
+                continue
             jsonFmt = self.logFileToJSON(vmLogFile[0], i)
             self.events.append(tuple(asdict(x) for x in jsonFmt))
             i += 1
@@ -276,6 +283,13 @@ class VxBootTF(object):
 
         # return the output file name and number of boot log files parsed
         return outputFileName, i
+
+    def getLinuxStartTime(self):
+        if self.vmLoadTimes:
+            traceLn = self.vmLoadTimes[0]  # FIXME: first Linux found
+            return traceLn.ts + traceLn.dur
+        else:
+            return 0
 
 #Helpers
 
