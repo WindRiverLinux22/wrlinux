@@ -22,7 +22,6 @@ DEPENDS = "\
     cargo-native \
     cdrtools-native \
     chrpath-native \
-    clang-native \
     cmake-native \
     coreutils-native \
     cpio-native \
@@ -160,7 +159,6 @@ DEPENDS = "\
     opkg-utils-native \
     orc-native \
     ovmf-native \
-    p11-kit-native \
     pango-native \
     parted-native \
     patch-native \
