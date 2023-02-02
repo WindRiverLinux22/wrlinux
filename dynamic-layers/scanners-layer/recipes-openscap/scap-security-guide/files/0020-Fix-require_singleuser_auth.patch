@@ -1,0 +1,80 @@
+From cfb298b76db4ed6949d47925670a4c16e8ac8fdc Mon Sep 17 00:00:00 2001
+From: Yi Zhao <yi.zhao@windriver.com>
+Date: Fri, 9 Sep 2022 22:42:44 +0800
+Subject: [PATCH] Fix require_singleuser_auth
+
+Upstream-Status: Inappropriate [WRLinux specific]
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ .../require_singleuser_auth/bash/shared.sh           |  6 ++++++
+ .../require_singleuser_auth/oval/shared.xml          | 12 ++++++++++++
+ 2 files changed, 18 insertions(+)
+
+diff --git a/linux_os/guide/system/accounts/accounts-physical/require_singleuser_auth/bash/shared.sh b/linux_os/guide/system/accounts/accounts-physical/require_singleuser_auth/bash/shared.sh
+index e027b97c80..7949a53e1a 100644
+--- a/linux_os/guide/system/accounts/accounts-physical/require_singleuser_auth/bash/shared.sh
++++ b/linux_os/guide/system/accounts/accounts-physical/require_singleuser_auth/bash/shared.sh
+@@ -2,12 +2,18 @@
+ 
+ {{% if init_system == "systemd" -%}}
+ 
++{{% if product in ["wrlinuxlts21", "wrlinuxlts22"] -%}}
++service_file="/lib/systemd/system/rescue.service"
++{{%- else -%}}
+ service_file="/usr/lib/systemd/system/rescue.service"
++{{%- endif %}}
+ 
+ {{% if product in ["fedora", "rhel8", "rhel9", "ol8", "sle12", "sle15"] -%}}
+ sulogin="/usr/lib/systemd/systemd-sulogin-shell rescue"
+ {{%- elif product in ["rhel7"] -%}}
+ sulogin='/bin/sh -c "/usr/sbin/sulogin; /usr/bin/systemctl --fail --no-block default"'
++{{%- elif product in ["wrlinuxlts21", "wrlinuxlts22"] -%}}
++sulogin="/lib/systemd/systemd-sulogin-shell rescue"
+ {{%- else -%}}
+ sulogin='/bin/sh -c "/sbin/sulogin; /usr/bin/systemctl --fail --no-block default"'
+ {{%- endif %}}
+diff --git a/linux_os/guide/system/accounts/accounts-physical/require_singleuser_auth/oval/shared.xml b/linux_os/guide/system/accounts/accounts-physical/require_singleuser_auth/oval/shared.xml
+index 46bb77c009..624400840f 100644
+--- a/linux_os/guide/system/accounts/accounts-physical/require_singleuser_auth/oval/shared.xml
++++ b/linux_os/guide/system/accounts/accounts-physical/require_singleuser_auth/oval/shared.xml
+@@ -24,6 +24,8 @@
+     comment="Tests that
+     {{% if product in ["fedora", "rhel8", "rhel9", "ol8", "rhcos4", "sle12", "sle15"] -%}}
+     /usr/lib/systemd/systemd-sulogin-shell
++    {{% elif product in ["wrlinuxlts21", "wrlinuxlts22"] -%}}
++    /lib/systemd/systemd-sulogin-shell
+     {{%- else -%}}
+     /sbin/sulogin
+     {{%- endif %}}
+@@ -33,9 +35,15 @@
+     <ind:object object_ref="obj_require_rescue_service" />
+   </ind:textfilecontent54_test>
+   <ind:textfilecontent54_object id="obj_require_rescue_service" version="1">
++    {{%- if product in ["wrlinuxlts21", "wrlinuxlts22"] -%}}
++    <ind:filepath>/lib/systemd/system/rescue.service</ind:filepath>
++    {{%- else -%}}
+     <ind:filepath>/usr/lib/systemd/system/rescue.service</ind:filepath>
++    {{%- endif -%}}
+     {{%- if product in ["fedora", "rhel8", "rhel9", "ol8", "rhcos4", "sle12", "sle15"] -%}}
+     <ind:pattern operation="pattern match">^ExecStart=\-.*/usr/lib/systemd/systemd-sulogin-shell[ ]+rescue</ind:pattern>
++    {{%- elif product in ["wrlinuxlts21", "wrlinuxlts22"] -%}}
++    <ind:pattern operation="pattern match">^ExecStart=\-.*/lib/systemd/systemd-sulogin-shell[ ]+rescue</ind:pattern>
+     {{%- else -%}}
+     <ind:pattern operation="pattern match">^ExecStart=\-/bin/sh[\s]+-c[\s]+\"(/usr)?/sbin/sulogin;[\s]+/usr/bin/systemctl[\s]+--fail[\s]+--no-block[\s]+default\"</ind:pattern>
+     {{%- endif -%}}
+@@ -49,7 +57,11 @@
+     <ind:object object_ref="obj_require_rescue_service_runlevel1" />
+   </ind:textfilecontent54_test>
+   <ind:textfilecontent54_object id="obj_require_rescue_service_runlevel1" version="1">
++    {{%- if product in ["wrlinuxlts21", "wrlinuxlts22"] -%}}
++    <ind:filepath>/lib/systemd/system/runlevel1.target</ind:filepath>
++    {{%- else -%}}
+     <ind:filepath>/usr/lib/systemd/system/runlevel1.target</ind:filepath>
++    {{%- endif -%}}
+     <ind:pattern operation="pattern match">^Requires=.*rescue.service</ind:pattern>
+     <ind:instance datatype="int">1</ind:instance>
+   </ind:textfilecontent54_object>
+-- 
+2.25.1
+

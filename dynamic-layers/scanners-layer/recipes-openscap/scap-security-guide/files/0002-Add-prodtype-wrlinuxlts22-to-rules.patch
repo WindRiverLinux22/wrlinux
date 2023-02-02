@@ -1,0 +1,2262 @@
+From 5846cbf7c448268224e03acbf308a22692a84567 Mon Sep 17 00:00:00 2001
+From: Yi Zhao <yi.zhao@windriver.com>
+Date: Fri, 7 Jan 2022 14:16:00 +0800
+Subject: [PATCH] Add prodtype wrlinuxlts22 to rules
+
+Upstream-Status: Inappropriate [WRLinux specific]
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ .../guide/services/base/service_kdump_disabled/rule.yml     | 2 +-
+ .../file_groupowner_cron_allow/rule.yml                     | 2 +-
+ .../restrict_at_cron_users/file_owner_cron_allow/rule.yml   | 2 +-
+ .../ftp/disabling_vsftpd/package_vsftpd_removed/rule.yml    | 2 +-
+ .../postfix_prevent_unrestricted_relay/rule.yml             | 2 +-
+ .../mount_option_krb_sec_remote_filesystems/rule.yml        | 2 +-
+ .../mount_option_noexec_remote_filesystems/rule.yml         | 2 +-
+ .../mount_option_nosuid_remote_filesystems/rule.yml         | 2 +-
+ .../guide/services/ntp/chronyd_or_ntpd_set_maxpoll/rule.yml | 2 +-
+ .../services/obsolete/nis/package_ypserv_removed/rule.yml   | 2 +-
+ .../obsolete/r_services/no_host_based_files/rule.yml        | 2 +-
+ .../obsolete/r_services/no_user_host_based_files/rule.yml   | 2 +-
+ .../obsolete/r_services/package_rsh-server_removed/rule.yml | 2 +-
+ .../obsolete/telnet/package_telnet-server_removed/rule.yml  | 2 +-
+ .../obsolete/tftp/package_tftp-server_removed/rule.yml      | 2 +-
+ .../services/obsolete/tftp/tftpd_uses_secure_mode/rule.yml  | 2 +-
+ .../package_net-snmp_removed/rule.yml                       | 2 +-
+ .../snmpd_not_default_password/rule.yml                     | 2 +-
+ linux_os/guide/services/ssh/service_sshd_enabled/rule.yml   | 2 +-
+ .../ssh/ssh_server/firewalld_sshd_port_enabled/rule.yml     | 2 +-
+ .../sssd/sssd-ldap/sssd_ldap_configure_tls_ca/rule.yml      | 2 +-
+ .../sssd/sssd-ldap/sssd_ldap_configure_tls_ca_dir/rule.yml  | 2 +-
+ .../sssd/sssd-ldap/sssd_ldap_configure_tls_reqcert/rule.yml | 2 +-
+ .../services/sssd/sssd-ldap/sssd_ldap_start_tls/rule.yml    | 2 +-
+ .../accounts/accounts-banners/banner_etc_issue/rule.yml     | 2 +-
+ .../accounts/accounts-banners/banner_etc_motd/rule.yml      | 2 +-
+ .../accounts-banners/file_groupowner_etc_issue/rule.yml     | 2 +-
+ .../accounts-banners/file_groupowner_etc_motd/rule.yml      | 2 +-
+ .../accounts/accounts-banners/file_owner_etc_issue/rule.yml | 2 +-
+ .../accounts/accounts-banners/file_owner_etc_motd/rule.yml  | 2 +-
+ .../accounts-banners/file_permissions_etc_issue/rule.yml    | 2 +-
+ .../accounts-banners/file_permissions_etc_motd/rule.yml     | 2 +-
+ .../rule.yml                                                | 2 +-
+ .../rule.yml                                                | 2 +-
+ .../accounts_password_pam_unix_remember/rule.yml            | 2 +-
+ .../accounts_passwords_pam_faillock_deny/rule.yml           | 2 +-
+ .../accounts_passwords_pam_faillock_deny_root/rule.yml      | 2 +-
+ .../accounts_password_pam_dcredit/rule.yml                  | 2 +-
+ .../accounts_password_pam_difok/rule.yml                    | 2 +-
+ .../accounts_password_pam_lcredit/rule.yml                  | 2 +-
+ .../accounts_password_pam_maxclassrepeat/rule.yml           | 2 +-
+ .../accounts_password_pam_maxrepeat/rule.yml                | 2 +-
+ .../accounts_password_pam_minclass/rule.yml                 | 2 +-
+ .../accounts_password_pam_minlen/rule.yml                   | 2 +-
+ .../accounts_password_pam_ocredit/rule.yml                  | 2 +-
+ .../accounts_password_pam_retry/rule.yml                    | 2 +-
+ .../accounts_password_pam_ucredit/rule.yml                  | 2 +-
+ .../set_password_hashing_algorithm_libuserconf/rule.yml     | 2 +-
+ .../set_password_hashing_algorithm_logindefs/rule.yml       | 2 +-
+ .../set_password_hashing_algorithm_systemauth/rule.yml      | 2 +-
+ .../accounts-physical/disable_ctrlaltdel_reboot/rule.yml    | 2 +-
+ .../accounts-physical/require_singleuser_auth/rule.yml      | 2 +-
+ .../package_screen_installed/rule.yml                       | 2 +-
+ .../account_disable_post_pw_expiration/rule.yml             | 2 +-
+ .../accounts_password_set_max_life_existing/rule.yml        | 2 +-
+ .../accounts_password_set_min_life_existing/rule.yml        | 2 +-
+ .../accounts_have_homedir_login_defs/rule.yml               | 2 +-
+ .../accounts/accounts-session/accounts_tmout/rule.yml       | 2 +-
+ .../accounts_user_dot_group_ownership/rule.yml              | 2 +-
+ .../accounts_user_dot_no_world_writable_programs/rule.yml   | 2 +-
+ .../accounts_user_dot_user_ownership/rule.yml               | 2 +-
+ .../accounts-session/accounts_user_home_paths_only/rule.yml | 2 +-
+ .../rule.yml                                                | 2 +-
+ .../rule.yml                                                | 2 +-
+ .../accounts_users_home_files_groupownership/rule.yml       | 2 +-
+ .../accounts_users_home_files_ownership/rule.yml            | 2 +-
+ .../accounts_users_home_files_permissions/rule.yml          | 2 +-
+ .../file_groupownership_home_directories/rule.yml           | 2 +-
+ .../file_ownership_home_directories/rule.yml                | 2 +-
+ .../file_permission_user_init_files/rule.yml                | 2 +-
+ .../file_permissions_home_directories/rule.yml              | 2 +-
+ .../user_umask/accounts_umask_interactive_users/rule.yml    | 2 +-
+ .../audit_rules_execution_chcon/rule.yml                    | 2 +-
+ .../audit_rules_execution_semanage/rule.yml                 | 2 +-
+ .../audit_rules_execution_setsebool/rule.yml                | 2 +-
+ .../audit_rules_file_deletion_events/rule.yml               | 2 +-
+ .../audit_rules_unsuccessful_file_modification/rule.yml     | 2 +-
+ .../rule.yml                                                | 2 +-
+ .../rule.yml                                                | 2 +-
+ .../rule.yml                                                | 2 +-
+ .../rule.yml                                                | 2 +-
+ .../rule.yml                                                | 2 +-
+ .../rule.yml                                                | 2 +-
+ .../audit_rules_kernel_module_loading/rule.yml              | 2 +-
+ .../audit_rules_kernel_module_loading_delete/rule.yml       | 2 +-
+ .../audit_rules_kernel_module_loading_finit/rule.yml        | 2 +-
+ .../audit_rules_kernel_module_loading_init/rule.yml         | 2 +-
+ .../audit_login_events/audit_rules_login_events/rule.yml    | 2 +-
+ .../audit_rules_login_events_faillock/rule.yml              | 2 +-
+ .../audit_rules_login_events_lastlog/rule.yml               | 2 +-
+ .../audit_rules_login_events_tallylog/rule.yml              | 2 +-
+ .../audit_rules_privileged_commands_chage/rule.yml          | 2 +-
+ .../audit_rules_privileged_commands_chsh/rule.yml           | 2 +-
+ .../audit_rules_privileged_commands_crontab/rule.yml        | 2 +-
+ .../audit_rules_privileged_commands_gpasswd/rule.yml        | 2 +-
+ .../rule.yml                                                | 2 +-
+ .../audit_rules_privileged_commands_passwd/rule.yml         | 2 +-
+ .../audit_rules_privileged_commands_postdrop/rule.yml       | 2 +-
+ .../audit_rules_privileged_commands_postqueue/rule.yml      | 2 +-
+ .../audit_rules_privileged_commands_ssh_keysign/rule.yml    | 2 +-
+ .../audit_rules_privileged_commands_su/rule.yml             | 2 +-
+ .../audit_rules_privileged_commands_sudo/rule.yml           | 2 +-
+ .../audit_rules_privileged_commands_umount/rule.yml         | 2 +-
+ .../audit_rules_privileged_commands_unix_chkpwd/rule.yml    | 2 +-
+ .../audit_rules_system_shutdown/rule.yml                    | 2 +-
+ .../audit_rules_usergroup_modification_group/rule.yml       | 2 +-
+ .../audit_rules_usergroup_modification_gshadow/rule.yml     | 2 +-
+ .../audit_rules_usergroup_modification_opasswd/rule.yml     | 2 +-
+ .../audit_rules_usergroup_modification_passwd/rule.yml      | 2 +-
+ .../audit_rules_usergroup_modification_shadow/rule.yml      | 2 +-
+ .../auditd_audispd_configure_remote_server/rule.yml         | 2 +-
+ .../auditd_audispd_disk_full_action/rule.yml                | 2 +-
+ .../auditd_audispd_encrypt_sent_records/rule.yml            | 2 +-
+ .../auditd_audispd_network_failure_action/rule.yml          | 2 +-
+ .../auditd_data_retention_space_left/rule.yml               | 2 +-
+ .../bootloader-grub2/non-uefi/grub2_admin_username/rule.yml | 2 +-
+ .../non-uefi/grub2_no_removeable_media/rule.yml             | 2 +-
+ .../bootloader-grub2/non-uefi/grub2_password/rule.yml       | 2 +-
+ .../uefi/grub2_uefi_admin_username/rule.yml                 | 2 +-
+ .../bootloader-grub2/uefi/grub2_uefi_password/rule.yml      | 2 +-
+ .../rsyslog_cron_logging/rule.yml                           | 2 +-
+ .../rsyslog_nolisten/rule.yml                               | 2 +-
+ .../firewalld_activation/service_firewalld_enabled/rule.yml | 2 +-
+ .../configure_firewalld_ports/rule.yml                      | 2 +-
+ .../configure_firewalld_rate_limiting/rule.yml              | 2 +-
+ .../sysctl_net_ipv6_conf_all_accept_source_route/rule.yml   | 2 +-
+ .../sysctl_net_ipv4_conf_all_accept_redirects/rule.yml      | 2 +-
+ .../sysctl_net_ipv4_conf_all_accept_source_route/rule.yml   | 2 +-
+ .../rule.yml                                                | 2 +-
+ .../sysctl_net_ipv4_icmp_echo_ignore_broadcasts/rule.yml    | 2 +-
+ .../sysctl_net_ipv4_tcp_invalid_ratelimit/rule.yml          | 2 +-
+ .../sysctl_net_ipv4_conf_all_send_redirects/rule.yml        | 2 +-
+ .../sysctl_net_ipv4_conf_default_send_redirects/rule.yml    | 2 +-
+ .../sysctl_net_ipv4_ip_forward/rule.yml                     | 2 +-
+ .../network-uncommon/kernel_module_dccp_disabled/rule.yml   | 2 +-
+ .../network/network_configure_name_resolution/rule.yml      | 2 +-
+ .../guide/system/network/network_sniffer_disabled/rule.yml  | 2 +-
+ .../files/dir_perms_world_writable_root_owned/rule.yml      | 2 +-
+ .../files/dir_perms_world_writable_system_owned/rule.yml    | 2 +-
+ .../dir_perms_world_writable_system_owned_group/rule.yml    | 2 +-
+ .../files/file_permissions_unauthorized_sgid/rule.yml       | 2 +-
+ .../files/file_permissions_unauthorized_suid/rule.yml       | 2 +-
+ .../files/file_permissions_ungroupowned/rule.yml            | 2 +-
+ .../permissions/files/no_files_unowned_by_user/rule.yml     | 2 +-
+ .../mounting/kernel_module_usb-storage_disabled/rule.yml    | 2 +-
+ .../permissions/mounting/service_autofs_disabled/rule.yml   | 2 +-
+ .../partitions/mount_option_boot_noauto/rule.yml            | 2 +-
+ .../partitions/mount_option_boot_noexec/rule.yml            | 2 +-
+ .../partitions/mount_option_dev_shm_nodev/rule.yml          | 6 ++++++
+ .../partitions/mount_option_dev_shm_noexec/rule.yml         | 6 ++++++
+ .../partitions/mount_option_dev_shm_nosuid/rule.yml         | 6 ++++++
+ .../partitions/mount_option_home_noexec/rule.yml            | 2 +-
+ .../partitions/mount_option_home_nosuid/rule.yml            | 2 +-
+ .../mount_option_nosuid_removable_partitions/rule.yml       | 2 +-
+ .../permissions/partitions/mount_option_opt_nosuid/rule.yml | 2 +-
+ .../permissions/partitions/mount_option_srv_nosuid/rule.yml | 2 +-
+ .../permissions/partitions/mount_option_var_noexec/rule.yml | 2 +-
+ linux_os/guide/system/selinux/selinux_policytype/rule.yml   | 2 +-
+ .../guide/system/selinux/selinux_user_login_roles/rule.yml  | 2 +-
+ .../installed_OS_is_vendor_supported/rule.yml               | 2 +-
+ .../system/software/integrity/disable_prelink/rule.yml      | 2 +-
+ .../software/integrity/fips/etc_system_fips_exists/rule.yml | 2 +-
+ .../software-integrity/aide/aide_build_database/rule.yml    | 2 +-
+ .../aide/aide_periodic_cron_checking/rule.yml               | 2 +-
+ .../software-integrity/aide/aide_scan_notification/rule.yml | 2 +-
+ .../software-integrity/aide/package_aide_installed/rule.yml | 2 +-
+ .../rpm_verification/rpm_verify_hashes/rule.yml             | 2 +-
+ .../rpm_verification/rpm_verify_permissions/rule.yml        | 2 +-
+ .../updating/ensure_gpgcheck_local_packages/rule.yml        | 2 +-
+ 169 files changed, 184 insertions(+), 166 deletions(-)
+
+diff --git a/linux_os/guide/services/base/service_kdump_disabled/rule.yml b/linux_os/guide/services/base/service_kdump_disabled/rule.yml
+index f7481b1daf..67d26e3e9e 100644
+--- a/linux_os/guide/services/base/service_kdump_disabled/rule.yml
++++ b/linux_os/guide/services/base/service_kdump_disabled/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Disable KDump Kernel Crash Analyzer (kdump)'
+ 
+diff --git a/linux_os/guide/services/cron_and_at/restrict_at_cron_users/file_groupowner_cron_allow/rule.yml b/linux_os/guide/services/cron_and_at/restrict_at_cron_users/file_groupowner_cron_allow/rule.yml
+index 77066c6cff..45b2d29ec7 100644
+--- a/linux_os/guide/services/cron_and_at/restrict_at_cron_users/file_groupowner_cron_allow/rule.yml
++++ b/linux_os/guide/services/cron_and_at/restrict_at_cron_users/file_groupowner_cron_allow/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Verify Group Who Owns /etc/cron.allow file'
+ 
+diff --git a/linux_os/guide/services/cron_and_at/restrict_at_cron_users/file_owner_cron_allow/rule.yml b/linux_os/guide/services/cron_and_at/restrict_at_cron_users/file_owner_cron_allow/rule.yml
+index 3d4f999616..5729934d64 100644
+--- a/linux_os/guide/services/cron_and_at/restrict_at_cron_users/file_owner_cron_allow/rule.yml
++++ b/linux_os/guide/services/cron_and_at/restrict_at_cron_users/file_owner_cron_allow/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Verify User Who Owns /etc/cron.allow file'
+ 
+diff --git a/linux_os/guide/services/ftp/disabling_vsftpd/package_vsftpd_removed/rule.yml b/linux_os/guide/services/ftp/disabling_vsftpd/package_vsftpd_removed/rule.yml
+index 800adbcb80..3ca542156a 100644
+--- a/linux_os/guide/services/ftp/disabling_vsftpd/package_vsftpd_removed/rule.yml
++++ b/linux_os/guide/services/ftp/disabling_vsftpd/package_vsftpd_removed/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Uninstall vsftpd Package'
+ 
+diff --git a/linux_os/guide/services/mail/postfix_harden_os/postfix_server_cfg/postfix_server_relay/postfix_prevent_unrestricted_relay/rule.yml b/linux_os/guide/services/mail/postfix_harden_os/postfix_server_cfg/postfix_server_relay/postfix_prevent_unrestricted_relay/rule.yml
+index 5ccf6ffc6b..efa4850d97 100644
+--- a/linux_os/guide/services/mail/postfix_harden_os/postfix_server_cfg/postfix_server_relay/postfix_prevent_unrestricted_relay/rule.yml
++++ b/linux_os/guide/services/mail/postfix_harden_os/postfix_server_cfg/postfix_server_relay/postfix_prevent_unrestricted_relay/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Prevent Unrestricted Mail Relaying'
+ 
+diff --git a/linux_os/guide/services/nfs_and_rpc/nfs_configuring_clients/mounting_remote_filesystems/mount_option_krb_sec_remote_filesystems/rule.yml b/linux_os/guide/services/nfs_and_rpc/nfs_configuring_clients/mounting_remote_filesystems/mount_option_krb_sec_remote_filesystems/rule.yml
+index 65bcba60c2..2653a37944 100644
+--- a/linux_os/guide/services/nfs_and_rpc/nfs_configuring_clients/mounting_remote_filesystems/mount_option_krb_sec_remote_filesystems/rule.yml
++++ b/linux_os/guide/services/nfs_and_rpc/nfs_configuring_clients/mounting_remote_filesystems/mount_option_krb_sec_remote_filesystems/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Mount Remote Filesystems with Kerberos Security'
+ 
+diff --git a/linux_os/guide/services/nfs_and_rpc/nfs_configuring_clients/mounting_remote_filesystems/mount_option_noexec_remote_filesystems/rule.yml b/linux_os/guide/services/nfs_and_rpc/nfs_configuring_clients/mounting_remote_filesystems/mount_option_noexec_remote_filesystems/rule.yml
+index 940b1eb80a..95c41eb8a6 100644
+--- a/linux_os/guide/services/nfs_and_rpc/nfs_configuring_clients/mounting_remote_filesystems/mount_option_noexec_remote_filesystems/rule.yml
++++ b/linux_os/guide/services/nfs_and_rpc/nfs_configuring_clients/mounting_remote_filesystems/mount_option_noexec_remote_filesystems/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Mount Remote Filesystems with noexec'
+ 
+diff --git a/linux_os/guide/services/nfs_and_rpc/nfs_configuring_clients/mounting_remote_filesystems/mount_option_nosuid_remote_filesystems/rule.yml b/linux_os/guide/services/nfs_and_rpc/nfs_configuring_clients/mounting_remote_filesystems/mount_option_nosuid_remote_filesystems/rule.yml
+index 2d1fd79f5c..28fe683910 100644
+--- a/linux_os/guide/services/nfs_and_rpc/nfs_configuring_clients/mounting_remote_filesystems/mount_option_nosuid_remote_filesystems/rule.yml
++++ b/linux_os/guide/services/nfs_and_rpc/nfs_configuring_clients/mounting_remote_filesystems/mount_option_nosuid_remote_filesystems/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Mount Remote Filesystems with nosuid'
+ 
+diff --git a/linux_os/guide/services/ntp/chronyd_or_ntpd_set_maxpoll/rule.yml b/linux_os/guide/services/ntp/chronyd_or_ntpd_set_maxpoll/rule.yml
+index 4356c29d2e..a2a1ef2d32 100644
+--- a/linux_os/guide/services/ntp/chronyd_or_ntpd_set_maxpoll/rule.yml
++++ b/linux_os/guide/services/ntp/chronyd_or_ntpd_set_maxpoll/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Configure Time Service Maxpoll Interval'
+ 
+diff --git a/linux_os/guide/services/obsolete/nis/package_ypserv_removed/rule.yml b/linux_os/guide/services/obsolete/nis/package_ypserv_removed/rule.yml
+index d1b116a6fb..6555be08a5 100644
+--- a/linux_os/guide/services/obsolete/nis/package_ypserv_removed/rule.yml
++++ b/linux_os/guide/services/obsolete/nis/package_ypserv_removed/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Uninstall ypserv Package'
+ 
+diff --git a/linux_os/guide/services/obsolete/r_services/no_host_based_files/rule.yml b/linux_os/guide/services/obsolete/r_services/no_host_based_files/rule.yml
+index b2cd780be7..d807126e96 100644
+--- a/linux_os/guide/services/obsolete/r_services/no_host_based_files/rule.yml
++++ b/linux_os/guide/services/obsolete/r_services/no_host_based_files/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Remove Host-Based Authentication Files'
+ 
+diff --git a/linux_os/guide/services/obsolete/r_services/no_user_host_based_files/rule.yml b/linux_os/guide/services/obsolete/r_services/no_user_host_based_files/rule.yml
+index 79b85c1bd2..8710e7c23a 100644
+--- a/linux_os/guide/services/obsolete/r_services/no_user_host_based_files/rule.yml
++++ b/linux_os/guide/services/obsolete/r_services/no_user_host_based_files/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Remove User Host-Based Authentication Files'
+ 
+diff --git a/linux_os/guide/services/obsolete/r_services/package_rsh-server_removed/rule.yml b/linux_os/guide/services/obsolete/r_services/package_rsh-server_removed/rule.yml
+index 8a1f7ba936..2351693b20 100644
+--- a/linux_os/guide/services/obsolete/r_services/package_rsh-server_removed/rule.yml
++++ b/linux_os/guide/services/obsolete/r_services/package_rsh-server_removed/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle15,ubuntu2004,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Uninstall rsh-server Package'
+ 
+diff --git a/linux_os/guide/services/obsolete/telnet/package_telnet-server_removed/rule.yml b/linux_os/guide/services/obsolete/telnet/package_telnet-server_removed/rule.yml
+index ea679e6a2c..50531f2b8c 100644
+--- a/linux_os/guide/services/obsolete/telnet/package_telnet-server_removed/rule.yml
++++ b/linux_os/guide/services/obsolete/telnet/package_telnet-server_removed/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Uninstall telnet-server Package'
+ 
+diff --git a/linux_os/guide/services/obsolete/tftp/package_tftp-server_removed/rule.yml b/linux_os/guide/services/obsolete/tftp/package_tftp-server_removed/rule.yml
+index 10f44352ff..2f3d190c97 100644
+--- a/linux_os/guide/services/obsolete/tftp/package_tftp-server_removed/rule.yml
++++ b/linux_os/guide/services/obsolete/tftp/package_tftp-server_removed/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Uninstall tftp-server Package'
+ 
+diff --git a/linux_os/guide/services/obsolete/tftp/tftpd_uses_secure_mode/rule.yml b/linux_os/guide/services/obsolete/tftp/tftpd_uses_secure_mode/rule.yml
+index fb348632dd..9363012d63 100644
+--- a/linux_os/guide/services/obsolete/tftp/tftpd_uses_secure_mode/rule.yml
++++ b/linux_os/guide/services/obsolete/tftp/tftpd_uses_secure_mode/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure tftp Daemon Uses Secure Mode'
+ 
+diff --git a/linux_os/guide/services/snmp/disabling_snmp_service/package_net-snmp_removed/rule.yml b/linux_os/guide/services/snmp/disabling_snmp_service/package_net-snmp_removed/rule.yml
+index bd32b57051..da90a2f65c 100644
+--- a/linux_os/guide/services/snmp/disabling_snmp_service/package_net-snmp_removed/rule.yml
++++ b/linux_os/guide/services/snmp/disabling_snmp_service/package_net-snmp_removed/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: debian10,debian11,debian9,fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: debian10,debian11,debian9,fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Uninstall net-snmp Package'
+ 
+diff --git a/linux_os/guide/services/snmp/snmp_configure_server/snmpd_not_default_password/rule.yml b/linux_os/guide/services/snmp/snmp_configure_server/snmpd_not_default_password/rule.yml
+index 4bfec9ffca..73a28ca316 100644
+--- a/linux_os/guide/services/snmp/snmp_configure_server/snmpd_not_default_password/rule.yml
++++ b/linux_os/guide/services/snmp/snmp_configure_server/snmpd_not_default_password/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: debian10,debian11,debian9,fedora,ol7,ol8,rhel7,rhel8,wrlinux1019
++prodtype: debian10,debian11,debian9,fedora,ol7,ol8,rhel7,rhel8,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure Default SNMP Password Is Not Used'
+ 
+diff --git a/linux_os/guide/services/ssh/service_sshd_enabled/rule.yml b/linux_os/guide/services/ssh/service_sshd_enabled/rule.yml
+index 6e459a612a..64b88a22ff 100644
+--- a/linux_os/guide/services/ssh/service_sshd_enabled/rule.yml
++++ b/linux_os/guide/services/ssh/service_sshd_enabled/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Enable the OpenSSH Service'
+ 
+diff --git a/linux_os/guide/services/ssh/ssh_server/firewalld_sshd_port_enabled/rule.yml b/linux_os/guide/services/ssh/ssh_server/firewalld_sshd_port_enabled/rule.yml
+index 35828fcf59..2f9b4797fa 100644
+--- a/linux_os/guide/services/ssh/ssh_server/firewalld_sshd_port_enabled/rule.yml
++++ b/linux_os/guide/services/ssh/ssh_server/firewalld_sshd_port_enabled/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Enable SSH Server firewalld Firewall Exception'
+ 
+diff --git a/linux_os/guide/services/sssd/sssd-ldap/sssd_ldap_configure_tls_ca/rule.yml b/linux_os/guide/services/sssd/sssd-ldap/sssd_ldap_configure_tls_ca/rule.yml
+index 01a2cdb1e8..97241452ae 100644
+--- a/linux_os/guide/services/sssd/sssd-ldap/sssd_ldap_configure_tls_ca/rule.yml
++++ b/linux_os/guide/services/sssd/sssd-ldap/sssd_ldap_configure_tls_ca/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Configure SSSD LDAP Backend Client CA Certificate'
+ 
+diff --git a/linux_os/guide/services/sssd/sssd-ldap/sssd_ldap_configure_tls_ca_dir/rule.yml b/linux_os/guide/services/sssd/sssd-ldap/sssd_ldap_configure_tls_ca_dir/rule.yml
+index 430f0e65f7..90bc7d8a8c 100644
+--- a/linux_os/guide/services/sssd/sssd-ldap/sssd_ldap_configure_tls_ca_dir/rule.yml
++++ b/linux_os/guide/services/sssd/sssd-ldap/sssd_ldap_configure_tls_ca_dir/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Configure SSSD LDAP Backend Client CA Certificate Location'
+ 
+diff --git a/linux_os/guide/services/sssd/sssd-ldap/sssd_ldap_configure_tls_reqcert/rule.yml b/linux_os/guide/services/sssd/sssd-ldap/sssd_ldap_configure_tls_reqcert/rule.yml
+index 4b9636fb58..d92066afae 100644
+--- a/linux_os/guide/services/sssd/sssd-ldap/sssd_ldap_configure_tls_reqcert/rule.yml
++++ b/linux_os/guide/services/sssd/sssd-ldap/sssd_ldap_configure_tls_reqcert/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Configure SSSD LDAP Backend Client to Demand a Valid Certificate from the Server'
+ 
+diff --git a/linux_os/guide/services/sssd/sssd-ldap/sssd_ldap_start_tls/rule.yml b/linux_os/guide/services/sssd/sssd-ldap/sssd_ldap_start_tls/rule.yml
+index 1f48dc7e9d..d1b8c84d01 100644
+--- a/linux_os/guide/services/sssd/sssd-ldap/sssd_ldap_start_tls/rule.yml
++++ b/linux_os/guide/services/sssd/sssd-ldap/sssd_ldap_start_tls/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Configure SSSD LDAP Backend to Use TLS For All Transactions'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-banners/banner_etc_issue/rule.yml b/linux_os/guide/system/accounts/accounts-banners/banner_etc_issue/rule.yml
+index a2d2e4e40d..7dacdc0c3c 100644
+--- a/linux_os/guide/system/accounts/accounts-banners/banner_etc_issue/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-banners/banner_etc_issue/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Modify the System Login Banner'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-banners/banner_etc_motd/rule.yml b/linux_os/guide/system/accounts/accounts-banners/banner_etc_motd/rule.yml
+index d8d116b5ea..977acb68d7 100644
+--- a/linux_os/guide/system/accounts/accounts-banners/banner_etc_motd/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-banners/banner_etc_motd/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Modify the System Message of the Day Banner'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-banners/file_groupowner_etc_issue/rule.yml b/linux_os/guide/system/accounts/accounts-banners/file_groupowner_etc_issue/rule.yml
+index 856b447730..52b806019b 100644
+--- a/linux_os/guide/system/accounts/accounts-banners/file_groupowner_etc_issue/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-banners/file_groupowner_etc_issue/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Verify Group Ownership of System Login Banner'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-banners/file_groupowner_etc_motd/rule.yml b/linux_os/guide/system/accounts/accounts-banners/file_groupowner_etc_motd/rule.yml
+index 67ded67350..e26b25608c 100644
+--- a/linux_os/guide/system/accounts/accounts-banners/file_groupowner_etc_motd/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-banners/file_groupowner_etc_motd/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Verify Group Ownership of Message of the Day Banner'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-banners/file_owner_etc_issue/rule.yml b/linux_os/guide/system/accounts/accounts-banners/file_owner_etc_issue/rule.yml
+index 2ff9b03ee7..6b4c6f564c 100644
+--- a/linux_os/guide/system/accounts/accounts-banners/file_owner_etc_issue/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-banners/file_owner_etc_issue/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Verify ownership of System Login Banner'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-banners/file_owner_etc_motd/rule.yml b/linux_os/guide/system/accounts/accounts-banners/file_owner_etc_motd/rule.yml
+index 279fad532e..a5eef6491e 100644
+--- a/linux_os/guide/system/accounts/accounts-banners/file_owner_etc_motd/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-banners/file_owner_etc_motd/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Verify ownership of Message of the Day Banner'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-banners/file_permissions_etc_issue/rule.yml b/linux_os/guide/system/accounts/accounts-banners/file_permissions_etc_issue/rule.yml
+index 7e833828af..cd9db2db82 100644
+--- a/linux_os/guide/system/accounts/accounts-banners/file_permissions_etc_issue/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-banners/file_permissions_etc_issue/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Verify permissions on System Login Banner'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-banners/file_permissions_etc_motd/rule.yml b/linux_os/guide/system/accounts/accounts-banners/file_permissions_etc_motd/rule.yml
+index 71c9d5b042..a4de7b133b 100644
+--- a/linux_os/guide/system/accounts/accounts-banners/file_permissions_etc_motd/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-banners/file_permissions_etc_motd/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Verify permissions on Message of the Day Banner'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-pam/locking_out_password_attempts/accounts_password_pam_pwhistory_remember_password_auth/rule.yml b/linux_os/guide/system/accounts/accounts-pam/locking_out_password_attempts/accounts_password_pam_pwhistory_remember_password_auth/rule.yml
+index 42b6a2619a..ddfda0c85f 100644
+--- a/linux_os/guide/system/accounts/accounts-pam/locking_out_password_attempts/accounts_password_pam_pwhistory_remember_password_auth/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-pam/locking_out_password_attempts/accounts_password_pam_pwhistory_remember_password_auth/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Limit Password Reuse: password-auth'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-pam/locking_out_password_attempts/accounts_password_pam_pwhistory_remember_system_auth/rule.yml b/linux_os/guide/system/accounts/accounts-pam/locking_out_password_attempts/accounts_password_pam_pwhistory_remember_system_auth/rule.yml
+index 330df19699..abce929d00 100644
+--- a/linux_os/guide/system/accounts/accounts-pam/locking_out_password_attempts/accounts_password_pam_pwhistory_remember_system_auth/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-pam/locking_out_password_attempts/accounts_password_pam_pwhistory_remember_system_auth/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Limit Password Reuse: system-auth'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-pam/locking_out_password_attempts/accounts_password_pam_unix_remember/rule.yml b/linux_os/guide/system/accounts/accounts-pam/locking_out_password_attempts/accounts_password_pam_unix_remember/rule.yml
+index 56f58810c2..663849477e 100644
+--- a/linux_os/guide/system/accounts/accounts-pam/locking_out_password_attempts/accounts_password_pam_unix_remember/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-pam/locking_out_password_attempts/accounts_password_pam_unix_remember/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Limit Password Reuse'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-pam/locking_out_password_attempts/accounts_passwords_pam_faillock_deny/rule.yml b/linux_os/guide/system/accounts/accounts-pam/locking_out_password_attempts/accounts_passwords_pam_faillock_deny/rule.yml
+index 5e67e51f18..f66384801b 100644
+--- a/linux_os/guide/system/accounts/accounts-pam/locking_out_password_attempts/accounts_passwords_pam_faillock_deny/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-pam/locking_out_password_attempts/accounts_passwords_pam_faillock_deny/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle15,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Lock Accounts After Failed Password Attempts'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-pam/locking_out_password_attempts/accounts_passwords_pam_faillock_deny_root/rule.yml b/linux_os/guide/system/accounts/accounts-pam/locking_out_password_attempts/accounts_passwords_pam_faillock_deny_root/rule.yml
+index 1fa39483a2..ab9fe80ddd 100644
+--- a/linux_os/guide/system/accounts/accounts-pam/locking_out_password_attempts/accounts_passwords_pam_faillock_deny_root/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-pam/locking_out_password_attempts/accounts_passwords_pam_faillock_deny_root/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle15,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Configure the root Account for Failed Password Attempts'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_dcredit/rule.yml b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_dcredit/rule.yml
+index 3978f09f1b..7b17d52764 100644
+--- a/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_dcredit/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_dcredit/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure PAM Enforces Password Requirements - Minimum Digit Characters'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_difok/rule.yml b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_difok/rule.yml
+index aaa02175af..778b16a810 100644
+--- a/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_difok/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_difok/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure PAM Enforces Password Requirements - Minimum Different Characters'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_lcredit/rule.yml b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_lcredit/rule.yml
+index 2d68a88e11..f80a0d480a 100644
+--- a/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_lcredit/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_lcredit/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure PAM Enforces Password Requirements - Minimum Lowercase Characters'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_maxclassrepeat/rule.yml b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_maxclassrepeat/rule.yml
+index d18896289f..a5891d9510 100644
+--- a/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_maxclassrepeat/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_maxclassrepeat/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure PAM Enforces Password Requirements - Maximum Consecutive Repeating Characters from Same Character Class'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_maxrepeat/rule.yml b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_maxrepeat/rule.yml
+index 6d83ae3c4f..b7320dfb26 100644
+--- a/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_maxrepeat/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_maxrepeat/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Set Password Maximum Consecutive Repeating Characters'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_minclass/rule.yml b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_minclass/rule.yml
+index def17ba8a7..28b880183b 100644
+--- a/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_minclass/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_minclass/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure PAM Enforces Password Requirements - Minimum Different Categories'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_minlen/rule.yml b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_minlen/rule.yml
+index e4648856b0..c3694d6b82 100644
+--- a/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_minlen/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_minlen/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure PAM Enforces Password Requirements - Minimum Length'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_ocredit/rule.yml b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_ocredit/rule.yml
+index e6e00aa504..3961e6a9ef 100644
+--- a/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_ocredit/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_ocredit/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure PAM Enforces Password Requirements - Minimum Special Characters'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_retry/rule.yml b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_retry/rule.yml
+index 0fc5c0c6b2..0e7fd68e49 100644
+--- a/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_retry/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_retry/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure PAM Enforces Password Requirements - Authentication Retry Prompts Permitted Per-Session'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_ucredit/rule.yml b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_ucredit/rule.yml
+index 2c18a1189e..d33318b1e4 100644
+--- a/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_ucredit/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_ucredit/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure PAM Enforces Password Requirements - Minimum Uppercase Characters'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-pam/set_password_hashing_algorithm/set_password_hashing_algorithm_libuserconf/rule.yml b/linux_os/guide/system/accounts/accounts-pam/set_password_hashing_algorithm/set_password_hashing_algorithm_libuserconf/rule.yml
+index f0899c7f90..c390dea8f9 100644
+--- a/linux_os/guide/system/accounts/accounts-pam/set_password_hashing_algorithm/set_password_hashing_algorithm_libuserconf/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-pam/set_password_hashing_algorithm/set_password_hashing_algorithm_libuserconf/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle15,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Set Password Hashing Algorithm in /etc/libuser.conf'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-pam/set_password_hashing_algorithm/set_password_hashing_algorithm_logindefs/rule.yml b/linux_os/guide/system/accounts/accounts-pam/set_password_hashing_algorithm/set_password_hashing_algorithm_logindefs/rule.yml
+index d48e98b9f4..a1d5a36b60 100644
+--- a/linux_os/guide/system/accounts/accounts-pam/set_password_hashing_algorithm/set_password_hashing_algorithm_logindefs/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-pam/set_password_hashing_algorithm/set_password_hashing_algorithm_logindefs/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Set Password Hashing Algorithm in /etc/login.defs'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-pam/set_password_hashing_algorithm/set_password_hashing_algorithm_systemauth/rule.yml b/linux_os/guide/system/accounts/accounts-pam/set_password_hashing_algorithm/set_password_hashing_algorithm_systemauth/rule.yml
+index e8f5eca41b..e2bc43cd00 100644
+--- a/linux_os/guide/system/accounts/accounts-pam/set_password_hashing_algorithm/set_password_hashing_algorithm_systemauth/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-pam/set_password_hashing_algorithm/set_password_hashing_algorithm_systemauth/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: "Set PAM's Password Hashing Algorithm"
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-physical/disable_ctrlaltdel_reboot/rule.yml b/linux_os/guide/system/accounts/accounts-physical/disable_ctrlaltdel_reboot/rule.yml
+index 0d909090cf..afbcac5b79 100644
+--- a/linux_os/guide/system/accounts/accounts-physical/disable_ctrlaltdel_reboot/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-physical/disable_ctrlaltdel_reboot/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Disable Ctrl-Alt-Del Reboot Activation'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-physical/require_singleuser_auth/rule.yml b/linux_os/guide/system/accounts/accounts-physical/require_singleuser_auth/rule.yml
+index 8d7a4fa7b7..49c5ec6598 100644
+--- a/linux_os/guide/system/accounts/accounts-physical/require_singleuser_auth/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-physical/require_singleuser_auth/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Require Authentication for Single User Mode'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-physical/screen_locking/console_screen_locking/package_screen_installed/rule.yml b/linux_os/guide/system/accounts/accounts-physical/screen_locking/console_screen_locking/package_screen_installed/rule.yml
+index 7918554ba6..acb5e11f96 100644
+--- a/linux_os/guide/system/accounts/accounts-physical/screen_locking/console_screen_locking/package_screen_installed/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-physical/screen_locking/console_screen_locking/package_screen_installed/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,rhel7,wrlinux1019
++prodtype: fedora,ol7,rhel7,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Install the screen Package'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-restrictions/account_expiration/account_disable_post_pw_expiration/rule.yml b/linux_os/guide/system/accounts/accounts-restrictions/account_expiration/account_disable_post_pw_expiration/rule.yml
+index 9dbe86638d..bf04f10777 100644
+--- a/linux_os/guide/system/accounts/accounts-restrictions/account_expiration/account_disable_post_pw_expiration/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-restrictions/account_expiration/account_disable_post_pw_expiration/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Set Account Expiration Following Inactivity'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-restrictions/password_expiration/accounts_password_set_max_life_existing/rule.yml b/linux_os/guide/system/accounts/accounts-restrictions/password_expiration/accounts_password_set_max_life_existing/rule.yml
+index 8656619b43..9ba322c9f5 100644
+--- a/linux_os/guide/system/accounts/accounts-restrictions/password_expiration/accounts_password_set_max_life_existing/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-restrictions/password_expiration/accounts_password_set_max_life_existing/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Set Existing Passwords Maximum Age'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-restrictions/password_expiration/accounts_password_set_min_life_existing/rule.yml b/linux_os/guide/system/accounts/accounts-restrictions/password_expiration/accounts_password_set_min_life_existing/rule.yml
+index ed8475ff18..23c8198898 100644
+--- a/linux_os/guide/system/accounts/accounts-restrictions/password_expiration/accounts_password_set_min_life_existing/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-restrictions/password_expiration/accounts_password_set_min_life_existing/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Set Existing Passwords Minimum Age'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-session/accounts_have_homedir_login_defs/rule.yml b/linux_os/guide/system/accounts/accounts-session/accounts_have_homedir_login_defs/rule.yml
+index 0587c51efd..594dce8d2b 100644
+--- a/linux_os/guide/system/accounts/accounts-session/accounts_have_homedir_login_defs/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-session/accounts_have_homedir_login_defs/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure Home Directories are Created for New Users'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-session/accounts_tmout/rule.yml b/linux_os/guide/system/accounts/accounts-session/accounts_tmout/rule.yml
+index b970972aff..3cc90e0b44 100644
+--- a/linux_os/guide/system/accounts/accounts-session/accounts_tmout/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-session/accounts_tmout/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Set Interactive Session Timeout'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-session/accounts_user_dot_group_ownership/rule.yml b/linux_os/guide/system/accounts/accounts-session/accounts_user_dot_group_ownership/rule.yml
+index e7d83f84d8..cd3ef4b830 100644
+--- a/linux_os/guide/system/accounts/accounts-session/accounts_user_dot_group_ownership/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-session/accounts_user_dot_group_ownership/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhv4,sle15,ubuntu2004,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhv4,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'User Initialization Files Must Be Group-Owned By The Primary User'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-session/accounts_user_dot_no_world_writable_programs/rule.yml b/linux_os/guide/system/accounts/accounts-session/accounts_user_dot_no_world_writable_programs/rule.yml
+index 94a8b35862..1c03dba64f 100644
+--- a/linux_os/guide/system/accounts/accounts-session/accounts_user_dot_no_world_writable_programs/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-session/accounts_user_dot_no_world_writable_programs/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'User Initialization Files Must Not Run World-Writable Programs'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-session/accounts_user_dot_user_ownership/rule.yml b/linux_os/guide/system/accounts/accounts-session/accounts_user_dot_user_ownership/rule.yml
+index 33bb0f5183..eb3ac85575 100644
+--- a/linux_os/guide/system/accounts/accounts-session/accounts_user_dot_user_ownership/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-session/accounts_user_dot_user_ownership/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhv4,ubuntu2004,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhv4,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'User Initialization Files Must Be Owned By the Primary User'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-session/accounts_user_home_paths_only/rule.yml b/linux_os/guide/system/accounts/accounts-session/accounts_user_home_paths_only/rule.yml
+index 350d2cc585..befbb357f9 100644
+--- a/linux_os/guide/system/accounts/accounts-session/accounts_user_home_paths_only/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-session/accounts_user_home_paths_only/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure that Users Path Contains Only Local Directories'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-session/accounts_user_interactive_home_directory_defined/rule.yml b/linux_os/guide/system/accounts/accounts-session/accounts_user_interactive_home_directory_defined/rule.yml
+index a666d82f79..524e56e86c 100644
+--- a/linux_os/guide/system/accounts/accounts-session/accounts_user_interactive_home_directory_defined/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-session/accounts_user_interactive_home_directory_defined/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'All Interactive Users Must Have A Home Directory Defined'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-session/accounts_user_interactive_home_directory_exists/rule.yml b/linux_os/guide/system/accounts/accounts-session/accounts_user_interactive_home_directory_exists/rule.yml
+index 5bca914993..03b041e1b0 100644
+--- a/linux_os/guide/system/accounts/accounts-session/accounts_user_interactive_home_directory_exists/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-session/accounts_user_interactive_home_directory_exists/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'All Interactive Users Home Directories Must Exist'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-session/accounts_users_home_files_groupownership/rule.yml b/linux_os/guide/system/accounts/accounts-session/accounts_users_home_files_groupownership/rule.yml
+index b5d629a48f..77f7f7e568 100644
+--- a/linux_os/guide/system/accounts/accounts-session/accounts_users_home_files_groupownership/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-session/accounts_users_home_files_groupownership/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhv4,sle15,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhv4,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'All User Files and Directories In The Home Directory Must Be Group-Owned By The Primary User'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-session/accounts_users_home_files_ownership/rule.yml b/linux_os/guide/system/accounts/accounts-session/accounts_users_home_files_ownership/rule.yml
+index 00f5f0b9fd..1d2150953a 100644
+--- a/linux_os/guide/system/accounts/accounts-session/accounts_users_home_files_ownership/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-session/accounts_users_home_files_ownership/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhv4,sle15,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhv4,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'All User Files and Directories In The Home Directory Must Have a Valid Owner'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-session/accounts_users_home_files_permissions/rule.yml b/linux_os/guide/system/accounts/accounts-session/accounts_users_home_files_permissions/rule.yml
+index 4777f8a354..74892752ee 100644
+--- a/linux_os/guide/system/accounts/accounts-session/accounts_users_home_files_permissions/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-session/accounts_users_home_files_permissions/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhv4,sle15,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhv4,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'All User Files and Directories In The Home Directory Must Have Mode 0750 Or Less Permissive'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-session/file_groupownership_home_directories/rule.yml b/linux_os/guide/system/accounts/accounts-session/file_groupownership_home_directories/rule.yml
+index 0d99f9aad2..60ce78608a 100644
+--- a/linux_os/guide/system/accounts/accounts-session/file_groupownership_home_directories/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-session/file_groupownership_home_directories/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'All Interactive User Home Directories Must Be Group-Owned By The Primary User'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-session/file_ownership_home_directories/rule.yml b/linux_os/guide/system/accounts/accounts-session/file_ownership_home_directories/rule.yml
+index 754dd064d8..47ac8894dc 100644
+--- a/linux_os/guide/system/accounts/accounts-session/file_ownership_home_directories/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-session/file_ownership_home_directories/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhv4,sle12,sle15,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'All Interactive User Home Directories Must Be Owned By The Primary User'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-session/file_permission_user_init_files/rule.yml b/linux_os/guide/system/accounts/accounts-session/file_permission_user_init_files/rule.yml
+index e33c068fdd..571b2a1a57 100644
+--- a/linux_os/guide/system/accounts/accounts-session/file_permission_user_init_files/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-session/file_permission_user_init_files/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure All User Initialization Files Have Mode 0740 Or Less Permissive'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-session/file_permissions_home_directories/rule.yml b/linux_os/guide/system/accounts/accounts-session/file_permissions_home_directories/rule.yml
+index e8211cb507..928a569d98 100644
+--- a/linux_os/guide/system/accounts/accounts-session/file_permissions_home_directories/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-session/file_permissions_home_directories/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'All Interactive User Home Directories Must Have mode 0750 Or Less Permissive'
+ 
+diff --git a/linux_os/guide/system/accounts/accounts-session/user_umask/accounts_umask_interactive_users/rule.yml b/linux_os/guide/system/accounts/accounts-session/user_umask/accounts_umask_interactive_users/rule.yml
+index 9219e5782d..e811c4565b 100644
+--- a/linux_os/guide/system/accounts/accounts-session/user_umask/accounts_umask_interactive_users/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-session/user_umask/accounts_umask_interactive_users/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle15,ubuntu2004,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure the Default Umask is Set Correctly For Interactive Users'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_execution_selinux_commands/audit_rules_execution_chcon/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_execution_selinux_commands/audit_rules_execution_chcon/rule.yml
+index 00fbf3b9a9..60b3daa6a8 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_execution_selinux_commands/audit_rules_execution_chcon/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_execution_selinux_commands/audit_rules_execution_chcon/rule.yml
+@@ -4,7 +4,7 @@
+ 
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Record Any Attempts to Run chcon'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_execution_selinux_commands/audit_rules_execution_semanage/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_execution_selinux_commands/audit_rules_execution_semanage/rule.yml
+index 6f5dfe5fb4..776a1b9d05 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_execution_selinux_commands/audit_rules_execution_semanage/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_execution_selinux_commands/audit_rules_execution_semanage/rule.yml
+@@ -4,7 +4,7 @@
+ 
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle15,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Record Any Attempts to Run semanage'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_execution_selinux_commands/audit_rules_execution_setsebool/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_execution_selinux_commands/audit_rules_execution_setsebool/rule.yml
+index 68f7b3dc9e..2e66832639 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_execution_selinux_commands/audit_rules_execution_setsebool/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_execution_selinux_commands/audit_rules_execution_setsebool/rule.yml
+@@ -4,7 +4,7 @@
+ 
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle15,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Record Any Attempts to Run setsebool'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_deletion_events/audit_rules_file_deletion_events/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_deletion_events/audit_rules_file_deletion_events/rule.yml
+index 49a0f94ab7..f99fdb049a 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_deletion_events/audit_rules_file_deletion_events/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_deletion_events/audit_rules_file_deletion_events/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: debian10,debian11,debian9,fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: debian10,debian11,debian9,fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure auditd Collects File Deletion Events by User'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification/rule.yml
+index 15d3230379..96b7001f56 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: debian10,debian11,debian9,fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: debian10,debian11,debian9,fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure auditd Collects Unauthorized Access Attempts to Files (unsuccessful)'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification_creat/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification_creat/rule.yml
+index 5f71ab2287..d4e5ff0877 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification_creat/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification_creat/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: debian10,debian11,debian9,fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: debian10,debian11,debian9,fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Record Unsuccessful Access Attempts to Files - creat'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification_ftruncate/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification_ftruncate/rule.yml
+index f70e54a22d..f23655eead 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification_ftruncate/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification_ftruncate/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: debian10,debian11,debian9,fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: debian10,debian11,debian9,fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Record Unsuccessful Access Attempts to Files - ftruncate'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification_open/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification_open/rule.yml
+index 595a847ccf..139f2fdb25 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification_open/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification_open/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: debian10,debian11,debian9,fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: debian10,debian11,debian9,fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Record Unsuccessful Access Attempts to Files - open'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification_open_by_handle_at/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification_open_by_handle_at/rule.yml
+index fc732f62e4..fee4f3ad57 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification_open_by_handle_at/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification_open_by_handle_at/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: debian10,debian11,debian9,fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: debian10,debian11,debian9,fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Record Unsuccessful Access Attempts to Files - open_by_handle_at'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification_openat/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification_openat/rule.yml
+index 2e37ec1f0f..e007ce5833 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification_openat/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification_openat/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: debian10,debian11,debian9,fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: debian10,debian11,debian9,fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Record Unsuccessful Access Attempts to Files - openat'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification_truncate/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification_truncate/rule.yml
+index 29ebb56e5b..e8fd4d99ed 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification_truncate/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_file_modification/audit_rules_unsuccessful_file_modification_truncate/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: debian10,debian11,debian9,fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: debian10,debian11,debian9,fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Record Unsuccessful Access Attempts to Files - truncate'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_kernel_module_loading/audit_rules_kernel_module_loading/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_kernel_module_loading/audit_rules_kernel_module_loading/rule.yml
+index e7a2df969d..62f8741a67 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_kernel_module_loading/audit_rules_kernel_module_loading/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_kernel_module_loading/audit_rules_kernel_module_loading/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: debian10,debian11,debian9,fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: debian10,debian11,debian9,fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure auditd Collects Information on Kernel Module Loading and Unloading'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_kernel_module_loading/audit_rules_kernel_module_loading_delete/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_kernel_module_loading/audit_rules_kernel_module_loading_delete/rule.yml
+index 409e1794af..5a08ea20c3 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_kernel_module_loading/audit_rules_kernel_module_loading_delete/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_kernel_module_loading/audit_rules_kernel_module_loading_delete/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: debian10,debian11,debian9,fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: debian10,debian11,debian9,fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure auditd Collects Information on Kernel Module Unloading - delete_module'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_kernel_module_loading/audit_rules_kernel_module_loading_finit/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_kernel_module_loading/audit_rules_kernel_module_loading_finit/rule.yml
+index 023bd5d651..72db3cb553 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_kernel_module_loading/audit_rules_kernel_module_loading_finit/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_kernel_module_loading/audit_rules_kernel_module_loading_finit/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: debian10,debian11,debian9,fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: debian10,debian11,debian9,fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure auditd Collects Information on Kernel Module Loading and Unloading - finit_module'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_kernel_module_loading/audit_rules_kernel_module_loading_init/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_kernel_module_loading/audit_rules_kernel_module_loading_init/rule.yml
+index 27afe49252..522858bc09 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_kernel_module_loading/audit_rules_kernel_module_loading_init/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_kernel_module_loading/audit_rules_kernel_module_loading_init/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: debian10,debian11,debian9,fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: debian10,debian11,debian9,fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure auditd Collects Information on Kernel Module Loading - init_module'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_login_events/audit_rules_login_events/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_login_events/audit_rules_login_events/rule.yml
+index 858affea4d..54376826e3 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_login_events/audit_rules_login_events/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_login_events/audit_rules_login_events/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: debian10,debian11,debian9,fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: debian10,debian11,debian9,fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Record Attempts to Alter Logon and Logout Events'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_login_events/audit_rules_login_events_faillock/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_login_events/audit_rules_login_events_faillock/rule.yml
+index 1131e92c2e..63397fe41c 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_login_events/audit_rules_login_events_faillock/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_login_events/audit_rules_login_events_faillock/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: debian10,debian11,debian9,fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: debian10,debian11,debian9,fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Record Attempts to Alter Logon and Logout Events - faillock'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_login_events/audit_rules_login_events_lastlog/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_login_events/audit_rules_login_events_lastlog/rule.yml
+index 1f0a183b87..0b92de1d2a 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_login_events/audit_rules_login_events_lastlog/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_login_events/audit_rules_login_events_lastlog/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: debian10,debian11,debian9,fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: debian10,debian11,debian9,fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Record Attempts to Alter Logon and Logout Events - lastlog'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_login_events/audit_rules_login_events_tallylog/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_login_events/audit_rules_login_events_tallylog/rule.yml
+index e506ceb546..e9dc92f9f5 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_login_events/audit_rules_login_events_tallylog/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_login_events/audit_rules_login_events_tallylog/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: debian10,debian11,debian9,fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: debian10,debian11,debian9,fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Record Attempts to Alter Logon and Logout Events - tallylog'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_chage/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_chage/rule.yml
+index b81115833f..a1008844d0 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_chage/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_chage/rule.yml
+@@ -4,7 +4,7 @@
+ 
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure auditd Collects Information on the Use of Privileged Commands - chage'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_chsh/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_chsh/rule.yml
+index b155d8e0ff..d27bbcd4c6 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_chsh/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_chsh/rule.yml
+@@ -4,7 +4,7 @@
+ 
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure auditd Collects Information on the Use of Privileged Commands - chsh'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_crontab/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_crontab/rule.yml
+index 872e7c442e..e2623e70aa 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_crontab/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_crontab/rule.yml
+@@ -4,7 +4,7 @@
+ 
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure auditd Collects Information on the Use of Privileged Commands - crontab'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_gpasswd/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_gpasswd/rule.yml
+index 4ee68cd029..5942bef712 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_gpasswd/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_gpasswd/rule.yml
+@@ -4,7 +4,7 @@
+ 
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure auditd Collects Information on the Use of Privileged Commands - gpasswd'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_pam_timestamp_check/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_pam_timestamp_check/rule.yml
+index 7cb8a9154e..f24b396479 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_pam_timestamp_check/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_pam_timestamp_check/rule.yml
+@@ -11,7 +11,7 @@
+ 
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure auditd Collects Information on the Use of Privileged Commands - pam_timestamp_check'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_passwd/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_passwd/rule.yml
+index 077e33b0ff..42945b9df5 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_passwd/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_passwd/rule.yml
+@@ -4,7 +4,7 @@
+ 
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure auditd Collects Information on the Use of Privileged Commands - passwd'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_postdrop/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_postdrop/rule.yml
+index c1089532b9..1fb28ad50a 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_postdrop/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_postdrop/rule.yml
+@@ -4,7 +4,7 @@
+ 
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle15,ubuntu2004,wrlinux1019
++prodtype: ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure auditd Collects Information on the Use of Privileged Commands - postdrop'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_postqueue/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_postqueue/rule.yml
+index 287c3fe0c0..36fda8fd90 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_postqueue/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_postqueue/rule.yml
+@@ -4,7 +4,7 @@
+ 
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle15,ubuntu2004,wrlinux1019
++prodtype: ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure auditd Collects Information on the Use of Privileged Commands - postqueue'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_ssh_keysign/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_ssh_keysign/rule.yml
+index 959edfe9e5..219f7e3a57 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_ssh_keysign/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_ssh_keysign/rule.yml
+@@ -10,7 +10,7 @@
+ 
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure auditd Collects Information on the Use of Privileged Commands - ssh-keysign'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_su/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_su/rule.yml
+index 804343edb8..29b6bb44cd 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_su/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_su/rule.yml
+@@ -4,7 +4,7 @@
+ 
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure auditd Collects Information on the Use of Privileged Commands - su'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_sudo/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_sudo/rule.yml
+index 053302d994..eee51cd83d 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_sudo/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_sudo/rule.yml
+@@ -4,7 +4,7 @@
+ 
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure auditd Collects Information on the Use of Privileged Commands - sudo'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_umount/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_umount/rule.yml
+index 3f2a260177..562b269e90 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_umount/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_umount/rule.yml
+@@ -4,7 +4,7 @@
+ 
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure auditd Collects Information on the Use of Privileged Commands - umount'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_unix_chkpwd/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_unix_chkpwd/rule.yml
+index 119361de38..b21d646f84 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_unix_chkpwd/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_privileged_commands/audit_rules_privileged_commands_unix_chkpwd/rule.yml
+@@ -4,7 +4,7 @@
+ 
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure auditd Collects Information on the Use of Privileged Commands - unix_chkpwd'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_rules_system_shutdown/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_rules_system_shutdown/rule.yml
+index 8cfe8ad47f..de2fd54fb4 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_rules_system_shutdown/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_rules_system_shutdown/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle15,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Shutdown System When Auditing Failures Occur'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_rules_usergroup_modification_group/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_rules_usergroup_modification_group/rule.yml
+index 5941183579..a0a1fac3fe 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_rules_usergroup_modification_group/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_rules_usergroup_modification_group/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Record Events that Modify User/Group Information - /etc/group'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_rules_usergroup_modification_gshadow/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_rules_usergroup_modification_gshadow/rule.yml
+index ad8df7aef7..71a73c2c85 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_rules_usergroup_modification_gshadow/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_rules_usergroup_modification_gshadow/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Record Events that Modify User/Group Information - /etc/gshadow'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_rules_usergroup_modification_opasswd/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_rules_usergroup_modification_opasswd/rule.yml
+index d57c0b268a..36278de802 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_rules_usergroup_modification_opasswd/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_rules_usergroup_modification_opasswd/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Record Events that Modify User/Group Information - /etc/security/opasswd'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_rules_usergroup_modification_passwd/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_rules_usergroup_modification_passwd/rule.yml
+index e8c33451c1..569cfa0685 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_rules_usergroup_modification_passwd/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_rules_usergroup_modification_passwd/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Record Events that Modify User/Group Information - /etc/passwd'
+ 
+diff --git a/linux_os/guide/system/auditing/auditd_configure_rules/audit_rules_usergroup_modification_shadow/rule.yml b/linux_os/guide/system/auditing/auditd_configure_rules/audit_rules_usergroup_modification_shadow/rule.yml
+index 530ba17796..871481ab26 100644
+--- a/linux_os/guide/system/auditing/auditd_configure_rules/audit_rules_usergroup_modification_shadow/rule.yml
++++ b/linux_os/guide/system/auditing/auditd_configure_rules/audit_rules_usergroup_modification_shadow/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Record Events that Modify User/Group Information - /etc/shadow'
+ 
+diff --git a/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_configure_remote_server/rule.yml b/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_configure_remote_server/rule.yml
+index 814f868f29..e1dc4cc314 100644
+--- a/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_configure_remote_server/rule.yml
++++ b/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_configure_remote_server/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Configure audispd Plugin To Send Logs To Remote Server'
+ 
+diff --git a/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_disk_full_action/rule.yml b/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_disk_full_action/rule.yml
+index e5c338384c..9ff4bedf73 100644
+--- a/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_disk_full_action/rule.yml
++++ b/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_disk_full_action/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Configure audispd''s Plugin disk_full_action When Disk Is Full'
+ 
+diff --git a/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_encrypt_sent_records/rule.yml b/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_encrypt_sent_records/rule.yml
+index 9c3f34e24c..c7a193f514 100644
+--- a/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_encrypt_sent_records/rule.yml
++++ b/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_encrypt_sent_records/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Encrypt Audit Records Sent With audispd Plugin'
+ 
+diff --git a/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_network_failure_action/rule.yml b/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_network_failure_action/rule.yml
+index 08d2794f36..7260ab1217 100644
+--- a/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_network_failure_action/rule.yml
++++ b/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_network_failure_action/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Configure audispd''s Plugin network_failure_action On Network Failure'
+ 
+diff --git a/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_data_retention_space_left/rule.yml b/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_data_retention_space_left/rule.yml
+index 04042fa140..e5b65d3ace 100644
+--- a/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_data_retention_space_left/rule.yml
++++ b/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_data_retention_space_left/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Configure auditd space_left on Low Disk Space'
+ 
+diff --git a/linux_os/guide/system/bootloader-grub2/non-uefi/grub2_admin_username/rule.yml b/linux_os/guide/system/bootloader-grub2/non-uefi/grub2_admin_username/rule.yml
+index a43d5fcc03..40ea7148f3 100644
+--- a/linux_os/guide/system/bootloader-grub2/non-uefi/grub2_admin_username/rule.yml
++++ b/linux_os/guide/system/bootloader-grub2/non-uefi/grub2_admin_username/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Set the Boot Loader Admin Username to a Non-Default Value'
+ 
+diff --git a/linux_os/guide/system/bootloader-grub2/non-uefi/grub2_no_removeable_media/rule.yml b/linux_os/guide/system/bootloader-grub2/non-uefi/grub2_no_removeable_media/rule.yml
+index c2b738aa01..98ac396884 100644
+--- a/linux_os/guide/system/bootloader-grub2/non-uefi/grub2_no_removeable_media/rule.yml
++++ b/linux_os/guide/system/bootloader-grub2/non-uefi/grub2_no_removeable_media/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhv4,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhv4,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Boot Loader Is Not Installed On Removeable Media'
+ 
+diff --git a/linux_os/guide/system/bootloader-grub2/non-uefi/grub2_password/rule.yml b/linux_os/guide/system/bootloader-grub2/non-uefi/grub2_password/rule.yml
+index ad515a65ee..ba0413b561 100644
+--- a/linux_os/guide/system/bootloader-grub2/non-uefi/grub2_password/rule.yml
++++ b/linux_os/guide/system/bootloader-grub2/non-uefi/grub2_password/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Set Boot Loader Password in grub2'
+ 
+diff --git a/linux_os/guide/system/bootloader-grub2/uefi/grub2_uefi_admin_username/rule.yml b/linux_os/guide/system/bootloader-grub2/uefi/grub2_uefi_admin_username/rule.yml
+index 17b4918c5f..2c6e391227 100644
+--- a/linux_os/guide/system/bootloader-grub2/uefi/grub2_uefi_admin_username/rule.yml
++++ b/linux_os/guide/system/bootloader-grub2/uefi/grub2_uefi_admin_username/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Set the UEFI Boot Loader Admin Username to a Non-Default Value'
+ 
+diff --git a/linux_os/guide/system/bootloader-grub2/uefi/grub2_uefi_password/rule.yml b/linux_os/guide/system/bootloader-grub2/uefi/grub2_uefi_password/rule.yml
+index 4579b1ff2e..4448a4c675 100644
+--- a/linux_os/guide/system/bootloader-grub2/uefi/grub2_uefi_password/rule.yml
++++ b/linux_os/guide/system/bootloader-grub2/uefi/grub2_uefi_password/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Set the UEFI Boot Loader Password'
+ 
+diff --git a/linux_os/guide/system/logging/ensure_rsyslog_log_file_configuration/rsyslog_cron_logging/rule.yml b/linux_os/guide/system/logging/ensure_rsyslog_log_file_configuration/rsyslog_cron_logging/rule.yml
+index 076bda6687..d299e74ae3 100644
+--- a/linux_os/guide/system/logging/ensure_rsyslog_log_file_configuration/rsyslog_cron_logging/rule.yml
++++ b/linux_os/guide/system/logging/ensure_rsyslog_log_file_configuration/rsyslog_cron_logging/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure cron Is Logging To Rsyslog'
+ 
+diff --git a/linux_os/guide/system/logging/rsyslog_accepting_remote_messages/rsyslog_nolisten/rule.yml b/linux_os/guide/system/logging/rsyslog_accepting_remote_messages/rsyslog_nolisten/rule.yml
+index c73b2fb094..e03b55e4cf 100644
+--- a/linux_os/guide/system/logging/rsyslog_accepting_remote_messages/rsyslog_nolisten/rule.yml
++++ b/linux_os/guide/system/logging/rsyslog_accepting_remote_messages/rsyslog_nolisten/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle15,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure rsyslog Does Not Accept Remote Messages Unless Acting As Log Server'
+ 
+diff --git a/linux_os/guide/system/network/network-firewalld/firewalld_activation/service_firewalld_enabled/rule.yml b/linux_os/guide/system/network/network-firewalld/firewalld_activation/service_firewalld_enabled/rule.yml
+index b3beb526a2..63581446ed 100644
+--- a/linux_os/guide/system/network/network-firewalld/firewalld_activation/service_firewalld_enabled/rule.yml
++++ b/linux_os/guide/system/network/network-firewalld/firewalld_activation/service_firewalld_enabled/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle15,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Verify firewalld Enabled'
+ 
+diff --git a/linux_os/guide/system/network/network-firewalld/ruleset_modifications/configure_firewalld_ports/rule.yml b/linux_os/guide/system/network/network-firewalld/ruleset_modifications/configure_firewalld_ports/rule.yml
+index 1f3cecd632..2770ce19ff 100644
+--- a/linux_os/guide/system/network/network-firewalld/ruleset_modifications/configure_firewalld_ports/rule.yml
++++ b/linux_os/guide/system/network/network-firewalld/ruleset_modifications/configure_firewalld_ports/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Configure the Firewalld Ports'
+ 
+diff --git a/linux_os/guide/system/network/network-firewalld/ruleset_modifications/configure_firewalld_rate_limiting/rule.yml b/linux_os/guide/system/network/network-firewalld/ruleset_modifications/configure_firewalld_rate_limiting/rule.yml
+index 9f087f10b7..0c84b6e7a5 100644
+--- a/linux_os/guide/system/network/network-firewalld/ruleset_modifications/configure_firewalld_rate_limiting/rule.yml
++++ b/linux_os/guide/system/network/network-firewalld/ruleset_modifications/configure_firewalld_rate_limiting/rule.yml
+@@ -1,7 +1,7 @@
+ documentation_complete: true
+ 
+ # todo: the remediation is broken on rhel8
+-prodtype: ol7,rhel7,wrlinux1019
++prodtype: ol7,rhel7,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Configure firewalld To Rate Limit Connections'
+ 
+diff --git a/linux_os/guide/system/network/network-ipv6/configuring_ipv6/sysctl_net_ipv6_conf_all_accept_source_route/rule.yml b/linux_os/guide/system/network/network-ipv6/configuring_ipv6/sysctl_net_ipv6_conf_all_accept_source_route/rule.yml
+index f93fa581a8..3f3b99ec54 100644
+--- a/linux_os/guide/system/network/network-ipv6/configuring_ipv6/sysctl_net_ipv6_conf_all_accept_source_route/rule.yml
++++ b/linux_os/guide/system/network/network-ipv6/configuring_ipv6/sysctl_net_ipv6_conf_all_accept_source_route/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Disable Kernel Parameter for Accepting Source-Routed Packets on all IPv6 Interfaces'
+ 
+diff --git a/linux_os/guide/system/network/network-kernel/network_host_and_router_parameters/sysctl_net_ipv4_conf_all_accept_redirects/rule.yml b/linux_os/guide/system/network/network-kernel/network_host_and_router_parameters/sysctl_net_ipv4_conf_all_accept_redirects/rule.yml
+index 9393044bec..e9a9bf0079 100644
+--- a/linux_os/guide/system/network/network-kernel/network_host_and_router_parameters/sysctl_net_ipv4_conf_all_accept_redirects/rule.yml
++++ b/linux_os/guide/system/network/network-kernel/network_host_and_router_parameters/sysctl_net_ipv4_conf_all_accept_redirects/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Disable Accepting ICMP Redirects for All IPv4 Interfaces'
+ 
+diff --git a/linux_os/guide/system/network/network-kernel/network_host_and_router_parameters/sysctl_net_ipv4_conf_all_accept_source_route/rule.yml b/linux_os/guide/system/network/network-kernel/network_host_and_router_parameters/sysctl_net_ipv4_conf_all_accept_source_route/rule.yml
+index e0dae613df..a1fbf3c0e6 100644
+--- a/linux_os/guide/system/network/network-kernel/network_host_and_router_parameters/sysctl_net_ipv4_conf_all_accept_source_route/rule.yml
++++ b/linux_os/guide/system/network/network-kernel/network_host_and_router_parameters/sysctl_net_ipv4_conf_all_accept_source_route/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Disable Kernel Parameter for Accepting Source-Routed Packets on all IPv4 Interfaces'
+ 
+diff --git a/linux_os/guide/system/network/network-kernel/network_host_and_router_parameters/sysctl_net_ipv4_conf_default_accept_source_route/rule.yml b/linux_os/guide/system/network/network-kernel/network_host_and_router_parameters/sysctl_net_ipv4_conf_default_accept_source_route/rule.yml
+index 3fab05c8d6..053cb7fea7 100644
+--- a/linux_os/guide/system/network/network-kernel/network_host_and_router_parameters/sysctl_net_ipv4_conf_default_accept_source_route/rule.yml
++++ b/linux_os/guide/system/network/network-kernel/network_host_and_router_parameters/sysctl_net_ipv4_conf_default_accept_source_route/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Disable Kernel Parameter for Accepting Source-Routed Packets on IPv4 Interfaces by Default'
+ 
+diff --git a/linux_os/guide/system/network/network-kernel/network_host_and_router_parameters/sysctl_net_ipv4_icmp_echo_ignore_broadcasts/rule.yml b/linux_os/guide/system/network/network-kernel/network_host_and_router_parameters/sysctl_net_ipv4_icmp_echo_ignore_broadcasts/rule.yml
+index f6dcc9c2a6..1b21cff5ad 100644
+--- a/linux_os/guide/system/network/network-kernel/network_host_and_router_parameters/sysctl_net_ipv4_icmp_echo_ignore_broadcasts/rule.yml
++++ b/linux_os/guide/system/network/network-kernel/network_host_and_router_parameters/sysctl_net_ipv4_icmp_echo_ignore_broadcasts/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Enable Kernel Parameter to Ignore ICMP Broadcast Echo Requests on IPv4 Interfaces'
+ 
+diff --git a/linux_os/guide/system/network/network-kernel/network_host_and_router_parameters/sysctl_net_ipv4_tcp_invalid_ratelimit/rule.yml b/linux_os/guide/system/network/network-kernel/network_host_and_router_parameters/sysctl_net_ipv4_tcp_invalid_ratelimit/rule.yml
+index cda5d43fc7..e8f5141d65 100644
+--- a/linux_os/guide/system/network/network-kernel/network_host_and_router_parameters/sysctl_net_ipv4_tcp_invalid_ratelimit/rule.yml
++++ b/linux_os/guide/system/network/network-kernel/network_host_and_router_parameters/sysctl_net_ipv4_tcp_invalid_ratelimit/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhcos4,rhel7,rhel8,rhel9,sle15,wrlinux1019
++prodtype: ol7,ol8,rhcos4,rhel7,rhel8,rhel9,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Configure Kernel to Rate Limit Sending of Duplicate TCP Acknowledgments'
+ 
+diff --git a/linux_os/guide/system/network/network-kernel/network_host_parameters/sysctl_net_ipv4_conf_all_send_redirects/rule.yml b/linux_os/guide/system/network/network-kernel/network_host_parameters/sysctl_net_ipv4_conf_all_send_redirects/rule.yml
+index 59f736c08a..b8e4f3f55c 100644
+--- a/linux_os/guide/system/network/network-kernel/network_host_parameters/sysctl_net_ipv4_conf_all_send_redirects/rule.yml
++++ b/linux_os/guide/system/network/network-kernel/network_host_parameters/sysctl_net_ipv4_conf_all_send_redirects/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Disable Kernel Parameter for Sending ICMP Redirects on all IPv4 Interfaces'
+ 
+diff --git a/linux_os/guide/system/network/network-kernel/network_host_parameters/sysctl_net_ipv4_conf_default_send_redirects/rule.yml b/linux_os/guide/system/network/network-kernel/network_host_parameters/sysctl_net_ipv4_conf_default_send_redirects/rule.yml
+index 0936f826fa..c8ed18c485 100644
+--- a/linux_os/guide/system/network/network-kernel/network_host_parameters/sysctl_net_ipv4_conf_default_send_redirects/rule.yml
++++ b/linux_os/guide/system/network/network-kernel/network_host_parameters/sysctl_net_ipv4_conf_default_send_redirects/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Disable Kernel Parameter for Sending ICMP Redirects on all IPv4 Interfaces by Default'
+ 
+diff --git a/linux_os/guide/system/network/network-kernel/network_host_parameters/sysctl_net_ipv4_ip_forward/rule.yml b/linux_os/guide/system/network/network-kernel/network_host_parameters/sysctl_net_ipv4_ip_forward/rule.yml
+index 7306b7ccbf..a82fb93057 100644
+--- a/linux_os/guide/system/network/network-kernel/network_host_parameters/sysctl_net_ipv4_ip_forward/rule.yml
++++ b/linux_os/guide/system/network/network-kernel/network_host_parameters/sysctl_net_ipv4_ip_forward/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Disable Kernel Parameter for IP Forwarding on IPv4 Interfaces'
+ 
+diff --git a/linux_os/guide/system/network/network-uncommon/kernel_module_dccp_disabled/rule.yml b/linux_os/guide/system/network/network-uncommon/kernel_module_dccp_disabled/rule.yml
+index a020559395..842a307397 100644
+--- a/linux_os/guide/system/network/network-uncommon/kernel_module_dccp_disabled/rule.yml
++++ b/linux_os/guide/system/network/network-uncommon/kernel_module_dccp_disabled/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Disable DCCP Support'
+ 
+diff --git a/linux_os/guide/system/network/network_configure_name_resolution/rule.yml b/linux_os/guide/system/network/network_configure_name_resolution/rule.yml
+index abe9d6a4ba..9d2141d9ad 100644
+--- a/linux_os/guide/system/network/network_configure_name_resolution/rule.yml
++++ b/linux_os/guide/system/network/network_configure_name_resolution/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Configure Multiple DNS Servers in /etc/resolv.conf'
+ 
+diff --git a/linux_os/guide/system/network/network_sniffer_disabled/rule.yml b/linux_os/guide/system/network/network_sniffer_disabled/rule.yml
+index 66d6758467..c3175d2425 100644
+--- a/linux_os/guide/system/network/network_sniffer_disabled/rule.yml
++++ b/linux_os/guide/system/network/network_sniffer_disabled/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure System is Not Acting as a Network Sniffer'
+ 
+diff --git a/linux_os/guide/system/permissions/files/dir_perms_world_writable_root_owned/rule.yml b/linux_os/guide/system/permissions/files/dir_perms_world_writable_root_owned/rule.yml
+index 9a30770995..135a732410 100644
+--- a/linux_os/guide/system/permissions/files/dir_perms_world_writable_root_owned/rule.yml
++++ b/linux_os/guide/system/permissions/files/dir_perms_world_writable_root_owned/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure All World-Writable Directories Are Owned by root user'
+ 
+diff --git a/linux_os/guide/system/permissions/files/dir_perms_world_writable_system_owned/rule.yml b/linux_os/guide/system/permissions/files/dir_perms_world_writable_system_owned/rule.yml
+index 85746cc566..b9f2a9c0cb 100644
+--- a/linux_os/guide/system/permissions/files/dir_perms_world_writable_system_owned/rule.yml
++++ b/linux_os/guide/system/permissions/files/dir_perms_world_writable_system_owned/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhv4,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhv4,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure All World-Writable Directories Are Owned by a System Account'
+ 
+diff --git a/linux_os/guide/system/permissions/files/dir_perms_world_writable_system_owned_group/rule.yml b/linux_os/guide/system/permissions/files/dir_perms_world_writable_system_owned_group/rule.yml
+index d545e98301..29cef8bebe 100644
+--- a/linux_os/guide/system/permissions/files/dir_perms_world_writable_system_owned_group/rule.yml
++++ b/linux_os/guide/system/permissions/files/dir_perms_world_writable_system_owned_group/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhv4,sle12,sle15,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure All World-Writable Directories Are Group Owned by a System Account'
+ 
+diff --git a/linux_os/guide/system/permissions/files/file_permissions_unauthorized_sgid/rule.yml b/linux_os/guide/system/permissions/files/file_permissions_unauthorized_sgid/rule.yml
+index f5c3027e38..0fe4a7b456 100644
+--- a/linux_os/guide/system/permissions/files/file_permissions_unauthorized_sgid/rule.yml
++++ b/linux_os/guide/system/permissions/files/file_permissions_unauthorized_sgid/rule.yml
+@@ -2,7 +2,7 @@ documentation_complete: true
+ 
+ title: 'Ensure All SGID Executables Are Authorized'
+ 
+-prodtype: fedora,ol7,ol8,ol9,rhel7,rhel8,rhel9,sle15,wrlinux1019,wrlinux8
++prodtype: fedora,ol7,ol8,ol9,rhel7,rhel8,rhel9,sle15,wrlinux1019,wrlinux8,wrlinuxlts21,wrlinuxlts22
+ 
+ description: |-
+     The SGID (set group id) bit should be set only on files that were
+diff --git a/linux_os/guide/system/permissions/files/file_permissions_unauthorized_suid/rule.yml b/linux_os/guide/system/permissions/files/file_permissions_unauthorized_suid/rule.yml
+index 62852716d4..a60cca6cdf 100644
+--- a/linux_os/guide/system/permissions/files/file_permissions_unauthorized_suid/rule.yml
++++ b/linux_os/guide/system/permissions/files/file_permissions_unauthorized_suid/rule.yml
+@@ -2,7 +2,7 @@ documentation_complete: true
+ 
+ title: 'Ensure All SUID Executables Are Authorized'
+ 
+-prodtype: fedora,ol7,ol8,ol9,rhel7,rhel8,rhel9,sle15,wrlinux1019,wrlinux8
++prodtype: fedora,ol7,ol8,ol9,rhel7,rhel8,rhel9,sle15,wrlinux1019,wrlinux8,wrlinuxlts21,wrlinuxlts22
+ 
+ description: |-
+     The SUID (set user id) bit should be set only on files that were
+diff --git a/linux_os/guide/system/permissions/files/file_permissions_ungroupowned/rule.yml b/linux_os/guide/system/permissions/files/file_permissions_ungroupowned/rule.yml
+index 2dab2757f3..d473e0d35d 100644
+--- a/linux_os/guide/system/permissions/files/file_permissions_ungroupowned/rule.yml
++++ b/linux_os/guide/system/permissions/files/file_permissions_ungroupowned/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure All Files Are Owned by a Group'
+ 
+diff --git a/linux_os/guide/system/permissions/files/no_files_unowned_by_user/rule.yml b/linux_os/guide/system/permissions/files/no_files_unowned_by_user/rule.yml
+index 92351d166a..ffa6d85e7a 100644
+--- a/linux_os/guide/system/permissions/files/no_files_unowned_by_user/rule.yml
++++ b/linux_os/guide/system/permissions/files/no_files_unowned_by_user/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure All Files Are Owned by a User'
+ 
+diff --git a/linux_os/guide/system/permissions/mounting/kernel_module_usb-storage_disabled/rule.yml b/linux_os/guide/system/permissions/mounting/kernel_module_usb-storage_disabled/rule.yml
+index fc411ebede..0d542554b0 100644
+--- a/linux_os/guide/system/permissions/mounting/kernel_module_usb-storage_disabled/rule.yml
++++ b/linux_os/guide/system/permissions/mounting/kernel_module_usb-storage_disabled/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Disable Modprobe Loading of USB Storage Driver'
+ 
+diff --git a/linux_os/guide/system/permissions/mounting/service_autofs_disabled/rule.yml b/linux_os/guide/system/permissions/mounting/service_autofs_disabled/rule.yml
+index c9ece47d5f..81beffcf52 100644
+--- a/linux_os/guide/system/permissions/mounting/service_autofs_disabled/rule.yml
++++ b/linux_os/guide/system/permissions/mounting/service_autofs_disabled/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu1804,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu1804,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Disable the Automounter'
+ 
+diff --git a/linux_os/guide/system/permissions/partitions/mount_option_boot_noauto/rule.yml b/linux_os/guide/system/permissions/partitions/mount_option_boot_noauto/rule.yml
+index da7833ee96..a0017e0d77 100644
+--- a/linux_os/guide/system/permissions/partitions/mount_option_boot_noauto/rule.yml
++++ b/linux_os/guide/system/permissions/partitions/mount_option_boot_noauto/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Add noauto Option to /boot'
+ 
+diff --git a/linux_os/guide/system/permissions/partitions/mount_option_boot_noexec/rule.yml b/linux_os/guide/system/permissions/partitions/mount_option_boot_noexec/rule.yml
+index e6f8d28413..8f44be57eb 100644
+--- a/linux_os/guide/system/permissions/partitions/mount_option_boot_noexec/rule.yml
++++ b/linux_os/guide/system/permissions/partitions/mount_option_boot_noexec/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Add noexec Option to /boot'
+ 
+diff --git a/linux_os/guide/system/permissions/partitions/mount_option_dev_shm_nodev/rule.yml b/linux_os/guide/system/permissions/partitions/mount_option_dev_shm_nodev/rule.yml
+index b7dd01052a..c34af7dd67 100644
+--- a/linux_os/guide/system/permissions/partitions/mount_option_dev_shm_nodev/rule.yml
++++ b/linux_os/guide/system/permissions/partitions/mount_option_dev_shm_nodev/rule.yml
+@@ -57,12 +57,18 @@ template:
+         mount_has_to_exist@sle12: 'yes'
+         mount_has_to_exist@wrlinux8: 'yes'
+         mount_has_to_exist@wrlinux1019: 'yes'
++        mount_has_to_exist@wrlinuxlts21: 'yes'
++        mount_has_to_exist@wrlinuxlts22: 'yes'
+         filesystem@sle12: ''
+         filesystem@wrlinux8: ''
+         filesystem@wrlinux1019: ''
++        filesystem@wrlinuxlts21: ''
++        filesystem@wrlinuxlts22: ''
+         type@sle12: ''
+         type@wrlinux8: ''
+         type@wrlinux1019: ''
++        type@wrlinuxlts21: ''
++        type@wrlinuxlts22: ''
+     backends:
+         anaconda: 'off'
+ 
+diff --git a/linux_os/guide/system/permissions/partitions/mount_option_dev_shm_noexec/rule.yml b/linux_os/guide/system/permissions/partitions/mount_option_dev_shm_noexec/rule.yml
+index 1c20512a2f..c7a7a11055 100644
+--- a/linux_os/guide/system/permissions/partitions/mount_option_dev_shm_noexec/rule.yml
++++ b/linux_os/guide/system/permissions/partitions/mount_option_dev_shm_noexec/rule.yml
+@@ -60,11 +60,17 @@ template:
+         mount_has_to_exist@sle12: 'yes'
+         mount_has_to_exist@wrlinux8: 'yes'
+         mount_has_to_exist@wrlinux1019: 'yes'
++        mount_has_to_exist@wrlinuxlts21: 'yes'
++        mount_has_to_exist@wrlinuxlts22: 'yes'
+         filesystem@sle12: ''
+         filesystem@wrlinux8: ''
+         filesystem@wrlinux1019: ''
++        filesystem@wrlinuxlts21: ''
++        filesystem@wrlinuxlts22: ''
+         type@sle12: ''
+         type@wrlinux8: ''
+         type@wrlinux1019: ''
++        type@wrlinuxlts21: ''
++        type@wrlinuxlts22: ''
+     backends:
+         anaconda: 'off'
+diff --git a/linux_os/guide/system/permissions/partitions/mount_option_dev_shm_nosuid/rule.yml b/linux_os/guide/system/permissions/partitions/mount_option_dev_shm_nosuid/rule.yml
+index 57d35b56d4..fc5cac5697 100644
+--- a/linux_os/guide/system/permissions/partitions/mount_option_dev_shm_nosuid/rule.yml
++++ b/linux_os/guide/system/permissions/partitions/mount_option_dev_shm_nosuid/rule.yml
+@@ -57,12 +57,18 @@ template:
+         mount_has_to_exist@sle12: 'yes'
+         mount_has_to_exist@wrlinux8: 'yes'
+         mount_has_to_exist@wrlinux1019: 'yes'
++        mount_has_to_exist@wrlinuxlts21: 'yes'
++        mount_has_to_exist@wrlinuxlts22: 'yes'
+         filesystem@sle12: ''
+         filesystem@wrlinux8: ''
+         filesystem@wrlinux1019: ''
++        filesystem@wrlinuxlts21: ''
++        filesystem@wrlinuxlts22: ''
+         type@sle12: ''
+         type@wrlinux8: ''
+         type@wrlinux1019: ''
++        type@wrlinuxlts21: ''
++        type@wrlinuxlts22: ''
+     backends:
+         anaconda: 'off'
+ 
+diff --git a/linux_os/guide/system/permissions/partitions/mount_option_home_noexec/rule.yml b/linux_os/guide/system/permissions/partitions/mount_option_home_noexec/rule.yml
+index 17fd025011..e0eeff44d0 100644
+--- a/linux_os/guide/system/permissions/partitions/mount_option_home_noexec/rule.yml
++++ b/linux_os/guide/system/permissions/partitions/mount_option_home_noexec/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Add noexec Option to /home'
+ 
+diff --git a/linux_os/guide/system/permissions/partitions/mount_option_home_nosuid/rule.yml b/linux_os/guide/system/permissions/partitions/mount_option_home_nosuid/rule.yml
+index af2f91b594..fa4c6ff28f 100644
+--- a/linux_os/guide/system/permissions/partitions/mount_option_home_nosuid/rule.yml
++++ b/linux_os/guide/system/permissions/partitions/mount_option_home_nosuid/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Add nosuid Option to /home'
+ 
+diff --git a/linux_os/guide/system/permissions/partitions/mount_option_nosuid_removable_partitions/rule.yml b/linux_os/guide/system/permissions/partitions/mount_option_nosuid_removable_partitions/rule.yml
+index aacc7fc859..d00595bdb2 100644
+--- a/linux_os/guide/system/permissions/partitions/mount_option_nosuid_removable_partitions/rule.yml
++++ b/linux_os/guide/system/permissions/partitions/mount_option_nosuid_removable_partitions/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu1804,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu1804,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Add nosuid Option to Removable Media Partitions'
+ 
+diff --git a/linux_os/guide/system/permissions/partitions/mount_option_opt_nosuid/rule.yml b/linux_os/guide/system/permissions/partitions/mount_option_opt_nosuid/rule.yml
+index b67d96ba8d..cbd685c2f3 100644
+--- a/linux_os/guide/system/permissions/partitions/mount_option_opt_nosuid/rule.yml
++++ b/linux_os/guide/system/permissions/partitions/mount_option_opt_nosuid/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Add nosuid Option to /opt'
+ 
+diff --git a/linux_os/guide/system/permissions/partitions/mount_option_srv_nosuid/rule.yml b/linux_os/guide/system/permissions/partitions/mount_option_srv_nosuid/rule.yml
+index 022dee6db9..b8e25e85ed 100644
+--- a/linux_os/guide/system/permissions/partitions/mount_option_srv_nosuid/rule.yml
++++ b/linux_os/guide/system/permissions/partitions/mount_option_srv_nosuid/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Add nosuid Option to /srv'
+ 
+diff --git a/linux_os/guide/system/permissions/partitions/mount_option_var_noexec/rule.yml b/linux_os/guide/system/permissions/partitions/mount_option_var_noexec/rule.yml
+index 7119419eb6..13c963f3b1 100644
+--- a/linux_os/guide/system/permissions/partitions/mount_option_var_noexec/rule.yml
++++ b/linux_os/guide/system/permissions/partitions/mount_option_var_noexec/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Add noexec Option to /var'
+ 
+diff --git a/linux_os/guide/system/selinux/selinux_policytype/rule.yml b/linux_os/guide/system/selinux/selinux_policytype/rule.yml
+index 8bd4a37a91..3aa6467c10 100644
+--- a/linux_os/guide/system/selinux/selinux_policytype/rule.yml
++++ b/linux_os/guide/system/selinux/selinux_policytype/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle15,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Configure SELinux Policy'
+ 
+diff --git a/linux_os/guide/system/selinux/selinux_user_login_roles/rule.yml b/linux_os/guide/system/selinux/selinux_user_login_roles/rule.yml
+index 8cf3c25c89..9d445981cd 100644
+--- a/linux_os/guide/system/selinux/selinux_user_login_roles/rule.yml
++++ b/linux_os/guide/system/selinux/selinux_user_login_roles/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Map System Users To The Appropriate SELinux Role'
+ 
+diff --git a/linux_os/guide/system/software/integrity/certified-vendor/installed_OS_is_vendor_supported/rule.yml b/linux_os/guide/system/software/integrity/certified-vendor/installed_OS_is_vendor_supported/rule.yml
+index f941e95346..cd91e76ca3 100644
+--- a/linux_os/guide/system/software/integrity/certified-vendor/installed_OS_is_vendor_supported/rule.yml
++++ b/linux_os/guide/system/software/integrity/certified-vendor/installed_OS_is_vendor_supported/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'The Installed Operating System Is Vendor Supported'
+ 
+diff --git a/linux_os/guide/system/software/integrity/disable_prelink/rule.yml b/linux_os/guide/system/software/integrity/disable_prelink/rule.yml
+index 8d3e141681..97194769df 100644
+--- a/linux_os/guide/system/software/integrity/disable_prelink/rule.yml
++++ b/linux_os/guide/system/software/integrity/disable_prelink/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,rhcos4,rhel7,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: ol7,rhcos4,rhel7,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Disable Prelinking'
+ 
+diff --git a/linux_os/guide/system/software/integrity/fips/etc_system_fips_exists/rule.yml b/linux_os/guide/system/software/integrity/fips/etc_system_fips_exists/rule.yml
+index add3db09ba..468ec41b4f 100644
+--- a/linux_os/guide/system/software/integrity/fips/etc_system_fips_exists/rule.yml
++++ b/linux_os/guide/system/software/integrity/fips/etc_system_fips_exists/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,wrlinux1019
++prodtype: fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: Ensure '/etc/system-fips' exists
+ 
+diff --git a/linux_os/guide/system/software/integrity/software-integrity/aide/aide_build_database/rule.yml b/linux_os/guide/system/software/integrity/software-integrity/aide/aide_build_database/rule.yml
+index 9b97e01571..a07a8670e4 100644
+--- a/linux_os/guide/system/software/integrity/software-integrity/aide/aide_build_database/rule.yml
++++ b/linux_os/guide/system/software/integrity/software-integrity/aide/aide_build_database/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: debian10,debian11,debian9,fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: debian10,debian11,debian9,fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Build and Test AIDE Database'
+ 
+diff --git a/linux_os/guide/system/software/integrity/software-integrity/aide/aide_periodic_cron_checking/rule.yml b/linux_os/guide/system/software/integrity/software-integrity/aide/aide_periodic_cron_checking/rule.yml
+index 1d81d0e00d..083594cad1 100644
+--- a/linux_os/guide/system/software/integrity/software-integrity/aide/aide_periodic_cron_checking/rule.yml
++++ b/linux_os/guide/system/software/integrity/software-integrity/aide/aide_periodic_cron_checking/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Configure Periodic Execution of AIDE'
+ 
+diff --git a/linux_os/guide/system/software/integrity/software-integrity/aide/aide_scan_notification/rule.yml b/linux_os/guide/system/software/integrity/software-integrity/aide/aide_scan_notification/rule.yml
+index 9c69dd1e71..6b651bb3c3 100644
+--- a/linux_os/guide/system/software/integrity/software-integrity/aide/aide_scan_notification/rule.yml
++++ b/linux_os/guide/system/software/integrity/software-integrity/aide/aide_scan_notification/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,wrlinux1019
++prodtype: ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle12,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Configure Notification of Post-AIDE Scan Details'
+ 
+diff --git a/linux_os/guide/system/software/integrity/software-integrity/aide/package_aide_installed/rule.yml b/linux_os/guide/system/software/integrity/software-integrity/aide/package_aide_installed/rule.yml
+index 7e8c3b1ea8..71fa2e6758 100644
+--- a/linux_os/guide/system/software/integrity/software-integrity/aide/package_aide_installed/rule.yml
++++ b/linux_os/guide/system/software/integrity/software-integrity/aide/package_aide_installed/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: debian10,debian11,debian9,fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019
++prodtype: debian10,debian11,debian9,fedora,ol7,ol8,rhcos4,rhel7,rhel8,rhel9,rhv4,sle12,sle15,ubuntu2004,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Install AIDE'
+ 
+diff --git a/linux_os/guide/system/software/integrity/software-integrity/rpm_verification/rpm_verify_hashes/rule.yml b/linux_os/guide/system/software/integrity/software-integrity/rpm_verification/rpm_verify_hashes/rule.yml
+index 36139fdd2d..e23b29319e 100644
+--- a/linux_os/guide/system/software/integrity/software-integrity/rpm_verification/rpm_verify_hashes/rule.yml
++++ b/linux_os/guide/system/software/integrity/software-integrity/rpm_verification/rpm_verify_hashes/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,ol9,rhel7,rhel8,rhel9,rhv4,sle15,wrlinux1019
++prodtype: fedora,ol7,ol8,ol9,rhel7,rhel8,rhel9,rhv4,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Verify File Hashes with RPM'
+ 
+diff --git a/linux_os/guide/system/software/integrity/software-integrity/rpm_verification/rpm_verify_permissions/rule.yml b/linux_os/guide/system/software/integrity/software-integrity/rpm_verification/rpm_verify_permissions/rule.yml
+index 435cf92eee..2043ead14b 100644
+--- a/linux_os/guide/system/software/integrity/software-integrity/rpm_verification/rpm_verify_permissions/rule.yml
++++ b/linux_os/guide/system/software/integrity/software-integrity/rpm_verification/rpm_verify_permissions/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle15,wrlinux1019
++prodtype: fedora,ol7,ol8,ol9,rhcos4,rhel7,rhel8,rhel9,rhv4,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Verify and Correct File Permissions with RPM'
+ 
+diff --git a/linux_os/guide/system/software/updating/ensure_gpgcheck_local_packages/rule.yml b/linux_os/guide/system/software/updating/ensure_gpgcheck_local_packages/rule.yml
+index 4fe2b994fb..db9f91e456 100644
+--- a/linux_os/guide/system/software/updating/ensure_gpgcheck_local_packages/rule.yml
++++ b/linux_os/guide/system/software/updating/ensure_gpgcheck_local_packages/rule.yml
+@@ -1,6 +1,6 @@
+ documentation_complete: true
+ 
+-prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle15,wrlinux1019
++prodtype: fedora,ol7,ol8,rhel7,rhel8,rhel9,rhv4,sle15,wrlinux1019,wrlinuxlts21,wrlinuxlts22
+ 
+ title: 'Ensure gpgcheck Enabled for Local Packages'
+ 
+-- 
+2.25.1
+

@@ -1,0 +1,1245 @@
+From 0f71ce85efa633591fe24f7b75e64a6180b2c986 Mon Sep 17 00:00:00 2001
+From: Yi Zhao <yi.zhao@windriver.com>
+Date: Thu, 13 Jan 2022 11:29:48 +0800
+Subject: [PATCH] Add product WRLinux LTS22
+
+The product has been created using WRLinux1019 as a basis, and making
+sure that the build works.
+
+Upstream-Status: Inappropriate [WRLinux specific]
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ CMakeLists.txt                                |  10 +
+ build_product                                 |   2 +
+ .../oval/shared.xml                           |   2 +
+ .../installed_OS_is_vendor_supported/rule.yml |   5 +
+ products/wrlinuxlts21/CMakeLists.txt          |   8 +
+ products/wrlinuxlts21/overlays/.gitkeep       |   0
+ products/wrlinuxlts21/product.yml             |  22 ++
+ .../profiles/draft_stig_wrlinuxlts21.profile  | 226 ++++++++++++++++++
+ .../wrlinuxlts21/transforms/constants.xslt    |  12 +
+ .../wrlinuxlts21/transforms/table-srgmap.xslt |  11 +
+ .../wrlinuxlts21/transforms/table-style.xslt  |   5 +
+ .../transforms/xccdf-apply-overlay-stig.xslt  |   8 +
+ .../transforms/xccdf2table-byref.xslt         |   9 +
+ .../transforms/xccdf2table-cce.xslt           |   9 +
+ .../xccdf2table-profileanssirefs.xslt         |   8 +
+ .../xccdf2table-profileccirefs.xslt           |   9 +
+ .../xccdf2table-profilecisrefs.xslt           |   9 +
+ .../xccdf2table-profilenistrefs.xslt          |   8 +
+ .../transforms/xccdf2table-stig.xslt          |   9 +
+ products/wrlinuxlts22/CMakeLists.txt          |   8 +
+ products/wrlinuxlts22/overlays/.gitkeep       |   0
+ products/wrlinuxlts22/product.yml             |  22 ++
+ .../profiles/draft_stig_wrlinuxlts22.profile  | 226 ++++++++++++++++++
+ .../wrlinuxlts22/transforms/constants.xslt    |  12 +
+ .../wrlinuxlts22/transforms/table-srgmap.xslt |  11 +
+ .../wrlinuxlts22/transforms/table-style.xslt  |   5 +
+ .../transforms/xccdf-apply-overlay-stig.xslt  |   8 +
+ .../transforms/xccdf2table-byref.xslt         |   9 +
+ .../transforms/xccdf2table-cce.xslt           |   9 +
+ .../xccdf2table-profileanssirefs.xslt         |   8 +
+ .../xccdf2table-profileccirefs.xslt           |   9 +
+ .../xccdf2table-profilecisrefs.xslt           |   9 +
+ .../xccdf2table-profilenistrefs.xslt          |   8 +
+ .../transforms/xccdf2table-stig.xslt          |   9 +
+ .../oval/installed_OS_is_wrlinuxlts21.xml     |  46 ++++
+ .../oval/installed_OS_is_wrlinuxlts22.xml     |  46 ++++
+ ssg/build_ovals.py                            |   8 +
+ ssg/build_sce.py                              |   8 +
+ ssg/constants.py                              |   6 +-
+ ssg/utils.py                                  |   8 +
+ 40 files changed, 845 insertions(+), 2 deletions(-)
+ create mode 100644 products/wrlinuxlts21/CMakeLists.txt
+ create mode 100644 products/wrlinuxlts21/overlays/.gitkeep
+ create mode 100644 products/wrlinuxlts21/product.yml
+ create mode 100644 products/wrlinuxlts21/profiles/draft_stig_wrlinuxlts21.profile
+ create mode 100644 products/wrlinuxlts21/transforms/constants.xslt
+ create mode 100644 products/wrlinuxlts21/transforms/table-srgmap.xslt
+ create mode 100644 products/wrlinuxlts21/transforms/table-style.xslt
+ create mode 100644 products/wrlinuxlts21/transforms/xccdf-apply-overlay-stig.xslt
+ create mode 100644 products/wrlinuxlts21/transforms/xccdf2table-byref.xslt
+ create mode 100644 products/wrlinuxlts21/transforms/xccdf2table-cce.xslt
+ create mode 100644 products/wrlinuxlts21/transforms/xccdf2table-profileanssirefs.xslt
+ create mode 100644 products/wrlinuxlts21/transforms/xccdf2table-profileccirefs.xslt
+ create mode 100644 products/wrlinuxlts21/transforms/xccdf2table-profilecisrefs.xslt
+ create mode 100644 products/wrlinuxlts21/transforms/xccdf2table-profilenistrefs.xslt
+ create mode 100644 products/wrlinuxlts21/transforms/xccdf2table-stig.xslt
+ create mode 100644 products/wrlinuxlts22/CMakeLists.txt
+ create mode 100644 products/wrlinuxlts22/overlays/.gitkeep
+ create mode 100644 products/wrlinuxlts22/product.yml
+ create mode 100644 products/wrlinuxlts22/profiles/draft_stig_wrlinuxlts22.profile
+ create mode 100644 products/wrlinuxlts22/transforms/constants.xslt
+ create mode 100644 products/wrlinuxlts22/transforms/table-srgmap.xslt
+ create mode 100644 products/wrlinuxlts22/transforms/table-style.xslt
+ create mode 100644 products/wrlinuxlts22/transforms/xccdf-apply-overlay-stig.xslt
+ create mode 100644 products/wrlinuxlts22/transforms/xccdf2table-byref.xslt
+ create mode 100644 products/wrlinuxlts22/transforms/xccdf2table-cce.xslt
+ create mode 100644 products/wrlinuxlts22/transforms/xccdf2table-profileanssirefs.xslt
+ create mode 100644 products/wrlinuxlts22/transforms/xccdf2table-profileccirefs.xslt
+ create mode 100644 products/wrlinuxlts22/transforms/xccdf2table-profilecisrefs.xslt
+ create mode 100644 products/wrlinuxlts22/transforms/xccdf2table-profilenistrefs.xslt
+ create mode 100644 products/wrlinuxlts22/transforms/xccdf2table-stig.xslt
+ create mode 100644 shared/checks/oval/installed_OS_is_wrlinuxlts21.xml
+ create mode 100644 shared/checks/oval/installed_OS_is_wrlinuxlts22.xml
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 607fa75b24..52fc8477ed 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -96,6 +96,8 @@ option(SSG_PRODUCT_UBUNTU2004 "If enabled, the Ubuntu 20.04 SCAP content will be
+ option(SSG_PRODUCT_VSEL "If enabled, the McAfee VSEL SCAP content will be built" ${SSG_PRODUCT_DEFAULT})
+ option(SSG_PRODUCT_WRLINUX8 "If enabled, the WRLinux8 SCAP content will be built" ${SSG_PRODUCT_DEFAULT})
+ option(SSG_PRODUCT_WRLINUX1019 "If enabled, the WRLinux1019 SCAP content will be built" ${SSG_PRODUCT_DEFAULT})
++option(SSG_PRODUCT_WRLINUXLTS21 "If enabled, the WRLinuxLTS21 SCAP content will be built" ${SSG_PRODUCT_DEFAULT})
++option(SSG_PRODUCT_WRLINUXLTS22 "If enabled, the WRLinuxLTS22 SCAP content will be built" ${SSG_PRODUCT_DEFAULT})
+ 
+ option(SSG_CENTOS_DERIVATIVES_ENABLED "If enabled, CentOS derivative content will be built from the RHEL content" TRUE)
+ option(SSG_SCIENTIFIC_LINUX_DERIVATIVES_ENABLED "If enabled, Scientific Linux derivative content will be built from the RHEL content" TRUE)
+@@ -300,6 +302,8 @@ message(STATUS "Ubuntu 20.04: ${SSG_PRODUCT_UBUNTU2004}")
+ message(STATUS "McAfee VSEL: ${SSG_PRODUCT_VSEL}")
+ message(STATUS "WRLinux 8: ${SSG_PRODUCT_WRLINUX8}")
+ message(STATUS "WRLinux 1019: ${SSG_PRODUCT_WRLINUX1019}")
++message(STATUS "WRLinux LTS21: ${SSG_PRODUCT_WRLINUXLTS21}")
++message(STATUS "WRLinux LTS22: ${SSG_PRODUCT_WRLINUXLTS22}")
+ 
+ 
+ 
+@@ -423,6 +427,12 @@ endif()
+ if (SSG_PRODUCT_WRLINUX1019)
+     add_subdirectory("products/wrlinux1019" "wrlinux1019")
+ endif()
++if (SSG_PRODUCT_WRLINUXLTS21)
++    add_subdirectory("products/wrlinuxlts21" "wrlinuxlts21")
++endif()
++if (SSG_PRODUCT_WRLINUXLTS22)
++    add_subdirectory("products/wrlinuxlts22" "wrlinuxlts22")
++endif()
+ 
+ # ZIP only contains source datastreams and kickstarts, people who
+ # want sources to build from should get the tarball instead.
+diff --git a/build_product b/build_product
+index 21c50e2c70..049744a855 100755
+--- a/build_product
++++ b/build_product
+@@ -325,6 +325,8 @@ all_cmake_products=(
+ 	VSEL
+ 	WRLINUX8
+ 	WRLINUX1019
++	WRLINUXLTS21
++	WRLINUXLTS22
+ 	MACOS1015
+ )
+ 
+diff --git a/linux_os/guide/system/software/integrity/certified-vendor/installed_OS_is_vendor_supported/oval/shared.xml b/linux_os/guide/system/software/integrity/certified-vendor/installed_OS_is_vendor_supported/oval/shared.xml
+index 16c3847adb..f537425523 100644
+--- a/linux_os/guide/system/software/integrity/certified-vendor/installed_OS_is_vendor_supported/oval/shared.xml
++++ b/linux_os/guide/system/software/integrity/certified-vendor/installed_OS_is_vendor_supported/oval/shared.xml
+@@ -11,6 +11,8 @@
+       <extend_definition comment="Installed OS is OL8" definition_ref="installed_OS_is_ol8_family" />
+       <extend_definition comment="Installed OS is SLE12" definition_ref="installed_OS_is_sle12" />
+       <extend_definition comment="Installed OS is SLE15" definition_ref="installed_OS_is_sle15" />
++      <extend_definition comment="Installed OS is WRLinux LTS21" definition_ref="installed_OS_is_wrlinuxlts21" />
++      <extend_definition comment="Installed OS is WRLinux LTS22" definition_ref="installed_OS_is_wrlinuxlts22" />
+     </criteria>
+   </definition>
+ 
+diff --git a/linux_os/guide/system/software/integrity/certified-vendor/installed_OS_is_vendor_supported/rule.yml b/linux_os/guide/system/software/integrity/certified-vendor/installed_OS_is_vendor_supported/rule.yml
+index 61ec677fec..f941e95346 100644
+--- a/linux_os/guide/system/software/integrity/certified-vendor/installed_OS_is_vendor_supported/rule.yml
++++ b/linux_os/guide/system/software/integrity/certified-vendor/installed_OS_is_vendor_supported/rule.yml
+@@ -12,6 +12,9 @@ description: |-
+ {{% elif product in ["sle12", "sle15"] %}}
+     SUSE Linux Enterprise is supported by SUSE. As the SUSE Linux Enterprise
+     vendor, SUSE is responsible for providing security patches.
++{{% elif product in ["wrlinuxlts21", "wrlinuxlts22"] %}}
++    Wind River Linux is supported by Wind River Systems, Inc. As the Wind River
++    Linux vendor, Wind River Systems, Inc. is responsible for providing security patches.
+ {{% else %}}
+     Red Hat Enterprise Linux is supported by Red Hat, Inc. As the Red Hat Enterprise
+     Linux vendor, Red Hat, Inc. is responsible for providing security patches.
+@@ -64,6 +67,8 @@ ocil: |-
+     <pre>$ grep -i "oracle" /etc/oracle-release</pre>
+ {{% elif product in ["sle12", "sle15"] %}}
+     <pre>$ grep -i "suse" /etc/os-release</pre>
++{{% elif product in ["wrlinuxlts21", "wrlinuxlts22"] %}}
++    <pre>$ grep -i "wind river" /etc/os-release</pre>
+ {{% endif %}}
+     The output should contain something similar to:
+     <pre>{{{ full_name }}}</pre>
+diff --git a/products/wrlinuxlts21/CMakeLists.txt b/products/wrlinuxlts21/CMakeLists.txt
+new file mode 100644
+index 0000000000..a35f66cc87
+--- /dev/null
++++ b/products/wrlinuxlts21/CMakeLists.txt
+@@ -0,0 +1,8 @@
++# Sometimes our users will try to do: "cd wrlinuxlts21; cmake ." That needs to error in a nice way.
++if ("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_SOURCE_DIR}")
++    message(FATAL_ERROR "cmake has to be used on the root CMakeLists.txt, see the Building ComplianceAsCode section in the Developer Guide!")
++endif()
++
++set(PRODUCT_REMEDIATION_LANGUAGES "bash")
++
++ssg_build_product("wrlinuxlts21")
+diff --git a/products/wrlinuxlts21/overlays/.gitkeep b/products/wrlinuxlts21/overlays/.gitkeep
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/products/wrlinuxlts21/product.yml b/products/wrlinuxlts21/product.yml
+new file mode 100644
+index 0000000000..1960c0e337
+--- /dev/null
++++ b/products/wrlinuxlts21/product.yml
+@@ -0,0 +1,22 @@
++product: wrlinuxlts21
++full_name: Wind River Linux LTS21
++type: platform
++
++benchmark_id: WRLINUX-LTS21
++benchmark_root: "../../linux_os/guide"
++
++profiles_root: "./profiles"
++
++pkg_manager: "dnf"
++
++init_system: "systemd"
++
++grub2_boot_path: "/boot/grub"
++grub2_uefi_boot_path: "/boot/EFI/BOOT"
++
++cpes_root: "../../shared/applicability"
++cpes:
++  - wrlinuxlts21:
++      name: "cpe:/o:windriver:wrlinux:lts21"
++      title: "Wind River Linux LTS21"
++      check_id: installed_OS_is_wrlinuxlts21
+diff --git a/products/wrlinuxlts21/profiles/draft_stig_wrlinuxlts21.profile b/products/wrlinuxlts21/profiles/draft_stig_wrlinuxlts21.profile
+new file mode 100644
+index 0000000000..9217122252
+--- /dev/null
++++ b/products/wrlinuxlts21/profiles/draft_stig_wrlinuxlts21.profile
+@@ -0,0 +1,226 @@
++documentation_complete: true
++
++title: 'DRAFT DISA STIG for Wind River Linux LTS21'
++
++description: |-
++    This profile contains configuration checks that align to the
++    DISA STIG for Wind River Linux LTS21.
++    This profile is being developed under the DoD consensus model to
++    become a STIG in coordination with DISA FSO.
++    What is the status of the Wind River Linux STIG?
++    The Wind River Linux STIG is in development under the DoD consensus model
++    and Wind River has started the process to get approval from DISA. However, in
++    the absence of an approved SRG or STIG, vendor recommendations may be used
++    instead. The current contents constitute the vendor recommendations at the
++    time of the product release containing these contents.
++    Note that changes are expected before approval is granted, and those changes
++    will be made available in future Wind River Linux LTS21 RCPL releases.
++    More information, including the following, is available from the DISA FAQs
++    at https://public.cyber.mil/stigs/faqs/
++
++selections:
++    - var_account_disable_post_pw_expiration=0
++    - var_accounts_max_concurrent_login_sessions=10
++    - var_accounts_maximum_age_login_defs=60
++    - var_accounts_minimum_age_login_defs=1
++    - var_accounts_passwords_pam_faillock_deny=3
++    - var_accounts_tmout=10_min
++    - var_selinux_state=enforcing
++    - var_sshd_set_keepalive=0
++    - account_disable_post_pw_expiration
++    - accounts_have_homedir_login_defs
++    - accounts_logon_fail_delay
++    - accounts_max_concurrent_login_sessions
++    - accounts_maximum_age_login_defs
++    - accounts_minimum_age_login_defs
++    - accounts_no_uid_except_zero
++    - accounts_password_pam_dcredit
++    - accounts_password_pam_difok
++    - accounts_password_pam_lcredit
++    - accounts_password_pam_maxclassrepeat
++    - accounts_password_pam_maxrepeat
++    - accounts_password_pam_minclass
++    - accounts_password_pam_minlen
++    - accounts_password_pam_ocredit
++    - accounts_password_pam_retry
++    - accounts_password_pam_ucredit
++    - accounts_password_pam_unix_remember
++    - accounts_password_set_max_life_existing
++    - accounts_password_set_min_life_existing
++    - accounts_passwords_pam_faillock_deny
++    - accounts_passwords_pam_faillock_deny_root
++    - accounts_tmout
++    - accounts_umask_etc_login_defs
++    - accounts_umask_interactive_users
++    - accounts_user_dot_group_ownership
++    - accounts_user_dot_no_world_writable_programs
++    - accounts_user_dot_user_ownership
++    - accounts_user_home_paths_only
++    - accounts_user_interactive_home_directory_defined
++    - accounts_user_interactive_home_directory_exists
++    - accounts_users_home_files_groupownership
++    - accounts_users_home_files_ownership
++    - accounts_users_home_files_permissions
++    - aide_periodic_cron_checking
++    - aide_scan_notification
++    - auditd_audispd_configure_remote_server
++    - auditd_audispd_disk_full_action
++    - auditd_audispd_encrypt_sent_records
++    - auditd_audispd_network_failure_action
++    - auditd_data_retention_action_mail_acct
++    - auditd_data_retention_admin_space_left_action
++    - auditd_data_retention_space_left
++    - audit_rules_dac_modification_chmod
++    - audit_rules_dac_modification_chown
++    - audit_rules_dac_modification_fchmod
++    - audit_rules_dac_modification_fchmodat
++    - audit_rules_dac_modification_fchown
++    - audit_rules_dac_modification_fchownat
++    - audit_rules_dac_modification_fremovexattr
++    - audit_rules_dac_modification_fsetxattr
++    - audit_rules_dac_modification_lchown
++    - audit_rules_dac_modification_lremovexattr
++    - audit_rules_dac_modification_lsetxattr
++    - audit_rules_dac_modification_removexattr
++    - audit_rules_dac_modification_setxattr
++    - audit_rules_execution_chcon
++    - audit_rules_execution_semanage
++    - audit_rules_execution_setsebool
++    - audit_rules_file_deletion_events_rename
++    - audit_rules_file_deletion_events_renameat
++    - audit_rules_file_deletion_events_rmdir
++    - audit_rules_file_deletion_events_unlink
++    - audit_rules_file_deletion_events_unlinkat
++    - audit_rules_kernel_module_loading_delete
++    - audit_rules_kernel_module_loading_finit
++    - audit_rules_kernel_module_loading_init
++    - audit_rules_login_events_faillock
++    - audit_rules_login_events_lastlog
++    - audit_rules_privileged_commands
++    - audit_rules_privileged_commands_chage
++    - audit_rules_privileged_commands_chsh
++    - audit_rules_privileged_commands_crontab
++    - audit_rules_privileged_commands_gpasswd
++    - audit_rules_privileged_commands_pam_timestamp_check
++    - audit_rules_privileged_commands_passwd
++    - audit_rules_privileged_commands_postdrop
++    - audit_rules_privileged_commands_postqueue
++    - audit_rules_privileged_commands_ssh_keysign
++    - audit_rules_privileged_commands_su
++    - audit_rules_privileged_commands_sudo
++    - audit_rules_privileged_commands_umount
++    - audit_rules_privileged_commands_unix_chkpwd
++    - audit_rules_sysadmin_actions
++    - audit_rules_system_shutdown
++    - audit_rules_unsuccessful_file_modification_creat
++    - audit_rules_unsuccessful_file_modification_ftruncate
++    - audit_rules_unsuccessful_file_modification_open
++    - audit_rules_unsuccessful_file_modification_openat
++    - audit_rules_unsuccessful_file_modification_open_by_handle_at
++    - audit_rules_unsuccessful_file_modification_truncate
++    - audit_rules_usergroup_modification
++    - audit_rules_usergroup_modification_group
++    - audit_rules_usergroup_modification_gshadow
++    - audit_rules_usergroup_modification_opasswd
++    - audit_rules_usergroup_modification_passwd
++    - audit_rules_usergroup_modification_shadow
++    - banner_etc_issue
++    - chronyd_or_ntpd_set_maxpoll
++    - configure_firewalld_ports
++    - configure_firewalld_rate_limiting
++    - dir_perms_world_writable_system_owned
++    - disable_ctrlaltdel_reboot
++    - disable_host_auth
++    - display_login_attempts
++    - ensure_gpgcheck_local_packages
++    - file_groupowner_cron_allow
++    - file_groupownership_home_directories
++    - file_owner_cron_allow
++    - file_ownership_home_directories
++    - file_permissions_home_directories
++    - file_permissions_sshd_private_key
++    - file_permissions_sshd_pub_key
++    - file_permissions_ungroupowned
++    - file_permission_user_init_files
++    - gid_passwd_group_same
++    - grub2_no_removeable_media
++    - grub2_password
++    - grub2_uefi_password
++    - installed_OS_is_vendor_supported
++    - kernel_module_dccp_disabled
++    - kernel_module_usb-storage_disabled
++    - mount_option_home_nosuid
++    - mount_option_krb_sec_remote_filesystems
++    - mount_option_noexec_remote_filesystems
++    - mount_option_nosuid_remote_filesystems
++    - mount_option_nosuid_removable_partitions
++    - network_configure_name_resolution
++    - network_sniffer_disabled
++    - no_empty_passwords
++    - no_files_unowned_by_user
++    - no_host_based_files
++    - no_user_host_based_files
++    - package_openssh-server_installed
++    - package_rsh-server_removed
++    - package_screen_installed
++    - package_telnet-server_removed
++    - package_tftp-server_removed
++    - package_vsftpd_removed
++    - package_ypserv_removed
++    - partition_for_home
++    - partition_for_tmp
++    - partition_for_var
++    - partition_for_var_log_audit
++    - postfix_prevent_unrestricted_relay
++    - require_singleuser_auth
++    - rpm_verify_hashes
++    - rpm_verify_permissions
++    - rsyslog_cron_logging
++    - rsyslog_nolisten
++    - rsyslog_remote_loghost
++    - selinux_policytype
++    - selinux_state
++    - selinux_user_login_roles
++    - service_auditd_enabled
++    - service_autofs_disabled
++    - service_firewalld_enabled
++    - service_kdump_disabled
++    - service_sshd_enabled
++    - set_password_hashing_algorithm_libuserconf
++    - set_password_hashing_algorithm_logindefs
++    - set_password_hashing_algorithm_systemauth
++    - snmpd_not_default_password
++    - sshd_allow_only_protocol2
++    - sshd_disable_compression
++    - sshd_disable_empty_passwords
++    - sshd_disable_gssapi_auth
++    - sshd_disable_kerb_auth
++    - sshd_disable_rhosts_rsa
++    - sshd_disable_root_login
++    - sshd_do_not_permit_user_env
++    - sshd_enable_strictmodes
++    - sshd_enable_warning_banner
++    - sshd_enable_x11_forwarding
++    - sshd_print_last_log
++    - sshd_set_idle_timeout
++    - sshd_set_keepalive_0
++    - sshd_use_priv_separation
++    - sssd_ldap_configure_tls_ca
++    - sssd_ldap_configure_tls_ca_dir
++    - sssd_ldap_start_tls
++    - sudo_remove_no_authenticate
++    - sudo_remove_nopasswd
++    - sysctl_net_ipv4_conf_all_accept_redirects
++    - sysctl_net_ipv4_conf_all_accept_redirects_value=disabled
++    - sysctl_net_ipv4_conf_all_accept_source_route
++    - sysctl_net_ipv4_conf_all_accept_source_route_value=disabled
++    - sysctl_net_ipv4_conf_all_send_redirects
++    - sysctl_net_ipv4_conf_default_accept_source_route
++    - sysctl_net_ipv4_conf_default_accept_source_route_value=disabled
++    - sysctl_net_ipv4_conf_default_send_redirects
++    - sysctl_net_ipv4_icmp_echo_ignore_broadcasts
++    - sysctl_net_ipv4_icmp_echo_ignore_broadcasts_value=enabled
++    - sysctl_net_ipv4_ip_forward
++    - sysctl_net_ipv6_conf_all_accept_source_route
++    - sysctl_net_ipv6_conf_all_accept_source_route_value=disabled
++    - tftpd_uses_secure_mode
+diff --git a/products/wrlinuxlts21/transforms/constants.xslt b/products/wrlinuxlts21/transforms/constants.xslt
+new file mode 100644
+index 0000000000..dcc5349a22
+--- /dev/null
++++ b/products/wrlinuxlts21/transforms/constants.xslt
+@@ -0,0 +1,12 @@
++<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
++
++<xsl:include href="../../../shared/transforms/shared_constants.xslt"/>
++
++<xsl:variable name="product_long_name">Wind River Linux LTS21</xsl:variable>
++<xsl:variable name="product_short_name">WRLinux LTS21</xsl:variable>
++<xsl:variable name="product_stig_id_name">empty</xsl:variable>
++<xsl:variable name="prod_type">wrlinuxlts21</xsl:variable>
++
++<xsl:variable name="cisuri">empty</xsl:variable>
++
++</xsl:stylesheet>
+diff --git a/products/wrlinuxlts21/transforms/table-srgmap.xslt b/products/wrlinuxlts21/transforms/table-srgmap.xslt
+new file mode 100644
+index 0000000000..5798a48943
+--- /dev/null
++++ b/products/wrlinuxlts21/transforms/table-srgmap.xslt
+@@ -0,0 +1,11 @@
++<?xml version="1.0" encoding="utf-8" standalone="yes"?>
++<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cdf="http://checklists.nist.gov/xccdf/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml">
++
++<xsl:include href="../../../shared/transforms/shared_table-srgmap.xslt"/>
++<xsl:include href="constants.xslt"/>
++<xsl:include href="table-style.xslt"/>
++
++<xsl:variable name="items" select="document($map-to-items)//*[cdf:reference]" />
++<xsl:variable name="title" select="document($map-to-items)/cdf:Benchmark/cdf:title" />
++
++</xsl:stylesheet>
+diff --git a/products/wrlinuxlts21/transforms/table-style.xslt b/products/wrlinuxlts21/transforms/table-style.xslt
+new file mode 100644
+index 0000000000..8b6caeab8c
+--- /dev/null
++++ b/products/wrlinuxlts21/transforms/table-style.xslt
+@@ -0,0 +1,5 @@
++<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
++
++<xsl:import href="../../../shared/transforms/shared_table-style.xslt"/>
++
++</xsl:stylesheet>
+diff --git a/products/wrlinuxlts21/transforms/xccdf-apply-overlay-stig.xslt b/products/wrlinuxlts21/transforms/xccdf-apply-overlay-stig.xslt
+new file mode 100644
+index 0000000000..4789419b80
+--- /dev/null
++++ b/products/wrlinuxlts21/transforms/xccdf-apply-overlay-stig.xslt
+@@ -0,0 +1,8 @@
++<?xml version="1.0"?>
++<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://checklists.nist.gov/xccdf/1.1" xmlns:xccdf="http://checklists.nist.gov/xccdf/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml" exclude-result-prefixes="xccdf">
++
++<xsl:include href="../../../shared/transforms/shared_xccdf-apply-overlay-stig.xslt"/>
++<xsl:include href="constants.xslt"/>
++<xsl:variable name="overlays" select="document($overlay)/xccdf:overlays" />
++
++</xsl:stylesheet>
+diff --git a/products/wrlinuxlts21/transforms/xccdf2table-byref.xslt b/products/wrlinuxlts21/transforms/xccdf2table-byref.xslt
+new file mode 100644
+index 0000000000..1cdb679c6f
+--- /dev/null
++++ b/products/wrlinuxlts21/transforms/xccdf2table-byref.xslt
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="utf-8" standalone="yes"?>
++<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cdf="http://checklists.nist.gov/xccdf/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml">
++
++<xsl:import href="../../../shared/transforms/shared_xccdf2table-byref.xslt"/>
++
++<xsl:include href="constants.xslt"/>
++<xsl:include href="table-style.xslt"/>
++
++</xsl:stylesheet>
+diff --git a/products/wrlinuxlts21/transforms/xccdf2table-cce.xslt b/products/wrlinuxlts21/transforms/xccdf2table-cce.xslt
+new file mode 100644
+index 0000000000..f156a66956
+--- /dev/null
++++ b/products/wrlinuxlts21/transforms/xccdf2table-cce.xslt
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="utf-8" standalone="yes"?>
++<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:cce="http://cce.mitre.org" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cdf="http://checklists.nist.gov/xccdf/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml">
++
++<xsl:import href="../../../shared/transforms/shared_xccdf2table-cce.xslt"/>
++
++<xsl:include href="constants.xslt"/>
++<xsl:include href="table-style.xslt"/>
++
++</xsl:stylesheet>
+diff --git a/products/wrlinuxlts21/transforms/xccdf2table-profileanssirefs.xslt b/products/wrlinuxlts21/transforms/xccdf2table-profileanssirefs.xslt
+new file mode 100644
+index 0000000000..6fff5e7135
+--- /dev/null
++++ b/products/wrlinuxlts21/transforms/xccdf2table-profileanssirefs.xslt
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="utf-8" standalone="yes"?>
++<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cdf="http://checklists.nist.gov/xccdf/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml">
++
++<xsl:import href="../../../shared/transforms/shared_xccdf2table-profileanssirefs.xslt"/>
++<xsl:include href="constants.xslt"/>
++<xsl:include href="table-style.xslt"/>
++
++</xsl:stylesheet>
+diff --git a/products/wrlinuxlts21/transforms/xccdf2table-profileccirefs.xslt b/products/wrlinuxlts21/transforms/xccdf2table-profileccirefs.xslt
+new file mode 100644
+index 0000000000..30419e92b2
+--- /dev/null
++++ b/products/wrlinuxlts21/transforms/xccdf2table-profileccirefs.xslt
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="utf-8" standalone="yes"?>
++<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cdf="http://checklists.nist.gov/xccdf/1.1" xmlns:cci="https://public.cyber.mil/stigs/cci" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:ovalns="http://oval.mitre.org/XMLSchema/oval-definitions-5">
++
++<xsl:import href="../../../shared/transforms/shared_xccdf2table-profileccirefs.xslt"/>
++
++<xsl:include href="constants.xslt"/>
++<xsl:include href="table-style.xslt"/>
++
++</xsl:stylesheet>
+diff --git a/products/wrlinuxlts21/transforms/xccdf2table-profilecisrefs.xslt b/products/wrlinuxlts21/transforms/xccdf2table-profilecisrefs.xslt
+new file mode 100644
+index 0000000000..07d321241f
+--- /dev/null
++++ b/products/wrlinuxlts21/transforms/xccdf2table-profilecisrefs.xslt
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="utf-8" standalone="yes"?>
++<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cdf="http://checklists.nist.gov/xccdf/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml">
++
++<xsl:import href="../../../shared/transforms/shared_xccdf2table-profilecisrefs.xslt"/>
++
++<xsl:include href="constants.xslt"/>
++<xsl:include href="table-style.xslt"/>
++
++</xsl:stylesheet>
+diff --git a/products/wrlinuxlts21/transforms/xccdf2table-profilenistrefs.xslt b/products/wrlinuxlts21/transforms/xccdf2table-profilenistrefs.xslt
+new file mode 100644
+index 0000000000..ea9f8b0da5
+--- /dev/null
++++ b/products/wrlinuxlts21/transforms/xccdf2table-profilenistrefs.xslt
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="utf-8" standalone="yes"?>
++<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cdf="http://checklists.nist.gov/xccdf/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml">
++
++<xsl:import href="../../../shared/transforms/shared_xccdf2table-profilenistrefs.xslt"/>
++<xsl:include href="constants.xslt"/>
++<xsl:include href="table-style.xslt"/>
++
++</xsl:stylesheet>
+diff --git a/products/wrlinuxlts21/transforms/xccdf2table-stig.xslt b/products/wrlinuxlts21/transforms/xccdf2table-stig.xslt
+new file mode 100644
+index 0000000000..a71d8364d2
+--- /dev/null
++++ b/products/wrlinuxlts21/transforms/xccdf2table-stig.xslt
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="utf-8" standalone="yes"?>
++<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cdf="http://checklists.nist.gov/xccdf/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml">
++
++<xsl:import href="../../../shared/transforms/shared_xccdf2table-stig.xslt"/>
++
++<xsl:include href="constants.xslt"/>
++<xsl:include href="table-style.xslt"/>
++
++</xsl:stylesheet>
+diff --git a/products/wrlinuxlts22/CMakeLists.txt b/products/wrlinuxlts22/CMakeLists.txt
+new file mode 100644
+index 0000000000..d909f1f0e0
+--- /dev/null
++++ b/products/wrlinuxlts22/CMakeLists.txt
+@@ -0,0 +1,8 @@
++# Sometimes our users will try to do: "cd wrlinuxlts22; cmake ." That needs to error in a nice way.
++if ("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_SOURCE_DIR}")
++    message(FATAL_ERROR "cmake has to be used on the root CMakeLists.txt, see the Building ComplianceAsCode section in the Developer Guide!")
++endif()
++
++set(PRODUCT_REMEDIATION_LANGUAGES "bash")
++
++ssg_build_product("wrlinuxlts22")
+diff --git a/products/wrlinuxlts22/overlays/.gitkeep b/products/wrlinuxlts22/overlays/.gitkeep
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/products/wrlinuxlts22/product.yml b/products/wrlinuxlts22/product.yml
+new file mode 100644
+index 0000000000..78960c5ae8
+--- /dev/null
++++ b/products/wrlinuxlts22/product.yml
+@@ -0,0 +1,22 @@
++product: wrlinuxlts22
++full_name: Wind River Linux LTS22
++type: platform
++
++benchmark_id: WRLINUX-LTS22
++benchmark_root: "../../linux_os/guide"
++
++profiles_root: "./profiles"
++
++pkg_manager: "dnf"
++
++init_system: "systemd"
++
++grub2_boot_path: "/boot/grub"
++grub2_uefi_boot_path: "/boot/EFI/BOOT"
++
++cpes_root: "../../shared/applicability"
++cpes:
++  - wrlinuxlts22:
++      name: "cpe:/o:windriver:wrlinux:lts22"
++      title: "Wind River Linux LTS22"
++      check_id: installed_OS_is_wrlinuxlts22
+diff --git a/products/wrlinuxlts22/profiles/draft_stig_wrlinuxlts22.profile b/products/wrlinuxlts22/profiles/draft_stig_wrlinuxlts22.profile
+new file mode 100644
+index 0000000000..a4052b5876
+--- /dev/null
++++ b/products/wrlinuxlts22/profiles/draft_stig_wrlinuxlts22.profile
+@@ -0,0 +1,226 @@
++documentation_complete: true
++
++title: 'DRAFT DISA STIG for Wind River Linux LTS22'
++
++description: |-
++    This profile contains configuration checks that align to the
++    DISA STIG for Wind River Linux LTS22.
++    This profile is being developed under the DoD consensus model to
++    become a STIG in coordination with DISA FSO.
++    What is the status of the Wind River Linux STIG?
++    The Wind River Linux STIG is in development under the DoD consensus model
++    and Wind River has started the process to get approval from DISA. However, in
++    the absence of an approved SRG or STIG, vendor recommendations may be used
++    instead. The current contents constitute the vendor recommendations at the
++    time of the product release containing these contents.
++    Note that changes are expected before approval is granted, and those changes
++    will be made available in future Wind River Linux LTS22 RCPL releases.
++    More information, including the following, is available from the DISA FAQs
++    at https://public.cyber.mil/stigs/faqs/
++
++selections:
++    - var_account_disable_post_pw_expiration=0
++    - var_accounts_max_concurrent_login_sessions=10
++    - var_accounts_maximum_age_login_defs=60
++    - var_accounts_minimum_age_login_defs=1
++    - var_accounts_passwords_pam_faillock_deny=3
++    - var_accounts_tmout=10_min
++    - var_selinux_state=enforcing
++    - var_sshd_set_keepalive=0
++    - account_disable_post_pw_expiration
++    - accounts_have_homedir_login_defs
++    - accounts_logon_fail_delay
++    - accounts_max_concurrent_login_sessions
++    - accounts_maximum_age_login_defs
++    - accounts_minimum_age_login_defs
++    - accounts_no_uid_except_zero
++    - accounts_password_pam_dcredit
++    - accounts_password_pam_difok
++    - accounts_password_pam_lcredit
++    - accounts_password_pam_maxclassrepeat
++    - accounts_password_pam_maxrepeat
++    - accounts_password_pam_minclass
++    - accounts_password_pam_minlen
++    - accounts_password_pam_ocredit
++    - accounts_password_pam_retry
++    - accounts_password_pam_ucredit
++    - accounts_password_pam_unix_remember
++    - accounts_password_set_max_life_existing
++    - accounts_password_set_min_life_existing
++    - accounts_passwords_pam_faillock_deny
++    - accounts_passwords_pam_faillock_deny_root
++    - accounts_tmout
++    - accounts_umask_etc_login_defs
++    - accounts_umask_interactive_users
++    - accounts_user_dot_group_ownership
++    - accounts_user_dot_no_world_writable_programs
++    - accounts_user_dot_user_ownership
++    - accounts_user_home_paths_only
++    - accounts_user_interactive_home_directory_defined
++    - accounts_user_interactive_home_directory_exists
++    - accounts_users_home_files_groupownership
++    - accounts_users_home_files_ownership
++    - accounts_users_home_files_permissions
++    - aide_periodic_cron_checking
++    - aide_scan_notification
++    - auditd_audispd_configure_remote_server
++    - auditd_audispd_disk_full_action
++    - auditd_audispd_encrypt_sent_records
++    - auditd_audispd_network_failure_action
++    - auditd_data_retention_action_mail_acct
++    - auditd_data_retention_admin_space_left_action
++    - auditd_data_retention_space_left
++    - audit_rules_dac_modification_chmod
++    - audit_rules_dac_modification_chown
++    - audit_rules_dac_modification_fchmod
++    - audit_rules_dac_modification_fchmodat
++    - audit_rules_dac_modification_fchown
++    - audit_rules_dac_modification_fchownat
++    - audit_rules_dac_modification_fremovexattr
++    - audit_rules_dac_modification_fsetxattr
++    - audit_rules_dac_modification_lchown
++    - audit_rules_dac_modification_lremovexattr
++    - audit_rules_dac_modification_lsetxattr
++    - audit_rules_dac_modification_removexattr
++    - audit_rules_dac_modification_setxattr
++    - audit_rules_execution_chcon
++    - audit_rules_execution_semanage
++    - audit_rules_execution_setsebool
++    - audit_rules_file_deletion_events_rename
++    - audit_rules_file_deletion_events_renameat
++    - audit_rules_file_deletion_events_rmdir
++    - audit_rules_file_deletion_events_unlink
++    - audit_rules_file_deletion_events_unlinkat
++    - audit_rules_kernel_module_loading_delete
++    - audit_rules_kernel_module_loading_finit
++    - audit_rules_kernel_module_loading_init
++    - audit_rules_login_events_faillock
++    - audit_rules_login_events_lastlog
++    - audit_rules_privileged_commands
++    - audit_rules_privileged_commands_chage
++    - audit_rules_privileged_commands_chsh
++    - audit_rules_privileged_commands_crontab
++    - audit_rules_privileged_commands_gpasswd
++    - audit_rules_privileged_commands_pam_timestamp_check
++    - audit_rules_privileged_commands_passwd
++    - audit_rules_privileged_commands_postdrop
++    - audit_rules_privileged_commands_postqueue
++    - audit_rules_privileged_commands_ssh_keysign
++    - audit_rules_privileged_commands_su
++    - audit_rules_privileged_commands_sudo
++    - audit_rules_privileged_commands_umount
++    - audit_rules_privileged_commands_unix_chkpwd
++    - audit_rules_sysadmin_actions
++    - audit_rules_system_shutdown
++    - audit_rules_unsuccessful_file_modification_creat
++    - audit_rules_unsuccessful_file_modification_ftruncate
++    - audit_rules_unsuccessful_file_modification_open
++    - audit_rules_unsuccessful_file_modification_openat
++    - audit_rules_unsuccessful_file_modification_open_by_handle_at
++    - audit_rules_unsuccessful_file_modification_truncate
++    - audit_rules_usergroup_modification
++    - audit_rules_usergroup_modification_group
++    - audit_rules_usergroup_modification_gshadow
++    - audit_rules_usergroup_modification_opasswd
++    - audit_rules_usergroup_modification_passwd
++    - audit_rules_usergroup_modification_shadow
++    - banner_etc_issue
++    - chronyd_or_ntpd_set_maxpoll
++    - configure_firewalld_ports
++    - configure_firewalld_rate_limiting
++    - dir_perms_world_writable_system_owned
++    - disable_ctrlaltdel_reboot
++    - disable_host_auth
++    - display_login_attempts
++    - ensure_gpgcheck_local_packages
++    - file_groupowner_cron_allow
++    - file_groupownership_home_directories
++    - file_owner_cron_allow
++    - file_ownership_home_directories
++    - file_permissions_home_directories
++    - file_permissions_sshd_private_key
++    - file_permissions_sshd_pub_key
++    - file_permissions_ungroupowned
++    - file_permission_user_init_files
++    - gid_passwd_group_same
++    - grub2_no_removeable_media
++    - grub2_password
++    - grub2_uefi_password
++    - installed_OS_is_vendor_supported
++    - kernel_module_dccp_disabled
++    - kernel_module_usb-storage_disabled
++    - mount_option_home_nosuid
++    - mount_option_krb_sec_remote_filesystems
++    - mount_option_noexec_remote_filesystems
++    - mount_option_nosuid_remote_filesystems
++    - mount_option_nosuid_removable_partitions
++    - network_configure_name_resolution
++    - network_sniffer_disabled
++    - no_empty_passwords
++    - no_files_unowned_by_user
++    - no_host_based_files
++    - no_user_host_based_files
++    - package_openssh-server_installed
++    - package_rsh-server_removed
++    - package_screen_installed
++    - package_telnet-server_removed
++    - package_tftp-server_removed
++    - package_vsftpd_removed
++    - package_ypserv_removed
++    - partition_for_home
++    - partition_for_tmp
++    - partition_for_var
++    - partition_for_var_log_audit
++    - postfix_prevent_unrestricted_relay
++    - require_singleuser_auth
++    - rpm_verify_hashes
++    - rpm_verify_permissions
++    - rsyslog_cron_logging
++    - rsyslog_nolisten
++    - rsyslog_remote_loghost
++    - selinux_policytype
++    - selinux_state
++    - selinux_user_login_roles
++    - service_auditd_enabled
++    - service_autofs_disabled
++    - service_firewalld_enabled
++    - service_kdump_disabled
++    - service_sshd_enabled
++    - set_password_hashing_algorithm_libuserconf
++    - set_password_hashing_algorithm_logindefs
++    - set_password_hashing_algorithm_systemauth
++    - snmpd_not_default_password
++    - sshd_allow_only_protocol2
++    - sshd_disable_compression
++    - sshd_disable_empty_passwords
++    - sshd_disable_gssapi_auth
++    - sshd_disable_kerb_auth
++    - sshd_disable_rhosts_rsa
++    - sshd_disable_root_login
++    - sshd_do_not_permit_user_env
++    - sshd_enable_strictmodes
++    - sshd_enable_warning_banner
++    - sshd_enable_x11_forwarding
++    - sshd_print_last_log
++    - sshd_set_idle_timeout
++    - sshd_set_keepalive_0
++    - sshd_use_priv_separation
++    - sssd_ldap_configure_tls_ca
++    - sssd_ldap_configure_tls_ca_dir
++    - sssd_ldap_start_tls
++    - sudo_remove_no_authenticate
++    - sudo_remove_nopasswd
++    - sysctl_net_ipv4_conf_all_accept_redirects
++    - sysctl_net_ipv4_conf_all_accept_redirects_value=disabled
++    - sysctl_net_ipv4_conf_all_accept_source_route
++    - sysctl_net_ipv4_conf_all_accept_source_route_value=disabled
++    - sysctl_net_ipv4_conf_all_send_redirects
++    - sysctl_net_ipv4_conf_default_accept_source_route
++    - sysctl_net_ipv4_conf_default_accept_source_route_value=disabled
++    - sysctl_net_ipv4_conf_default_send_redirects
++    - sysctl_net_ipv4_icmp_echo_ignore_broadcasts
++    - sysctl_net_ipv4_icmp_echo_ignore_broadcasts_value=enabled
++    - sysctl_net_ipv4_ip_forward
++    - sysctl_net_ipv6_conf_all_accept_source_route
++    - sysctl_net_ipv6_conf_all_accept_source_route_value=disabled
++    - tftpd_uses_secure_mode
+diff --git a/products/wrlinuxlts22/transforms/constants.xslt b/products/wrlinuxlts22/transforms/constants.xslt
+new file mode 100644
+index 0000000000..4a3b20c1c0
+--- /dev/null
++++ b/products/wrlinuxlts22/transforms/constants.xslt
+@@ -0,0 +1,12 @@
++<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
++
++<xsl:include href="../../../shared/transforms/shared_constants.xslt"/>
++
++<xsl:variable name="product_long_name">Wind River Linux LTS22</xsl:variable>
++<xsl:variable name="product_short_name">WRLinux LTS22</xsl:variable>
++<xsl:variable name="product_stig_id_name">empty</xsl:variable>
++<xsl:variable name="prod_type">wrlinuxlts22</xsl:variable>
++
++<xsl:variable name="cisuri">empty</xsl:variable>
++
++</xsl:stylesheet>
+diff --git a/products/wrlinuxlts22/transforms/table-srgmap.xslt b/products/wrlinuxlts22/transforms/table-srgmap.xslt
+new file mode 100644
+index 0000000000..5798a48943
+--- /dev/null
++++ b/products/wrlinuxlts22/transforms/table-srgmap.xslt
+@@ -0,0 +1,11 @@
++<?xml version="1.0" encoding="utf-8" standalone="yes"?>
++<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cdf="http://checklists.nist.gov/xccdf/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml">
++
++<xsl:include href="../../../shared/transforms/shared_table-srgmap.xslt"/>
++<xsl:include href="constants.xslt"/>
++<xsl:include href="table-style.xslt"/>
++
++<xsl:variable name="items" select="document($map-to-items)//*[cdf:reference]" />
++<xsl:variable name="title" select="document($map-to-items)/cdf:Benchmark/cdf:title" />
++
++</xsl:stylesheet>
+diff --git a/products/wrlinuxlts22/transforms/table-style.xslt b/products/wrlinuxlts22/transforms/table-style.xslt
+new file mode 100644
+index 0000000000..8b6caeab8c
+--- /dev/null
++++ b/products/wrlinuxlts22/transforms/table-style.xslt
+@@ -0,0 +1,5 @@
++<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
++
++<xsl:import href="../../../shared/transforms/shared_table-style.xslt"/>
++
++</xsl:stylesheet>
+diff --git a/products/wrlinuxlts22/transforms/xccdf-apply-overlay-stig.xslt b/products/wrlinuxlts22/transforms/xccdf-apply-overlay-stig.xslt
+new file mode 100644
+index 0000000000..4789419b80
+--- /dev/null
++++ b/products/wrlinuxlts22/transforms/xccdf-apply-overlay-stig.xslt
+@@ -0,0 +1,8 @@
++<?xml version="1.0"?>
++<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://checklists.nist.gov/xccdf/1.1" xmlns:xccdf="http://checklists.nist.gov/xccdf/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml" exclude-result-prefixes="xccdf">
++
++<xsl:include href="../../../shared/transforms/shared_xccdf-apply-overlay-stig.xslt"/>
++<xsl:include href="constants.xslt"/>
++<xsl:variable name="overlays" select="document($overlay)/xccdf:overlays" />
++
++</xsl:stylesheet>
+diff --git a/products/wrlinuxlts22/transforms/xccdf2table-byref.xslt b/products/wrlinuxlts22/transforms/xccdf2table-byref.xslt
+new file mode 100644
+index 0000000000..1cdb679c6f
+--- /dev/null
++++ b/products/wrlinuxlts22/transforms/xccdf2table-byref.xslt
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="utf-8" standalone="yes"?>
++<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cdf="http://checklists.nist.gov/xccdf/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml">
++
++<xsl:import href="../../../shared/transforms/shared_xccdf2table-byref.xslt"/>
++
++<xsl:include href="constants.xslt"/>
++<xsl:include href="table-style.xslt"/>
++
++</xsl:stylesheet>
+diff --git a/products/wrlinuxlts22/transforms/xccdf2table-cce.xslt b/products/wrlinuxlts22/transforms/xccdf2table-cce.xslt
+new file mode 100644
+index 0000000000..f156a66956
+--- /dev/null
++++ b/products/wrlinuxlts22/transforms/xccdf2table-cce.xslt
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="utf-8" standalone="yes"?>
++<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:cce="http://cce.mitre.org" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cdf="http://checklists.nist.gov/xccdf/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml">
++
++<xsl:import href="../../../shared/transforms/shared_xccdf2table-cce.xslt"/>
++
++<xsl:include href="constants.xslt"/>
++<xsl:include href="table-style.xslt"/>
++
++</xsl:stylesheet>
+diff --git a/products/wrlinuxlts22/transforms/xccdf2table-profileanssirefs.xslt b/products/wrlinuxlts22/transforms/xccdf2table-profileanssirefs.xslt
+new file mode 100644
+index 0000000000..6fff5e7135
+--- /dev/null
++++ b/products/wrlinuxlts22/transforms/xccdf2table-profileanssirefs.xslt
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="utf-8" standalone="yes"?>
++<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cdf="http://checklists.nist.gov/xccdf/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml">
++
++<xsl:import href="../../../shared/transforms/shared_xccdf2table-profileanssirefs.xslt"/>
++<xsl:include href="constants.xslt"/>
++<xsl:include href="table-style.xslt"/>
++
++</xsl:stylesheet>
+diff --git a/products/wrlinuxlts22/transforms/xccdf2table-profileccirefs.xslt b/products/wrlinuxlts22/transforms/xccdf2table-profileccirefs.xslt
+new file mode 100644
+index 0000000000..30419e92b2
+--- /dev/null
++++ b/products/wrlinuxlts22/transforms/xccdf2table-profileccirefs.xslt
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="utf-8" standalone="yes"?>
++<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cdf="http://checklists.nist.gov/xccdf/1.1" xmlns:cci="https://public.cyber.mil/stigs/cci" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:ovalns="http://oval.mitre.org/XMLSchema/oval-definitions-5">
++
++<xsl:import href="../../../shared/transforms/shared_xccdf2table-profileccirefs.xslt"/>
++
++<xsl:include href="constants.xslt"/>
++<xsl:include href="table-style.xslt"/>
++
++</xsl:stylesheet>
+diff --git a/products/wrlinuxlts22/transforms/xccdf2table-profilecisrefs.xslt b/products/wrlinuxlts22/transforms/xccdf2table-profilecisrefs.xslt
+new file mode 100644
+index 0000000000..07d321241f
+--- /dev/null
++++ b/products/wrlinuxlts22/transforms/xccdf2table-profilecisrefs.xslt
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="utf-8" standalone="yes"?>
++<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cdf="http://checklists.nist.gov/xccdf/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml">
++
++<xsl:import href="../../../shared/transforms/shared_xccdf2table-profilecisrefs.xslt"/>
++
++<xsl:include href="constants.xslt"/>
++<xsl:include href="table-style.xslt"/>
++
++</xsl:stylesheet>
+diff --git a/products/wrlinuxlts22/transforms/xccdf2table-profilenistrefs.xslt b/products/wrlinuxlts22/transforms/xccdf2table-profilenistrefs.xslt
+new file mode 100644
+index 0000000000..ea9f8b0da5
+--- /dev/null
++++ b/products/wrlinuxlts22/transforms/xccdf2table-profilenistrefs.xslt
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="utf-8" standalone="yes"?>
++<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cdf="http://checklists.nist.gov/xccdf/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml">
++
++<xsl:import href="../../../shared/transforms/shared_xccdf2table-profilenistrefs.xslt"/>
++<xsl:include href="constants.xslt"/>
++<xsl:include href="table-style.xslt"/>
++
++</xsl:stylesheet>
+diff --git a/products/wrlinuxlts22/transforms/xccdf2table-stig.xslt b/products/wrlinuxlts22/transforms/xccdf2table-stig.xslt
+new file mode 100644
+index 0000000000..a71d8364d2
+--- /dev/null
++++ b/products/wrlinuxlts22/transforms/xccdf2table-stig.xslt
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="utf-8" standalone="yes"?>
++<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cdf="http://checklists.nist.gov/xccdf/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml">
++
++<xsl:import href="../../../shared/transforms/shared_xccdf2table-stig.xslt"/>
++
++<xsl:include href="constants.xslt"/>
++<xsl:include href="table-style.xslt"/>
++
++</xsl:stylesheet>
+diff --git a/shared/checks/oval/installed_OS_is_wrlinuxlts21.xml b/shared/checks/oval/installed_OS_is_wrlinuxlts21.xml
+new file mode 100644
+index 0000000000..4e840fdd74
+--- /dev/null
++++ b/shared/checks/oval/installed_OS_is_wrlinuxlts21.xml
+@@ -0,0 +1,46 @@
++<def-group>
++	<definition class="inventory" id="installed_OS_is_wrlinuxlts21" version="1">
++		<metadata>
++			<title>Wind River Linux LTS21</title>
++			<affected family="unix">
++				<platform>multi_platform_all</platform>
++			</affected>
++			<reference ref_id="cpe:/o:windriver:wrlinux:lts21" source="CPE" />
++			<description>The operating system installed on the system is Wind River Linux LTS21</description>
++		</metadata>
++		<criteria operator="AND">
++			<criterion comment="Installed operating system is part of the unix family" test_ref="test_wrlinuxlts21_unix_family" />
++			<criterion comment="Product name is Wind River Linux" test_ref="test_wrlinuxlts21_name" />
++			<criterion comment="Wind River Linux version is LTS21" test_ref="test_wrlinuxlts21_version" />
++		</criteria>
++	</definition>
++
++	<ind:family_test check="all" check_existence="at_least_one_exists" comment="installed OS part of unix family" id="test_wrlinuxlts21_unix_family" version="1">
++		<ind:object object_ref="obj_wrlinuxlts21_unix_family" />
++		<ind:state state_ref="state_wrlinuxlts21_unix_family" />
++	</ind:family_test>
++
++	<ind:family_state id="state_wrlinuxlts21_unix_family" version="1">
++		<ind:family>unix</ind:family>
++	</ind:family_state>
++
++	<ind:family_object id="obj_wrlinuxlts21_unix_family" version="1" />
++	<ind:textfilecontent54_test check="all" check_existence="at_least_one_exists" comment="Check Wind River Linux product name" id="test_wrlinuxlts21_name" version="1">
++		<ind:object object_ref="obj_wrlinuxlts21_name" />
++	</ind:textfilecontent54_test>
++	<ind:textfilecontent54_object id="obj_wrlinuxlts21_name" version="1" comment="Check Wind River Linux product name">
++		<ind:filepath>/etc/os-release</ind:filepath>
++		<ind:pattern operation="pattern match">^NAME=.Wind[\s]+River[\s]+Linux.*$</ind:pattern>
++		<ind:instance datatype="int">1</ind:instance>
++	</ind:textfilecontent54_object>
++
++	<ind:textfilecontent54_test check="all" check_existence="at_least_one_exists" comment="Check Wind River Linux version" id="test_wrlinuxlts21_version" version="1">
++		<ind:object object_ref="obj_wrlinuxlts21_version" />
++	</ind:textfilecontent54_test>
++	<ind:textfilecontent54_object id="obj_wrlinuxlts21_version" version="1" comment="Check Wind River Linux version">
++		<ind:filepath>/etc/os-release</ind:filepath>
++		<ind:pattern operation="pattern match">^VERSION=.10\.21.*$</ind:pattern>
++		<ind:instance datatype="int">1</ind:instance>
++	</ind:textfilecontent54_object>
++
++</def-group>
+diff --git a/shared/checks/oval/installed_OS_is_wrlinuxlts22.xml b/shared/checks/oval/installed_OS_is_wrlinuxlts22.xml
+new file mode 100644
+index 0000000000..2ac70663bb
+--- /dev/null
++++ b/shared/checks/oval/installed_OS_is_wrlinuxlts22.xml
+@@ -0,0 +1,46 @@
++<def-group>
++	<definition class="inventory" id="installed_OS_is_wrlinuxlts22" version="1">
++		<metadata>
++			<title>Wind River Linux LTS22</title>
++			<affected family="unix">
++				<platform>multi_platform_all</platform>
++			</affected>
++			<reference ref_id="cpe:/o:windriver:wrlinux:lts22" source="CPE" />
++			<description>The operating system installed on the system is Wind River Linux LTS22</description>
++		</metadata>
++		<criteria operator="AND">
++			<criterion comment="Installed operating system is part of the unix family" test_ref="test_wrlinuxlts22_unix_family" />
++			<criterion comment="Product name is Wind River Linux" test_ref="test_wrlinuxlts22_name" />
++			<criterion comment="Wind River Linux version is LTS22" test_ref="test_wrlinuxlts22_version" />
++		</criteria>
++	</definition>
++
++	<ind:family_test check="all" check_existence="at_least_one_exists" comment="installed OS part of unix family" id="test_wrlinuxlts22_unix_family" version="1">
++		<ind:object object_ref="obj_wrlinuxlts22_unix_family" />
++		<ind:state state_ref="state_wrlinuxlts22_unix_family" />
++	</ind:family_test>
++
++	<ind:family_state id="state_wrlinuxlts22_unix_family" version="1">
++		<ind:family>unix</ind:family>
++	</ind:family_state>
++
++	<ind:family_object id="obj_wrlinuxlts22_unix_family" version="1" />
++	<ind:textfilecontent54_test check="all" check_existence="at_least_one_exists" comment="Check Wind River Linux product name" id="test_wrlinuxlts22_name" version="1">
++		<ind:object object_ref="obj_wrlinuxlts22_name" />
++	</ind:textfilecontent54_test>
++	<ind:textfilecontent54_object id="obj_wrlinuxlts22_name" version="1" comment="Check Wind River Linux product name">
++		<ind:filepath>/etc/os-release</ind:filepath>
++		<ind:pattern operation="pattern match">^NAME=.Wind[\s]+River[\s]+Linux.*$</ind:pattern>
++		<ind:instance datatype="int">1</ind:instance>
++	</ind:textfilecontent54_object>
++
++	<ind:textfilecontent54_test check="all" check_existence="at_least_one_exists" comment="Check Wind River Linux version" id="test_wrlinuxlts22_version" version="1">
++		<ind:object object_ref="obj_wrlinuxlts22_version" />
++	</ind:textfilecontent54_test>
++	<ind:textfilecontent54_object id="obj_wrlinuxlts22_version" version="1" comment="Check Wind River Linux version">
++		<ind:filepath>/etc/os-release</ind:filepath>
++		<ind:pattern operation="pattern match">^VERSION=.10\.22.*$</ind:pattern>
++		<ind:instance datatype="int">1</ind:instance>
++	</ind:textfilecontent54_object>
++
++</def-group>
+diff --git a/ssg/build_ovals.py b/ssg/build_ovals.py
+index d5409448fc..210abdea65 100644
+--- a/ssg/build_ovals.py
++++ b/ssg/build_ovals.py
+@@ -27,6 +27,14 @@ def _check_is_applicable_for_product(oval_check_def, product):
+ 
+     product, product_version = utils.parse_name(product)
+ 
++    # Set correct product name and product version for WRLinux LTS
++    if product == "wrlinuxlts":
++        product = "wrlinux"
++        if product_version == "21":
++            product_version = "LTS21"
++        if product_version == "22":
++            product_version = "LTS22"
++
+     # Define general platforms
+     multi_platforms = ['<platform>multi_platform_all',
+                        '<platform>multi_platform_' + product]
+diff --git a/ssg/build_sce.py b/ssg/build_sce.py
+index 633eb579ff..5b58c527d9 100644
+--- a/ssg/build_sce.py
++++ b/ssg/build_sce.py
+@@ -64,6 +64,14 @@ def _check_is_applicable_for_product(metadata, product):
+ 
+     product, product_version = utils.parse_name(product)
+ 
++    # Set correct product name and product version for WRLinux LTS
++    if product == "wrlinuxlts":
++        product = "wrlinux"
++        if product_version == "21":
++            product_version = "LTS21"
++        if product_version == "22":
++            product_version = "LTS22"
++
+     multi_product = 'multi_platform_{0}'.format(product)
+     if product in ['macos', 'ubuntu']:
+         product_version = product_version[:2] + "." + product_version[2:]
+diff --git a/ssg/constants.py b/ssg/constants.py
+index 2e4d6ddca7..23dc817a25 100644
+--- a/ssg/constants.py
++++ b/ssg/constants.py
+@@ -57,7 +57,7 @@ product_directories = [
+     'sle12', 'sle15',
+     'ubuntu1604', 'ubuntu1804', 'ubuntu2004',
+     'vsel',
+-    'wrlinux8', 'wrlinux1019'
++    'wrlinux8', 'wrlinux1019', 'wrlinuxlts21', 'wrlinuxlts22'
+ ]
+ 
+ JINJA_MACROS_DIRECTORY = os.path.join(os.path.dirname(os.path.dirname(
+@@ -220,6 +220,8 @@ FULL_NAME_TO_PRODUCT_MAPPING = {
+     "Ubuntu 20.04": "ubuntu2004",
+     "WRLinux 8": "wrlinux8",
+     "WRLinux 1019": "wrlinux1019",
++    "WRLinux LTS21": "wrlinuxlts21",
++    "WRLinux LTS22": "wrlinuxlts22",
+ }
+ 
+ 
+@@ -274,7 +276,7 @@ MULTI_PLATFORM_MAPPING = {
+     "multi_platform_rhv": ["rhv4"],
+     "multi_platform_sle": ["sle12", "sle15"],
+     "multi_platform_ubuntu": ["ubuntu1604", "ubuntu1804", "ubuntu2004"],
+-    "multi_platform_wrlinux": ["wrlinux8", "wrlinux1019"],
++    "multi_platform_wrlinux": ["wrlinux8", "wrlinux1019", "wrlinuxlts21", "wrlinuxlts22"],
+ }
+ 
+ RHEL_CENTOS_CPE_MAPPING = {
+diff --git a/ssg/utils.py b/ssg/utils.py
+index 2248b1ebb1..8fc1b6726f 100644
+--- a/ssg/utils.py
++++ b/ssg/utils.py
+@@ -106,6 +106,14 @@ def is_applicable_for_product(platform, product):
+ 
+     product, product_version = parse_name(product)
+ 
++    # Set correct product name and product version for WRLinux LTS
++    if product == "wrlinuxlts":
++        product = "wrlinux"
++        if product_version == "21":
++            product_version = "LTS21"
++        if product_version == "22":
++            product_version = "LTS22"
++
+     # Define general platforms
+     multi_platforms = ['multi_platform_all',
+                        'multi_platform_' + product]
+-- 
+2.25.1
+

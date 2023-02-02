@@ -1,0 +1,245 @@
+From 4f0abad8d2bf2b0fba5e3503191bc62078e6249c Mon Sep 17 00:00:00 2001
+From: Yi Zhao <yi.zhao@windriver.com>
+Date: Wed, 26 Jan 2022 16:00:55 +0800
+Subject: [PATCH] Fix audit_rules
+
+Upstream-Status: Inappropriate [WRLinux specific]
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ .../auditd_audispd_configure_remote_server/bash/shared.sh | 2 +-
+ .../oval/shared.xml                                       | 2 +-
+ .../auditd_audispd_configure_remote_server/rule.yml       | 4 ++--
+ .../auditd_audispd_encrypt_sent_records/bash/shared.sh    | 4 ++++
+ .../auditd_audispd_encrypt_sent_records/oval/shared.xml   | 4 +++-
+ .../auditd_audispd_encrypt_sent_records/rule.yml          | 8 ++++++++
+ shared/checks/oval/audit_rules_auditctl.xml               | 6 +++++-
+ shared/checks/oval/audit_rules_augenrules.xml             | 6 +++++-
+ .../templates/audit_rules_dac_modification/bash.template  | 2 +-
+ .../audit_rules_file_deletion_events/bash.template        | 2 +-
+ shared/templates/audit_rules_login_events/bash.template   | 2 +-
+ .../audit_rules_privileged_commands/bash.template         | 4 ++--
+ .../audit_rules_privileged_commands/oval.template         | 2 +-
+ .../bash.template                                         | 2 +-
+ .../audit_rules_usergroup_modification/bash.template      | 2 +-
+ 15 files changed, 37 insertions(+), 15 deletions(-)
+
+diff --git a/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_configure_remote_server/bash/shared.sh b/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_configure_remote_server/bash/shared.sh
+index 8d53a83d8a..e735275887 100644
+--- a/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_configure_remote_server/bash/shared.sh
++++ b/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_configure_remote_server/bash/shared.sh
+@@ -2,7 +2,7 @@
+ 
+ {{{ bash_instantiate_variables("var_audispd_remote_server") }}}
+ 
+-{{% if product in ["rhel8", "fedora", "ol8", "rhv4"] %}}
++{{% if product in ["rhel8", "fedora", "ol8", "rhv4", "wrlinuxlts21", "wrlinuxlts22"] %}}
+ AUDITCONFIG=/etc/audit/audisp-remote.conf
+ {{% else %}}
+ AUDITCONFIG=/etc/audisp/audisp-remote.conf
+diff --git a/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_configure_remote_server/oval/shared.xml b/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_configure_remote_server/oval/shared.xml
+index a19f62d3ca..b6ad381b99 100644
+--- a/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_configure_remote_server/oval/shared.xml
++++ b/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_configure_remote_server/oval/shared.xml
+@@ -1,4 +1,4 @@
+-{{% if product in ["rhel8", "fedora", "ol8", "rhv4"] %}}
++{{% if product in ["rhel8", "fedora", "ol8", "rhv4", "wrlinuxlts21", "wrlinuxlts22"] %}}
+ {{% set audisp_config_file_path = "/etc/audit/audisp-remote.conf" %}}
+ {{% else %}}
+ {{% set audisp_config_file_path = "/etc/audisp/audisp-remote.conf" %}}
+diff --git a/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_configure_remote_server/rule.yml b/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_configure_remote_server/rule.yml
+index e1dc4cc314..98ff0cced5 100644
+--- a/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_configure_remote_server/rule.yml
++++ b/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_configure_remote_server/rule.yml
+@@ -12,7 +12,7 @@ description: |-
+     <pre>/etc/audisp/plugins.d/au-remote.conf</pre>
+ {{% endif %}}
+     Set the <tt>remote_server</tt> option in <pre>
+-{{%- if product in ["rhel8", "fedora", "ol8", "rhv4"] -%}}
++{{%- if product in ["rhel8", "fedora", "ol8", "rhv4", "wrlinuxlts21", "wrlinuxlts22"] -%}}
+     /etc/audit/audisp-remote.conf
+ {{%- else -%}}
+     /etc/audisp/audisp-remote.conf
+@@ -59,7 +59,7 @@ ocil: |-
+ {{% endif %}}
+     To verify the audispd plugin off-loads audit records onto a different system or
+     media from the system being audited, run the following command:
+-{{% if product in ["rhel8", "fedora", "ol8", "rhv4"] %}}
++{{% if product in ["rhel8", "fedora", "ol8", "rhv4", "wrlinuxlts21", "wrlinuxlts22"] %}}
+     <pre>$ sudo grep -i remote_server /etc/audit/audisp-remote.conf</pre>
+ {{% else %}}
+     <pre>$ sudo grep -i remote_server /etc/audisp/audisp-remote.conf</pre>
+diff --git a/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_encrypt_sent_records/bash/shared.sh b/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_encrypt_sent_records/bash/shared.sh
+index 121619ff57..c74820af0c 100644
+--- a/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_encrypt_sent_records/bash/shared.sh
++++ b/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_encrypt_sent_records/bash/shared.sh
+@@ -4,6 +4,10 @@
+ AUDISP_REMOTE_CONFIG="/etc/audit/audisp-remote.conf"
+ option="^transport"
+ value="KRB5"
++{{% elif product in ["wrlinuxlts21", "wrlinuxlts22"] %}}
++AUDISP_REMOTE_CONFIG="/etc/audit/audisp-remote.conf"
++option="^enable_krb5"
++value="yes"
+ {{% else %}}
+ AUDISP_REMOTE_CONFIG="/etc/audisp/audisp-remote.conf"
+ option="^enable_krb5"
+diff --git a/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_encrypt_sent_records/oval/shared.xml b/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_encrypt_sent_records/oval/shared.xml
+index 1e21e071ae..d66135d26b 100644
+--- a/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_encrypt_sent_records/oval/shared.xml
++++ b/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_encrypt_sent_records/oval/shared.xml
+@@ -2,6 +2,8 @@
+   <definition class="compliance" id="auditd_audispd_encrypt_sent_records" version="1">
+     {{% if product in ["rhel8", "fedora", "ol8", "rhv4"] %}}
+     {{{ oval_metadata("transport setting in /etc/audit/audisp-remote.conf is set to 'KRB5'") }}}
++    {{% elif product in ["wrlinuxlts21", "wrlinuxlts22"] %}}
++    {{{ oval_metadata("enable_krb5 setting in /etc/audit/audisp-remote.conf is set to 'yes'") }}}
+     {{% else %}}
+     {{{ oval_metadata("enable_krb5 setting in /etc/audisp/audisp-remote.conf is set to 'yes'") }}}
+     {{% endif %}}
+@@ -17,7 +19,7 @@
+   </ind:textfilecontent54_test>
+ 
+   <ind:textfilecontent54_object id="object_auditd_audispd_encrypt_sent_records" version="1">
+-{{% if product in ["rhel8", "fedora", "ol8", "rhv4"] %}}
++{{% if product in ["rhel8", "fedora", "ol8", "rhv4", "wrlinuxlts21", "wrlinuxlts22"] %}}
+     <ind:filepath>/etc/audit/audisp-remote.conf</ind:filepath>
+ {{% else %}}
+     <ind:filepath>/etc/audisp/audisp-remote.conf</ind:filepath>
+diff --git a/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_encrypt_sent_records/rule.yml b/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_encrypt_sent_records/rule.yml
+index c7a193f514..dcb740eaa3 100644
+--- a/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_encrypt_sent_records/rule.yml
++++ b/linux_os/guide/system/auditing/configure_auditd_data_retention/auditd_audispd_encrypt_sent_records/rule.yml
+@@ -10,6 +10,10 @@ description: |-
+ {{% if product in ["rhel8", "fedora", "ol8", "rhv4"] %}}
+     Set the <tt>transport</tt> option in <pre>/etc/audit/audisp-remote.conf</pre>
+     to <tt>KRB5</tt>.
++{{% elif product in ["wrlinuxlts21", "wrlinuxlts22"] %}}
++    Uncomment the <tt>enable_krb5</tt> option in <pre>/etc/audit/audisp-remote.conf</pre>,
++    and set it with the following line:
++    <pre>enable_krb5 = yes</pre>
+ {{% else %}}
+     Uncomment the <tt>enable_krb5</tt> option in <pre>/etc/audisp/audisp-remote.conf</pre>,
+     and set it with the following line:
+@@ -48,6 +52,10 @@ ocil: |-
+     <pre>$ sudo grep -i transport /etc/audit/audisp-remote.conf</pre>
+     The output should return the following:
+     <pre>transport = KRB5</pre>
++{{% elif product in ["wrlinuxlts21", "wrlinuxlts22"] %}}
++    <pre>$ sudo grep -i enable_krb5 /etc/audit/audisp-remote.conf</pre>
++    The output should return the following:
++    <pre>enable_krb5 = yes</pre>
+ {{% else %}}
+     <pre>$ sudo grep -i enable_krb5 /etc/audisp/audisp-remote.conf</pre>
+     The output should return the following:
+diff --git a/shared/checks/oval/audit_rules_auditctl.xml b/shared/checks/oval/audit_rules_auditctl.xml
+index 269344ccaf..b436579076 100644
+--- a/shared/checks/oval/audit_rules_auditctl.xml
++++ b/shared/checks/oval/audit_rules_auditctl.xml
+@@ -19,7 +19,11 @@
+     <ind:object object_ref="object_audit_rules_auditctl" />
+   </ind:textfilecontent54_test>
+   <ind:textfilecontent54_object id="object_audit_rules_auditctl" version="1">
+-    <ind:filepath>/usr/lib/systemd/system/auditd.service</ind:filepath>
++    {{% if product in ["wrlinuxlts21", "wrlinuxlts22"] %}}
++      <ind:filepath>/lib/systemd/system/auditd.service</ind:filepath>
++    {{% else %}}
++      <ind:filepath>/usr/lib/systemd/system/auditd.service</ind:filepath>
++    {{% endif %}}
+     <ind:pattern operation="pattern match">^ExecStartPost=\-\/sbin\/auditctl.*$</ind:pattern>
+     <ind:instance datatype="int" operation="greater than or equal">1</ind:instance>
+   </ind:textfilecontent54_object>
+diff --git a/shared/checks/oval/audit_rules_augenrules.xml b/shared/checks/oval/audit_rules_augenrules.xml
+index 9943a34c00..d7a8e78cac 100644
+--- a/shared/checks/oval/audit_rules_augenrules.xml
++++ b/shared/checks/oval/audit_rules_augenrules.xml
+@@ -19,7 +19,11 @@
+   </ind:textfilecontent54_test>
+ {{% if init_system == "systemd" %}}
+   <ind:textfilecontent54_object id="object_audit_rules_augenrules" version="1">
+-    <ind:filepath>/usr/lib/systemd/system/auditd.service</ind:filepath>
++    {{% if product in ["wrlinuxlts21", "wrlinuxlts22"] %}}
++      <ind:filepath>/lib/systemd/system/auditd.service</ind:filepath>
++    {{% else %}}
++      <ind:filepath>/usr/lib/systemd/system/auditd.service</ind:filepath>
++    {{% endif %}}
+     <ind:pattern operation="pattern match">^ExecStartPost=\-\/sbin\/augenrules.*$</ind:pattern>
+     <ind:instance datatype="int" operation="greater than or equal">1</ind:instance>
+   </ind:textfilecontent54_object>
+diff --git a/shared/templates/audit_rules_dac_modification/bash.template b/shared/templates/audit_rules_dac_modification/bash.template
+index 9b57c6656c..dd94d0b8bb 100644
+--- a/shared/templates/audit_rules_dac_modification/bash.template
++++ b/shared/templates/audit_rules_dac_modification/bash.template
+@@ -1,4 +1,4 @@
+-# platform = multi_platform_rhel,multi_platform_fedora,multi_platform_ol,multi_platform_rhv,multi_platform_sle,multi_platform_ubuntu
++# platform = multi_platform_rhel,multi_platform_fedora,multi_platform_ol,multi_platform_rhv,multi_platform_sle,multi_platform_ubuntu,multi_platform_wrlinux
+ 
+ # First perform the remediation of the syscall rule
+ # Retrieve hardware architecture of the underlying system
+diff --git a/shared/templates/audit_rules_file_deletion_events/bash.template b/shared/templates/audit_rules_file_deletion_events/bash.template
+index e7158afa98..090926c70b 100644
+--- a/shared/templates/audit_rules_file_deletion_events/bash.template
++++ b/shared/templates/audit_rules_file_deletion_events/bash.template
+@@ -1,4 +1,4 @@
+-# platform = multi_platform_rhel,multi_platform_fedora,multi_platform_ol,multi_platform_rhv,multi_platform_ubuntu,multi_platform_sle
++# platform = multi_platform_rhel,multi_platform_fedora,multi_platform_ol,multi_platform_rhv,multi_platform_ubuntu,multi_platform_sle,multi_platform_wrlinux
+ 
+ # First perform the remediation of the syscall rule
+ # Retrieve hardware architecture of the underlying system
+diff --git a/shared/templates/audit_rules_login_events/bash.template b/shared/templates/audit_rules_login_events/bash.template
+index c94b107398..a6684848c9 100644
+--- a/shared/templates/audit_rules_login_events/bash.template
++++ b/shared/templates/audit_rules_login_events/bash.template
+@@ -1,4 +1,4 @@
+-# platform = multi_platform_rhel,multi_platform_fedora,multi_platform_ol,multi_platform_rhv,multi_platform_sle,multi_platform_ubuntu
++# platform = multi_platform_rhel,multi_platform_fedora,multi_platform_ol,multi_platform_rhv,multi_platform_sle,multi_platform_ubuntu,multi_platform_wrlinux
+ 
+ # Perform the remediation for both possible tools: 'auditctl' and 'augenrules'
+ 
+diff --git a/shared/templates/audit_rules_privileged_commands/bash.template b/shared/templates/audit_rules_privileged_commands/bash.template
+index 7e4b02f764..ddba3a9b4e 100644
+--- a/shared/templates/audit_rules_privileged_commands/bash.template
++++ b/shared/templates/audit_rules_privileged_commands/bash.template
+@@ -1,7 +1,7 @@
+-{{%- if product in ["fedora", "ol8", "rhel8", "rhel9", "sle12", "sle15", "ubuntu2004"] %}}
++{{%- if product in ["fedora", "ol8", "rhel8", "rhel9", "sle12", "sle15", "ubuntu2004", "wrlinuxlts21", "wrlinuxlts22"] %}}
+   {{%- set perm_x=" -F perm=x" %}}
+ {{%- endif %}}
+-# platform = multi_platform_rhel,multi_platform_fedora,multi_platform_ol,multi_platform_rhv,multi_platform_sle,multi_platform_ubuntu
++# platform = multi_platform_rhel,multi_platform_fedora,multi_platform_ol,multi_platform_rhv,multi_platform_sle,multi_platform_ubuntu,multi_platform_wrlinux
+ 
+ ACTION_ARCH_FILTERS="-a always,exit"
+ OTHER_FILTERS="-F path={{{ PATH }}}{{{ perm_x }}}"
+diff --git a/shared/templates/audit_rules_privileged_commands/oval.template b/shared/templates/audit_rules_privileged_commands/oval.template
+index c240a73635..75e6991f9b 100644
+--- a/shared/templates/audit_rules_privileged_commands/oval.template
++++ b/shared/templates/audit_rules_privileged_commands/oval.template
+@@ -1,4 +1,4 @@
+-{{%- if product in ["fedora", "ol8", "rhel8", "rhel9", "sle12", "sle15", "ubuntu2004"] %}}
++{{%- if product in ["fedora", "ol8", "rhel8", "rhel9", "sle12", "sle15", "ubuntu2004", "wrlinuxlts21", "wrlinuxlts22"] %}}
+   {{%- set perm_x="(?:[\s]+-F[\s]+perm=x)" %}}
+ {{%- endif %}}
+ <def-group>
+diff --git a/shared/templates/audit_rules_unsuccessful_file_modification/bash.template b/shared/templates/audit_rules_unsuccessful_file_modification/bash.template
+index ff9a4f5e32..1bffa8ccd8 100644
+--- a/shared/templates/audit_rules_unsuccessful_file_modification/bash.template
++++ b/shared/templates/audit_rules_unsuccessful_file_modification/bash.template
+@@ -1,4 +1,4 @@
+-# platform = multi_platform_rhel,multi_platform_fedora,multi_platform_ol,multi_platform_rhv,multi_platform_sle,multi_platform_ubuntu
++# platform = multi_platform_rhel,multi_platform_fedora,multi_platform_ol,multi_platform_rhv,multi_platform_sle,multi_platform_ubuntu,multi_platform_wrlinux
+ 
+ # First perform the remediation of the syscall rule
+ # Retrieve hardware architecture of the underlying system
+diff --git a/shared/templates/audit_rules_usergroup_modification/bash.template b/shared/templates/audit_rules_usergroup_modification/bash.template
+index 62faac341c..7d4daad93c 100644
+--- a/shared/templates/audit_rules_usergroup_modification/bash.template
++++ b/shared/templates/audit_rules_usergroup_modification/bash.template
+@@ -1,4 +1,4 @@
+-# platform = multi_platform_rhel,multi_platform_fedora,multi_platform_ol,multi_platform_rhv,multi_platform_sle,multi_platform_ubuntu
++# platform = multi_platform_rhel,multi_platform_fedora,multi_platform_ol,multi_platform_rhv,multi_platform_sle,multi_platform_ubuntu,multi_platform_wrlinux
+ 
+ # Perform the remediation for both possible tools: 'auditctl' and 'augenrules'
+ 
+-- 
+2.25.1
+

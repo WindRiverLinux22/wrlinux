@@ -1,0 +1,99 @@
+From 36c92a1fff1bf2354dda799382747b59d74ebb47 Mon Sep 17 00:00:00 2001
+From: Yi Zhao <yi.zhao@windriver.com>
+Date: Thu, 27 Jan 2022 09:47:52 +0800
+Subject: [PATCH] Set correct package names for wrlinuxlts22
+
+Update package name pam, shadow and sssd for WRLinux LTS22.
+
+Upstream-Status: Inappropriate [WRLinux specific]
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ products/wrlinuxlts21/product.yml                           | 5 +++++
+ products/wrlinuxlts22/product.yml                           | 5 +++++
+ shared/checks/oval/installed_env_has_login_defs.xml         | 4 ++--
+ shared/checks/oval/installed_env_has_pam_package.xml        | 6 +++++-
+ .../checks/oval/installed_env_has_sssd-common_package.xml   | 2 +-
+ 5 files changed, 18 insertions(+), 4 deletions(-)
+
+diff --git a/products/wrlinuxlts21/product.yml b/products/wrlinuxlts21/product.yml
+index 1960c0e337..2c6c2972c7 100644
+--- a/products/wrlinuxlts21/product.yml
++++ b/products/wrlinuxlts21/product.yml
+@@ -20,3 +20,8 @@ cpes:
+       name: "cpe:/o:windriver:wrlinux:lts21"
+       title: "Wind River Linux LTS21"
+       check_id: installed_OS_is_wrlinuxlts21
++
++# Mapping of CPE platform to package
++platform_package_overrides:
++  login_defs: "shadow"
++  pam: "libpam-runtime"
+diff --git a/products/wrlinuxlts22/product.yml b/products/wrlinuxlts22/product.yml
+index 78960c5ae8..8b68201f95 100644
+--- a/products/wrlinuxlts22/product.yml
++++ b/products/wrlinuxlts22/product.yml
+@@ -20,3 +20,8 @@ cpes:
+       name: "cpe:/o:windriver:wrlinux:lts22"
+       title: "Wind River Linux LTS22"
+       check_id: installed_OS_is_wrlinuxlts22
++
++# Mapping of CPE platform to package
++platform_package_overrides:
++  login_defs: "shadow"
++  pam: "libpam-runtime"
+diff --git a/shared/checks/oval/installed_env_has_login_defs.xml b/shared/checks/oval/installed_env_has_login_defs.xml
+index 0732fc962b..f5b5d39d67 100644
+--- a/shared/checks/oval/installed_env_has_login_defs.xml
++++ b/shared/checks/oval/installed_env_has_login_defs.xml
+@@ -17,7 +17,7 @@
+ {{% if pkg_system == "rpm" %}}
+   <linux:rpminfo_test check="all" check_existence="at_least_one_exists"
+   id="test_env_has_login_defs_installed" version="1"
+-  {{% if product in ["sle12", "sle15"] %}}
++  {{% if product in ["sle12", "sle15", "wrlinuxlts21", "wrlinuxlts22"] %}}
+   comment="system has package shadow installed, which provides the /etc/login.defs file.">
+   {{% else %}}
+   comment="system has package shadow-utils installed, which provides the /etc/login.defs file.">
+@@ -25,7 +25,7 @@
+     <linux:object object_ref="obj_env_has_login_defs_installed" />
+   </linux:rpminfo_test>
+   <linux:rpminfo_object id="obj_env_has_login_defs_installed" version="1">
+-    <linux:name>{{% if product in ["sle12", "sle15"] %}}shadow{{% else %}}shadow-utils{{% endif %}}</linux:name>
++    <linux:name>{{% if product in ["sle12", "sle15", "wrlinuxlts21", "wrlinuxlts22"] %}}shadow{{% else %}}shadow-utils{{% endif %}}</linux:name>
+   </linux:rpminfo_object>
+ {{% elif pkg_system == "dpkg" %}}
+   <linux:dpkginfo_test check="all" check_existence="all_exist"
+diff --git a/shared/checks/oval/installed_env_has_pam_package.xml b/shared/checks/oval/installed_env_has_pam_package.xml
+index 34fb77f461..a30570e51f 100644
+--- a/shared/checks/oval/installed_env_has_pam_package.xml
++++ b/shared/checks/oval/installed_env_has_pam_package.xml
+@@ -22,7 +22,11 @@
+     <linux:object object_ref="obj_env_has_pam_installed" />
+   </linux:rpminfo_test>
+   <linux:rpminfo_object id="obj_env_has_pam_installed" version="1">
+-    <linux:name>pam</linux:name>
++    {{% if product in ["wrlinuxlts21", "wrlinuxlts22"] %}}
++      <linux:name>libpam-runtime</linux:name>
++    {{% else %}}
++      <linux:name>pam</linux:name>
++    {{% endif %}}
+   </linux:rpminfo_object>
+ {{% elif pkg_system == "dpkg" %}}
+   <linux:dpkginfo_test check="all" check_existence="all_exist"
+diff --git a/shared/checks/oval/installed_env_has_sssd-common_package.xml b/shared/checks/oval/installed_env_has_sssd-common_package.xml
+index f47c75438b..2ec5753488 100644
+--- a/shared/checks/oval/installed_env_has_sssd-common_package.xml
++++ b/shared/checks/oval/installed_env_has_sssd-common_package.xml
+@@ -21,7 +21,7 @@
+     <linux:object object_ref="obj_env_has_sssd-common_installed" />
+   </linux:rpminfo_test>
+   <linux:rpminfo_object id="obj_env_has_sssd-common_installed" version="1">
+-    <linux:name>{{% if product in ["sle12", "sle15"] %}}sssd{{% else %}}sssd-common{{% endif %}}</linux:name>
++    <linux:name>{{% if product in ["sle12", "sle15", "wrlinuxlts21", "wrlinuxlts22"] %}}sssd{{% else %}}sssd-common{{% endif %}}</linux:name>
+   </linux:rpminfo_object>
+ {{% elif pkg_system == "dpkg" %}}
+   <linux:dpkginfo_test check="all" check_existence="all_exist"
+-- 
+2.25.1
+

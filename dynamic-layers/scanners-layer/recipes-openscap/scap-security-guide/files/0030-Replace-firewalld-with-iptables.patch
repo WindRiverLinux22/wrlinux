@@ -1,0 +1,75 @@
+From 87c3c62ace4d6f2581f87043f94f5fcc5922e8e1 Mon Sep 17 00:00:00 2001
+From: Yi Zhao <yi.zhao@windriver.com>
+Date: Wed, 9 Nov 2022 12:49:47 +0800
+Subject: [PATCH] Replace firewalld with iptables
+
+Upstream-Status: Inappropriate [WRLinux specific]
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ .../iptables_activation/service_ip6tables_enabled/rule.yml   | 2 ++
+ .../wrlinuxlts21/profiles/draft_stig_wrlinuxlts21.profile    | 5 ++---
+ .../wrlinuxlts22/profiles/draft_stig_wrlinuxlts22.profile    | 5 ++---
+ 3 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/linux_os/guide/system/network/network-iptables/iptables_activation/service_ip6tables_enabled/rule.yml b/linux_os/guide/system/network/network-iptables/iptables_activation/service_ip6tables_enabled/rule.yml
+index 8b5d6726b7..f3c30b81a5 100644
+--- a/linux_os/guide/system/network/network-iptables/iptables_activation/service_ip6tables_enabled/rule.yml
++++ b/linux_os/guide/system/network/network-iptables/iptables_activation/service_ip6tables_enabled/rule.yml
+@@ -32,5 +32,7 @@ template:
+     vars:
+         servicename: ip6tables
+         packagename: iptables-ipv6
++        packagename@wrlinuxlts21: iptables
++        packagename@wrlinuxlts22: iptables
+ 
+ platform: machine
+diff --git a/products/wrlinuxlts21/profiles/draft_stig_wrlinuxlts21.profile b/products/wrlinuxlts21/profiles/draft_stig_wrlinuxlts21.profile
+index 0bfa2b1a2c..a21a34c1ec 100644
+--- a/products/wrlinuxlts21/profiles/draft_stig_wrlinuxlts21.profile
++++ b/products/wrlinuxlts21/profiles/draft_stig_wrlinuxlts21.profile
+@@ -145,8 +145,6 @@ selections:
+     - audit_rules_usergroup_modification_shadow
+     - banner_etc_issue
+     - chronyd_or_ntpd_set_maxpoll
+-    - configure_firewalld_ports
+-    - configure_firewalld_rate_limiting
+     - dir_perms_world_writable_system_owned
+     - disable_ctrlaltdel_reboot
+     - disable_host_auth
+@@ -203,7 +201,8 @@ selections:
+     - selinux_user_login_roles
+     - service_auditd_enabled
+     - service_autofs_disabled
+-    - service_firewalld_enabled
++    - service_ip6tables_enabled
++    - service_iptables_enabled
+     - service_kdump_disabled
+     - service_sshd_enabled
+     - set_password_hashing_algorithm_libuserconf
+diff --git a/products/wrlinuxlts22/profiles/draft_stig_wrlinuxlts22.profile b/products/wrlinuxlts22/profiles/draft_stig_wrlinuxlts22.profile
+index b0a211194d..efd61f9465 100644
+--- a/products/wrlinuxlts22/profiles/draft_stig_wrlinuxlts22.profile
++++ b/products/wrlinuxlts22/profiles/draft_stig_wrlinuxlts22.profile
+@@ -145,8 +145,6 @@ selections:
+     - audit_rules_usergroup_modification_shadow
+     - banner_etc_issue
+     - chronyd_or_ntpd_set_maxpoll
+-    - configure_firewalld_ports
+-    - configure_firewalld_rate_limiting
+     - dir_perms_world_writable_system_owned
+     - disable_ctrlaltdel_reboot
+     - disable_host_auth
+@@ -203,7 +201,8 @@ selections:
+     - selinux_user_login_roles
+     - service_auditd_enabled
+     - service_autofs_disabled
+-    - service_firewalld_enabled
++    - service_ip6tables_enabled
++    - service_iptables_enabled
+     - service_kdump_disabled
+     - service_sshd_enabled
+     - set_password_hashing_algorithm_libuserconf
+-- 
+2.25.1
+

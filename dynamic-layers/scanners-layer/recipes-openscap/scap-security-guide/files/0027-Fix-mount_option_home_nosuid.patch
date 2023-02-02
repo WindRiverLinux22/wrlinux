@@ -1,0 +1,28 @@
+From 16b03bf28f20b4fe0cb63480c1e2f9d9c82fe231 Mon Sep 17 00:00:00 2001
+From: Yi Zhao <yi.zhao@windriver.com>
+Date: Fri, 11 Nov 2022 14:38:31 +0800
+Subject: [PATCH] Fix mount_option_home_nosuid
+
+Upstream-Status: Inappropriate [WRLinux specific]
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ .../permissions/partitions/mount_option_home_nosuid/rule.yml    | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/linux_os/guide/system/permissions/partitions/mount_option_home_nosuid/rule.yml b/linux_os/guide/system/permissions/partitions/mount_option_home_nosuid/rule.yml
+index fa4c6ff28f..84a480211a 100644
+--- a/linux_os/guide/system/permissions/partitions/mount_option_home_nosuid/rule.yml
++++ b/linux_os/guide/system/permissions/partitions/mount_option_home_nosuid/rule.yml
+@@ -52,6 +52,8 @@ template:
+         mountpoint: /home
+         mountoption: nosuid
+         mount_has_to_exist: 'yes'
++        mount_has_to_exist@wrlinuxlts21: 'no'
++        mount_has_to_exist@wrlinuxlts22: 'no'
+ 
+ fixtext: |-
+     {{{ fixtext_mount_option("/home", "nosuid") }}}
+-- 
+2.25.1
+

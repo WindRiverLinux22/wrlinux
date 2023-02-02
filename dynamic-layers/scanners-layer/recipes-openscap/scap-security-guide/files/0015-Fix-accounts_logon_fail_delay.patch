@@ -1,0 +1,40 @@
+From b808a4674179883b7e3790c5f80042c4bd0e0a27 Mon Sep 17 00:00:00 2001
+From: Yi Zhao <yi.zhao@windriver.com>
+Date: Fri, 9 Sep 2022 23:02:18 +0800
+Subject: [PATCH] Fix accounts_logon_fail_delay
+
+Upstream-Status: Inappropriate [WRLinux specific]
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ products/wrlinuxlts21/profiles/draft_stig_wrlinuxlts21.profile | 1 +
+ products/wrlinuxlts22/profiles/draft_stig_wrlinuxlts22.profile | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/products/wrlinuxlts21/profiles/draft_stig_wrlinuxlts21.profile b/products/wrlinuxlts21/profiles/draft_stig_wrlinuxlts21.profile
+index b61d4fab2a..f3a1604523 100644
+--- a/products/wrlinuxlts21/profiles/draft_stig_wrlinuxlts21.profile
++++ b/products/wrlinuxlts21/profiles/draft_stig_wrlinuxlts21.profile
+@@ -20,6 +20,7 @@ description: |-
+ 
+ selections:
+     - var_account_disable_post_pw_expiration=0
++    - var_accounts_fail_delay=4
+     - var_accounts_max_concurrent_login_sessions=10
+     - var_accounts_maximum_age_login_defs=60
+     - var_accounts_minimum_age_login_defs=1
+diff --git a/products/wrlinuxlts22/profiles/draft_stig_wrlinuxlts22.profile b/products/wrlinuxlts22/profiles/draft_stig_wrlinuxlts22.profile
+index 224e1af51a..31e9c13691 100644
+--- a/products/wrlinuxlts22/profiles/draft_stig_wrlinuxlts22.profile
++++ b/products/wrlinuxlts22/profiles/draft_stig_wrlinuxlts22.profile
+@@ -20,6 +20,7 @@ description: |-
+ 
+ selections:
+     - var_account_disable_post_pw_expiration=0
++    - var_accounts_fail_delay=4
+     - var_accounts_max_concurrent_login_sessions=10
+     - var_accounts_maximum_age_login_defs=60
+     - var_accounts_minimum_age_login_defs=1
+-- 
+2.25.1
+

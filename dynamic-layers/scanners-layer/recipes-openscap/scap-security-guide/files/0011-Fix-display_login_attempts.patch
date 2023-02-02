@@ -1,0 +1,50 @@
+From a9a8082f69cf583e709f05701342856e6f3adf07 Mon Sep 17 00:00:00 2001
+From: Yi Zhao <yi.zhao@windriver.com>
+Date: Fri, 2 Sep 2022 10:04:57 +0800
+Subject: [PATCH] Fix display_login_attempts
+
+Upstream-Status: Inappropriate [WRLinux specific]
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ .../accounts/accounts-pam/display_login_attempts/bash/shared.sh | 2 +-
+ .../accounts-pam/display_login_attempts/oval/shared.xml         | 2 +-
+ .../accounts/accounts-pam/display_login_attempts/rule.yml       | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/linux_os/guide/system/accounts/accounts-pam/display_login_attempts/bash/shared.sh b/linux_os/guide/system/accounts/accounts-pam/display_login_attempts/bash/shared.sh
+index 6c7b3c7039..83514b396f 100644
+--- a/linux_os/guide/system/accounts/accounts-pam/display_login_attempts/bash/shared.sh
++++ b/linux_os/guide/system/accounts/accounts-pam/display_login_attempts/bash/shared.sh
+@@ -36,7 +36,7 @@ In cases where the default authselect profile does not cover a specific demand,
+         false
+     fi
+ else
+-    {{% if product in ["sle12", "sle15"] or 'ubuntu' in product %}}
++    {{% if product in ["sle12", "sle15", "wrlinuxlts21", "wrlinuxlts22"] or 'ubuntu' in product %}}
+     {{% set pam_lastlog_path = "/etc/pam.d/login" %}}
+     {{% else %}}
+     {{% set pam_lastlog_path = "/etc/pam.d/postlogin" %}}
+diff --git a/linux_os/guide/system/accounts/accounts-pam/display_login_attempts/oval/shared.xml b/linux_os/guide/system/accounts/accounts-pam/display_login_attempts/oval/shared.xml
+index db8e7960e7..8c0af846e8 100644
+--- a/linux_os/guide/system/accounts/accounts-pam/display_login_attempts/oval/shared.xml
++++ b/linux_os/guide/system/accounts/accounts-pam/display_login_attempts/oval/shared.xml
+@@ -1,4 +1,4 @@
+-{{% if product in ["sle12", "sle15"] or 'ubuntu' in product %}}
++{{% if product in ["sle12", "sle15", "wrlinuxlts21", "wrlinuxlts22"] or 'ubuntu' in product %}}
+ {{% set pam_lastlog_path = "/etc/pam.d/login" %}}
+ {{% else %}}
+ {{% set pam_lastlog_path = "/etc/pam.d/postlogin" %}}
+diff --git a/linux_os/guide/system/accounts/accounts-pam/display_login_attempts/rule.yml b/linux_os/guide/system/accounts/accounts-pam/display_login_attempts/rule.yml
+index a8963c8cd2..3ab19a6d42 100644
+--- a/linux_os/guide/system/accounts/accounts-pam/display_login_attempts/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-pam/display_login_attempts/rule.yml
+@@ -1,4 +1,4 @@
+-{{% if product in ["sle12", "sle15"] or 'ubuntu' in product %}}
++{{% if product in ["sle12", "sle15", "wrlinuxlts21", "wrlinuxlts22"] or 'ubuntu' in product %}}
+ {{% set pam_lastlog_path = "/etc/pam.d/login" %}}
+ {{% else %}}
+ {{% set pam_lastlog_path = "/etc/pam.d/postlogin" %}}
+-- 
+2.25.1
+

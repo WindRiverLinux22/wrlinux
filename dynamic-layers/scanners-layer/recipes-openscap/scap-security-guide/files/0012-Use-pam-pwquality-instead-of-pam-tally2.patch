@@ -1,0 +1,190 @@
+From 3d5279f453096437dff85b6f0d17d0761063c4b3 Mon Sep 17 00:00:00 2001
+From: Yi Zhao <yi.zhao@windriver.com>
+Date: Fri, 2 Sep 2022 18:08:12 +0800
+Subject: [PATCH] Use pam-pwquality instead of pam-tally2
+
+Upstream-Status: Inappropriate [WRLinux specific]
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ .../accounts_password_pam_retry/bash/wrlinux.sh    |  5 +++++
+ .../accounts_password_pam_retry/oval/shared.xml    |  6 +++---
+ .../accounts_password_pam_retry/rule.yml           |  4 ++--
+ .../profiles/draft_stig_wrlinuxlts21.profile       | 10 ++++++++++
+ .../profiles/draft_stig_wrlinuxlts22.profile       | 10 ++++++++++
+ .../oval/accounts_password_pam_pwquality.xml       | 14 +++++++++++++-
+ shared/templates/accounts_password/bash.template   |  4 +++-
+ 7 files changed, 46 insertions(+), 7 deletions(-)
+ create mode 100644 linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_retry/bash/wrlinux.sh
+
+diff --git a/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_retry/bash/wrlinux.sh b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_retry/bash/wrlinux.sh
+new file mode 100644
+index 0000000000..beea5490d0
+--- /dev/null
++++ b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_retry/bash/wrlinux.sh
+@@ -0,0 +1,5 @@
++# platform = multi_platform_wrlinux
++
++{{{ bash_instantiate_variables("var_password_pam_retry") }}}
++
++{{{ bash_ensure_pam_module_options('/etc/pam.d/common-password', 'password', 'requisite', 'pam_pwquality.so', 'retry', "$var_password_pam_retry", "$var_password_pam_retry") }}}
+diff --git a/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_retry/oval/shared.xml b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_retry/oval/shared.xml
+index bf3dfeea6d..dd121dd361 100644
+--- a/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_retry/oval/shared.xml
++++ b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_retry/oval/shared.xml
+@@ -3,7 +3,7 @@
+     {{{ oval_metadata("The password retry should meet minimum requirements") }}}
+     <criteria operator="OR" comment="Conditions for retry are satisfied">
+       <criteria operator="AND" comment="Conditions for retry in PAM files are satisfied">
+-        {{% if 'ubuntu' not in product %}}
++        {{% if product not in ["ubuntu", "wrlinuxlts21", "wrlinuxlts22"] %}}
+         <criterion comment="pam_pwquality system-auth"
+                   test_ref="test_password_pam_pwquality_retry_system_auth"/>
+         {{% else %}}
+@@ -33,7 +33,7 @@
+   </ind:textfilecontent54_test>
+   {{% endmacro %}}
+ 
+-  {{% if 'ubuntu' not in product %}}
++  {{% if product not in ["ubuntu", "wrlinuxlts21", "wrlinuxlts22"] %}}
+   {{{ test_pwquality_retry( path="/etc/pam.d/system-auth", test_ref="password_pam_pwquality_retry_system_auth") }}}
+   {{% else %}}
+   {{{ test_pwquality_retry( path="/etc/pam.d/common-password", test_ref="password_pam_pwquality_retry_common_password") }}}
+@@ -50,7 +50,7 @@
+   </ind:textfilecontent54_object>
+   {{% endmacro %}}
+ 
+-  {{% if 'ubuntu' not in product %}}
++  {{% if product not in ["ubuntu", "wrlinuxlts21", "wrlinuxlts22"] %}}
+   {{{ object_pwquality_retry( path="/etc/pam.d/system-auth", test_ref="password_pam_pwquality_retry_system_auth") }}}
+   {{% else %}}
+   {{{ object_pwquality_retry( path="/etc/pam.d/common-password", test_ref="password_pam_pwquality_retry_common_password") }}}
+diff --git a/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_retry/rule.yml b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_retry/rule.yml
+index 0e7fd68e49..4041faef53 100644
+--- a/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_retry/rule.yml
++++ b/linux_os/guide/system/accounts/accounts-pam/password_quality/password_quality_pwquality/accounts_password_pam_retry/rule.yml
+@@ -10,7 +10,7 @@ description: |-
+     Edit the <tt>/etc/security/pwquality.conf</tt> to include
+     {{% else %}}
+     Edit the <tt>pam_pwquality.so</tt> statement in
+-    {{% if 'ubuntu' not in product %}}
++    {{% if product not in ["ubuntu", "wrlinuxlts21", "wrlinuxlts22"] %}}
+     <tt>/etc/pam.d/system-auth</tt> to show
+     {{% else %}}
+     <tt>/etc/pam.d/common-password</tt> to show
+@@ -61,7 +61,7 @@ ocil: |-
+     {{% if product in ['rhel8', 'rhel9'] %}}
+     <pre>$ grep retry /etc/security/pwquality.conf</pre>
+     {{% else %}}
+-    {{% if 'ubuntu' in product %}}
++    {{% if product in ["ubuntu", "wrlinuxlts21", "wrlinuxlts22"] %}}
+     <pre>$ grep pam_pwquality /etc/pam.d/common-password</pre>
+     {{% else %}}
+     <pre>$ grep pam_pwquality /etc/pam.d/system-auth</pre>
+diff --git a/products/wrlinuxlts21/profiles/draft_stig_wrlinuxlts21.profile b/products/wrlinuxlts21/profiles/draft_stig_wrlinuxlts21.profile
+index 614cab5cad..b61d4fab2a 100644
+--- a/products/wrlinuxlts21/profiles/draft_stig_wrlinuxlts21.profile
++++ b/products/wrlinuxlts21/profiles/draft_stig_wrlinuxlts21.profile
+@@ -28,6 +28,16 @@ selections:
+     - var_accounts_passwords_pam_faillock_unlock_time=never
+     - var_accounts_tmout=10_min
+     - var_password_hashing_algorithm=SHA512
++    - var_password_pam_dcredit=1
++    - var_password_pam_difok=8
++    - var_password_pam_lcredit=1
++    - var_password_pam_maxclassrepeat=4
++    - var_password_pam_maxrepeat=3
++    - var_password_pam_minclass=4
++    - var_password_pam_minlen=15
++    - var_password_pam_ocredit=1
++    - var_password_pam_retry=3
++    - var_password_pam_ucredit=1
+     - var_selinux_state=enforcing
+     - var_sshd_set_keepalive=0
+     - account_disable_post_pw_expiration
+diff --git a/products/wrlinuxlts22/profiles/draft_stig_wrlinuxlts22.profile b/products/wrlinuxlts22/profiles/draft_stig_wrlinuxlts22.profile
+index bf433ec8e7..224e1af51a 100644
+--- a/products/wrlinuxlts22/profiles/draft_stig_wrlinuxlts22.profile
++++ b/products/wrlinuxlts22/profiles/draft_stig_wrlinuxlts22.profile
+@@ -28,6 +28,16 @@ selections:
+     - var_accounts_passwords_pam_faillock_unlock_time=never
+     - var_accounts_tmout=10_min
+     - var_password_hashing_algorithm=SHA512
++    - var_password_pam_dcredit=1
++    - var_password_pam_difok=8
++    - var_password_pam_lcredit=1
++    - var_password_pam_maxclassrepeat=4
++    - var_password_pam_maxrepeat=3
++    - var_password_pam_minclass=4
++    - var_password_pam_minlen=15
++    - var_password_pam_ocredit=1
++    - var_password_pam_retry=3
++    - var_password_pam_ucredit=1
+     - var_selinux_state=enforcing
+     - var_sshd_set_keepalive=0
+     - account_disable_post_pw_expiration
+diff --git a/shared/checks/oval/accounts_password_pam_pwquality.xml b/shared/checks/oval/accounts_password_pam_pwquality.xml
+index dd94f729ef..8a240b931f 100644
+--- a/shared/checks/oval/accounts_password_pam_pwquality.xml
++++ b/shared/checks/oval/accounts_password_pam_pwquality.xml
+@@ -1,11 +1,19 @@
+ <def-group>
+   <definition class="compliance" id="accounts_password_pam_pwquality" version="1">
+     <metadata>
++      {{% if product in ["wrlinuxlts21", "wrlinuxlts22"] %}}
++      <title>Check pam_pwquality Existence in common-password</title>
++      {{% else %}}
+       <title>Check pam_pwquality Existence in system-auth</title>
++      {{% endif %}}
+       <affected family="unix">
+         <platform>multi_platform_all</platform>
+       </affected>
++      {{% if product in ["wrlinuxlts21", "wrlinuxlts22"] %}}
++      <description>Check that pam_pwquality.so exists in common-password</description>
++      {{% else %}}
+       <description>Check that pam_pwquality.so exists in system-auth</description>
++      {{% endif %}}
+     </metadata>
+     <criteria>
+       <criterion comment="Conditions for pam_pwquality are satisfied"
+@@ -13,7 +21,11 @@
+     </criteria>
+   </definition>
+ 
++  {{% if product in ["wrlinuxlts21", "wrlinuxlts22"] %}}
++  <ind:textfilecontent54_test check="all" comment="check the configuration of /etc/pam.d/common-password" id="test_password_pam_pwquality" version="1">
++  {{% else %}}
+   <ind:textfilecontent54_test check="all" comment="check the configuration of /etc/pam.d/system-auth" id="test_password_pam_pwquality" version="1">
++  {{% endif %}}
+     <ind:object object_ref="obj_password_pam_pwquality" />
+   </ind:textfilecontent54_test>
+ 
+@@ -24,7 +36,7 @@
+   </ind:textfilecontent54_object>
+ 
+   <constant_variable id="var_pam_pwquality_config_path" version="1" datatype="string" comment="correct path for pam_pwquality.so check">
+-    {{% if 'ubuntu' in product or 'debian' in product %}}
++    {{% if 'ubuntu' in product or 'debian' in product or 'wrlinux' in product %}}
+     <value>/etc/pam.d/common-password</value>
+     {{% else %}}
+     <value>/etc/pam.d/system-auth</value>
+diff --git a/shared/templates/accounts_password/bash.template b/shared/templates/accounts_password/bash.template
+index 9633b6814a..e46765f834 100644
+--- a/shared/templates/accounts_password/bash.template
++++ b/shared/templates/accounts_password/bash.template
+@@ -1,9 +1,11 @@
+-# platform = multi_platform_rhel,multi_platform_fedora,multi_platform_ol,multi_platform_rhv,multi_platform_ubuntu,multi_platform_sle
++# platform = multi_platform_rhel,multi_platform_fedora,multi_platform_ol,multi_platform_rhv,multi_platform_ubuntu,multi_platform_sle,multi_platform_wrlinux
+ # reboot = false
+ # strategy = restrict
+ # complexity = low
+ # disruption = low
+ 
++{{{ bash_ensure_pam_module_options('/etc/pam.d/common-password', 'password', 'requisite', 'pam_pwquality.so', '', '', '') }}}
++
+ {{{ bash_instantiate_variables("var_password_pam_" + VARIABLE) }}}
+ 
+ {{{ bash_replace_or_append('/etc/security/pwquality.conf', '^' + VARIABLE , '$var_password_pam_' + VARIABLE , '%s = %s') }}}
+-- 
+2.25.1
+

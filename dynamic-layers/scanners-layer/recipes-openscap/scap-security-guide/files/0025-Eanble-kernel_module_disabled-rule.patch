@@ -1,0 +1,25 @@
+From 62d9403745e82aca6f662ccb60f82075ffe2c0a4 Mon Sep 17 00:00:00 2001
+From: Yi Zhao <yi.zhao@windriver.com>
+Date: Tue, 8 Nov 2022 16:15:16 +0800
+Subject: [PATCH] Eanble kernel_module_disabled rule
+
+Upstream-Status: Inappropriate [WRLinux specific]
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ shared/templates/kernel_module_disabled/bash.template | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/shared/templates/kernel_module_disabled/bash.template b/shared/templates/kernel_module_disabled/bash.template
+index a0998bb948..630c6a74cb 100644
+--- a/shared/templates/kernel_module_disabled/bash.template
++++ b/shared/templates/kernel_module_disabled/bash.template
+@@ -1,4 +1,4 @@
+-# platform = multi_platform_rhel,multi_platform_fedora,multi_platform_ol,multi_platform_rhv,multi_platform_ubuntu,multi_platform_sle
++# platform = multi_platform_rhel,multi_platform_fedora,multi_platform_ol,multi_platform_rhv,multi_platform_ubuntu,multi_platform_sle,multi_platform_wrlinux
+ # reboot = true
+ # strategy = disable
+ # complexity = low
+-- 
+2.25.1
+

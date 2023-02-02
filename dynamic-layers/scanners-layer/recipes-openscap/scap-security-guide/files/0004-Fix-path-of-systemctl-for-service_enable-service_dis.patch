@@ -1,0 +1,99 @@
+From 185eba02ec9fc6abb188f7cb967dc871a4bab564 Mon Sep 17 00:00:00 2001
+From: Yi Zhao <yi.zhao@windriver.com>
+Date: Wed, 9 Nov 2022 10:36:32 +0800
+Subject: [PATCH] Fix path of systemctl for service_enable/service_disable
+
+The default path of systemctl is /bin/systemctl rather than
+/usr/bin/systemctl in wrlinux.
+
+Upstream-Status: Inappropriate [WRLinux specific]
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ shared/macros/bash.jinja                        | 14 ++++++++++++++
+ shared/templates/service_disabled/bash.template |  7 ++++++-
+ shared/templates/service_enabled/bash.template  |  6 +++++-
+ 3 files changed, 25 insertions(+), 2 deletions(-)
+
+diff --git a/shared/macros/bash.jinja b/shared/macros/bash.jinja
+index 3960d89c9a..f05e49c45d 100644
+--- a/shared/macros/bash.jinja
++++ b/shared/macros/bash.jinja
+@@ -809,16 +809,30 @@ dconf update
+ #}}
+ {{%- if init_system == "systemd" -%}}
+   {{%- if service_state == "disable" -%}}
++    {{% if product in ['wrlinuxlts21', 'wrlinuxlts22'] %}}
++/bin/systemctl stop "{{{ service }}}"
++/bin/systemctl disable "{{{ service }}}"
++    {{%- else -%}}
+ /usr/bin/systemctl stop "{{{ service }}}"
+ /usr/bin/systemctl disable "{{{ service }}}"
++    {{%- endif %}}
+   {{%- else -%}}
++    {{% if product in ['wrlinuxlts21', 'wrlinuxlts22'] %}}
++/bin/systemctl enable "{{{ service }}}"
++/bin/systemctl start "{{{ service }}}"
++    {{%- else -%}}
+ /usr/bin/systemctl enable "{{{ service }}}"
+ /usr/bin/systemctl start "{{{ service }}}"
++    {{%- endif %}}
+   {{%- endif %}}
+ # The service may not be running because it has been started and failed,
+ # so let's reset the state so OVAL checks pass.
+ # Service should be 'inactive', not 'failed' after reboot though.
++  {{% if product in ['wrlinuxlts21', 'wrlinuxlts22'] %}}
++/bin/systemctl reset-failed "{{{ service }}}"
++  {{%- else -%}}
+ /usr/bin/systemctl reset-failed "{{{ service }}}"
++  {{%- endif %}}
+ {{%- elif init_system == "upstart" -%}}
+   {{%- if service_state == "disable" -%}}
+ /sbin/service "{{{ service }}}" disable
+diff --git a/shared/templates/service_disabled/bash.template b/shared/templates/service_disabled/bash.template
+index b9bf1b5bd8..cabb678040 100644
+--- a/shared/templates/service_disabled/bash.template
++++ b/shared/templates/service_disabled/bash.template
+@@ -1,4 +1,4 @@
+-# platform = multi_platform_rhel,multi_platform_fedora,multi_platform_ol,multi_platform_rhv,multi_platform_sle,multi_platform_ubuntu,multi_platform_sle
++# platform = multi_platform_rhel,multi_platform_fedora,multi_platform_ol,multi_platform_rhv,multi_platform_sle,multi_platform_ubuntu,multi_platform_sle,multi_platform_wrlinux
+ # reboot = false
+ # strategy = disable
+ # complexity = low
+@@ -6,7 +6,12 @@
+ {{%- if init_system == "systemd" %}}
+ 
+ 
++{{% if product in ["wrlinuxlts21", "wrlinuxlts22"] %}}
++SYSTEMCTL_EXEC='/bin/systemctl'
++{{% else %}}
+ SYSTEMCTL_EXEC='/usr/bin/systemctl'
++{{% endif %}}
++
+ "$SYSTEMCTL_EXEC" stop '{{{ DAEMONNAME }}}.service'
+ "$SYSTEMCTL_EXEC" disable '{{{ DAEMONNAME }}}.service'
+ "$SYSTEMCTL_EXEC" mask '{{{ DAEMONNAME }}}.service'
+diff --git a/shared/templates/service_enabled/bash.template b/shared/templates/service_enabled/bash.template
+index 5571989ab8..a705ba7256 100644
+--- a/shared/templates/service_enabled/bash.template
++++ b/shared/templates/service_enabled/bash.template
+@@ -1,11 +1,15 @@
+-# platform = multi_platform_rhel,multi_platform_fedora,multi_platform_ol,multi_platform_rhv,multi_platform_ubuntu,multi_platform_sle
++# platform = multi_platform_rhel,multi_platform_fedora,multi_platform_ol,multi_platform_rhv,multi_platform_ubuntu,multi_platform_sle,multi_platform_wrlinux
+ # reboot = false
+ # strategy = enable
+ # complexity = low
+ # disruption = low
+ {{%- if init_system == "systemd" %}}
+ 
++{{% if product in ["wrlinuxlts21", "wrlinuxlts22"] %}}
++SYSTEMCTL_EXEC='/bin/systemctl'
++{{% else %}}
+ SYSTEMCTL_EXEC='/usr/bin/systemctl'
++{{% endif %}}
+ "$SYSTEMCTL_EXEC" unmask '{{{ DAEMONNAME }}}.service'
+ "$SYSTEMCTL_EXEC" start '{{{ DAEMONNAME }}}.service'
+ "$SYSTEMCTL_EXEC" enable '{{{ DAEMONNAME }}}.service'
+-- 
+2.25.1
+

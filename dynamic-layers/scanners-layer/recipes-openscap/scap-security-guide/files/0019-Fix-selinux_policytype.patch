@@ -1,0 +1,74 @@
+From f4e72ca59c8f0ea8b8bd6b14e325815bfc1615cc Mon Sep 17 00:00:00 2001
+From: Yi Zhao <yi.zhao@windriver.com>
+Date: Fri, 28 Jan 2022 17:14:51 +0800
+Subject: [PATCH] Fix selinux_policytype
+
+Set var_selinux_policy_name to wr-mls for WRLinux LTS21
+
+Upstream-Status: Inappropriate [WRLinux specific]
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ .../guide/system/selinux/selinux_policytype/oval/shared.xml     | 2 +-
+ linux_os/guide/system/selinux/var_selinux_policy_name.var       | 2 ++
+ products/wrlinuxlts21/profiles/draft_stig_wrlinuxlts21.profile  | 1 +
+ products/wrlinuxlts22/profiles/draft_stig_wrlinuxlts22.profile  | 1 +
+ 4 files changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/linux_os/guide/system/selinux/selinux_policytype/oval/shared.xml b/linux_os/guide/system/selinux/selinux_policytype/oval/shared.xml
+index 6a51b5ea94..348bdafc66 100644
+--- a/linux_os/guide/system/selinux/selinux_policytype/oval/shared.xml
++++ b/linux_os/guide/system/selinux/selinux_policytype/oval/shared.xml
+@@ -23,7 +23,7 @@
+ 
+   <ind:textfilecontent54_object id="obj_selinux_policy" version="1">
+     <ind:filepath>/etc/selinux/config</ind:filepath>
+-    <ind:pattern operation="pattern match">^SELINUXTYPE=([\w]*)[\s]*$</ind:pattern>
++    <ind:pattern operation="pattern match">^SELINUXTYPE=([^\s]*)[\s]*$</ind:pattern>
+     <ind:instance datatype="int">1</ind:instance>
+   </ind:textfilecontent54_object>
+ </def-group>
+diff --git a/linux_os/guide/system/selinux/var_selinux_policy_name.var b/linux_os/guide/system/selinux/var_selinux_policy_name.var
+index 891c5818fd..07be509858 100644
+--- a/linux_os/guide/system/selinux/var_selinux_policy_name.var
++++ b/linux_os/guide/system/selinux/var_selinux_policy_name.var
+@@ -7,6 +7,7 @@ description: |-
+     <br />targeted - Only targeted network daemons are protected.
+     <br />strict - Full SELinux protection.
+     <br />mls - Multiple levels of security
++    <br />wr-mls - Multiple levels of security on Wind River Linux
+ 
+ type: string
+ 
+@@ -18,3 +19,4 @@ options:
+     default: targeted
+     mls: mls
+     targeted: targeted
++    wr-mls: wr-mls
+diff --git a/products/wrlinuxlts21/profiles/draft_stig_wrlinuxlts21.profile b/products/wrlinuxlts21/profiles/draft_stig_wrlinuxlts21.profile
+index de51233d61..fadbe72e4d 100644
+--- a/products/wrlinuxlts21/profiles/draft_stig_wrlinuxlts21.profile
++++ b/products/wrlinuxlts21/profiles/draft_stig_wrlinuxlts21.profile
+@@ -40,6 +40,7 @@ selections:
+     - var_password_pam_ocredit=1
+     - var_password_pam_retry=3
+     - var_password_pam_ucredit=1
++    - var_selinux_policy_name=wr-mls
+     - var_selinux_state=enforcing
+     - var_sshd_set_keepalive=0
+     - account_disable_post_pw_expiration
+diff --git a/products/wrlinuxlts22/profiles/draft_stig_wrlinuxlts22.profile b/products/wrlinuxlts22/profiles/draft_stig_wrlinuxlts22.profile
+index d04fd3df18..d2cfc0b42f 100644
+--- a/products/wrlinuxlts22/profiles/draft_stig_wrlinuxlts22.profile
++++ b/products/wrlinuxlts22/profiles/draft_stig_wrlinuxlts22.profile
+@@ -40,6 +40,7 @@ selections:
+     - var_password_pam_ocredit=1
+     - var_password_pam_retry=3
+     - var_password_pam_ucredit=1
++    - var_selinux_policy_name=wr-mls
+     - var_selinux_state=enforcing
+     - var_sshd_set_keepalive=0
+     - account_disable_post_pw_expiration
+-- 
+2.25.1
+

@@ -1,0 +1,103 @@
+From 01895d14fa2999dbeb1ac3ecffde6467643e07d7 Mon Sep 17 00:00:00 2001
+From: Yi Zhao <yi.zhao@windriver.com>
+Date: Fri, 3 Feb 2023 14:49:58 +0800
+Subject: [PATCH] Fix file_groupownership_home_directories
+
+Upstream-Status: Inappropriate [WRLinux specific]
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ .../oval/shared.xml                           | 46 ++-----------------
+ shared/macros/oval.jinja                      |  2 +
+ 2 files changed, 6 insertions(+), 42 deletions(-)
+
+diff --git a/linux_os/guide/system/accounts/accounts-session/file_groupownership_home_directories/oval/shared.xml b/linux_os/guide/system/accounts/accounts-session/file_groupownership_home_directories/oval/shared.xml
+index ed2b14b0c7..40dcf6f8f2 100644
+--- a/linux_os/guide/system/accounts/accounts-session/file_groupownership_home_directories/oval/shared.xml
++++ b/linux_os/guide/system/accounts/accounts-session/file_groupownership_home_directories/oval/shared.xml
+@@ -1,11 +1,9 @@
+ <def-group>
+   <definition class="compliance" id="{{{ rule_id }}}" version="1">
+     {{{ oval_metadata("All interactive user's Home Directories must be group-owned by its user") }}}
+-    <criteria operator="AND">
++    <criteria>
+       <criterion test_ref="test_file_groupownership_home_directories"
+                  comment="All interactive user's Home Directories must be group-owned by its user"/>
+-      <criterion test_ref="test_file_groupownership_home_directories_duplicated"
+-                 comment="Interactive users should group-own only one Home Directory"/>
+     </criteria>
+   </definition>
+ 
+@@ -13,12 +11,12 @@
+        "file_ownership_home_directories" rule. -->
+   <unix:password_object id="object_file_groupownership_home_directories_objects" version="1">
+     <unix:username datatype="string" operation="pattern match">.*</unix:username>
+-    <filter action="include">state_file_groupownership_home_directories_interactive_gids</filter>
++    <filter action="include">state_file_groupownership_home_directories_interactive_uids</filter>
+     <filter action="exclude">state_file_permissions_groupownership_user_list</filter>
+   </unix:password_object>
+ 
+-  <unix:password_state id="state_file_groupownership_home_directories_interactive_gids" version="1">
+-    <unix:group_id datatype="int" operation="greater than or equal">{{{ gid_min }}}</unix:group_id>
++  <unix:password_state id="state_file_groupownership_home_directories_interactive_uids" version="1">
++    <unix:user_id datatype="int" operation="greater than or equal">{{{ uid_min }}}</unix:user_id>
+   </unix:password_state>
+ 
+   <unix:password_state id="state_file_permissions_groupownership_user_list" version="1">
+@@ -55,40 +53,4 @@
+     <unix:state state_ref="state_file_groupownership_home_directories_gids"/>
+   </unix:file_test>
+ 
+-  <!-- #### prepare for test_file_groupownership_home_directories_duplicated #### -->
+-  <local_variable id="var_file_groupownership_home_directories_gids_count" datatype="int" version="1"
+-                  comment="Variable including count of gids from interactive group-owners">
+-    <count>
+-      <object_component item_field="group_id" object_ref="object_file_groupownership_home_directories_dirs"/>
+-    </count>
+-  </local_variable>
+-
+-  <local_variable id="var_file_groupownership_home_directories_gids_count_uniq" datatype="int" version="1"
+-                  comment="Variable including count of uniq gids from interactive group-owners">
+-    <count>
+-      <unique>
+-        <object_component item_field="group_id" object_ref="object_file_groupownership_home_directories_dirs"/>
+-      </unique>
+-    </count>
+-  </local_variable>
+-
+-  <!-- #### creation of object #### -->
+-  <ind:variable_object id="object_file_groupownership_home_directories_gids_count" version="1">
+-    <ind:var_ref>var_file_groupownership_home_directories_gids_count</ind:var_ref>
+-  </ind:variable_object>
+-
+-  <!-- #### creation of state #### -->
+-  <!-- #### creation of state_no_duplicate_groupowners #### -->
+-  <ind:variable_state id="state_file_groupownership_home_directories_gids_count_uniq" version="1">
+-    <ind:value datatype="int" operation="equals" var_check="at least one"
+-               var_ref="var_file_groupownership_home_directories_gids_count_uniq"/>
+-  </ind:variable_state>
+-
+-  <!-- #### creation of test #### -->
+-  <ind:variable_test id="test_file_groupownership_home_directories_duplicated" check="all"
+-                     check_existence="any_exist" version="1"
+-                     comment="It should not exist duplicated group-owners of home dirs">
+-    <ind:object object_ref="object_file_groupownership_home_directories_gids_count"/>
+-    <ind:state state_ref="state_file_groupownership_home_directories_gids_count_uniq"/>
+-  </ind:variable_test>
+ </def-group>
+diff --git a/shared/macros/oval.jinja b/shared/macros/oval.jinja
+index fc3ab0be7b..2d1b32abad 100644
+--- a/shared/macros/oval.jinja
++++ b/shared/macros/oval.jinja
+@@ -923,6 +923,8 @@ Generates the :code:`<affected>` tag for OVAL check using correct product platfo
+ #}}
+ {{%- if product in ["rhel7", "ol7"] %}}
+   {{%- set user_list="(nobody|nfsnobody)" %}}
++{{%- elif product in ["wrlinuxlts21", "wrlinuxlts22"] %}}
++  {{%- set user_list="(nobody|bin)" %}}
+ {{%- else %}}
+   {{%- set user_list="nobody" %}}
+ {{%- endif %}}
+-- 
+2.25.1
+
