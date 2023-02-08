@@ -53,7 +53,7 @@ SRCREV_machine:kb-v5.15-standard-preempt-rt-nxp-sdk-5.10-nxp-s32g ?= "ac293e3360
 LINUX_VERSION:kb-v5.15-standard-preempt-rt-nxp-sdk-5.10-nxp-s32g = "5.15.91"
 SRCREV_machine:kb-v5.15-standard-preempt-rt-nxp-sdk-5.15-nxp-soc ?= "fe9a405cf28e88a8a64982ebb4ed37cd5bfb4892"
 LINUX_VERSION:kb-v5.15-standard-preempt-rt-nxp-sdk-5.15-nxp-soc = "5.15.91"
-SRCREV_machine:kb-v5.15-standard-preempt-rt-sdkv5.10-axxia ?= "d18c3307a766943a775946396a27ece54a5eb4f0"
+SRCREV_machine:kb-v5.15-standard-preempt-rt-sdkv5.10-axxia ?= "2de2b7d826b37ee13aec05a392d3b7ee957e0d27"
 LINUX_VERSION:kb-v5.15-standard-preempt-rt-sdkv5.10-axxia = "5.15.91"
 SRCREV_machine:kb-v5.15-standard-preempt-rt-sdkv5.15-xlnx-soc ?= "21aa83cb69d8d02297596178bd8414db03c7cd75"
 LINUX_VERSION:kb-v5.15-standard-preempt-rt-sdkv5.15-xlnx-soc = "5.15.91"
@@ -65,7 +65,7 @@ SRCREV_machine:kb-v5.15-standard-qemuarm64 ?= "30e3bff02675a3d10bd04c51f52f4a6b1
 LINUX_VERSION:kb-v5.15-standard-qemuarm64 = "5.15.91"
 SRCREV_machine:kb-v5.15-standard-qemuppc ?= "43c8d401cf8092c19e47935c5667dacf754885d4"
 LINUX_VERSION:kb-v5.15-standard-qemuppc = "5.15.91"
-SRCREV_machine:kb-v5.15-standard-sdkv5.10-axxia ?= "8a804e4c0a1dd2c4c370291e2b9064c919b3d049"
+SRCREV_machine:kb-v5.15-standard-sdkv5.10-axxia ?= "8b38c9537d9a6ff6e1f65cdd6bfe8ef61ded4a77"
 LINUX_VERSION:kb-v5.15-standard-sdkv5.10-axxia = "5.15.91"
 SRCREV_machine:kb-v5.15-standard-sdkv5.15-xlnx-soc ?= "782ba84ec4d45a2593c3440d4e00df306a278daa"
 LINUX_VERSION:kb-v5.15-standard-sdkv5.15-xlnx-soc = "5.15.91"
@@ -88,4 +88,4 @@ LINUX_VERSION:kb-v5.15-standard-xilinx-zynqmp = "5.15.91"
 
 # yocto-kernel-cache entries
 KERNEL_CACHE_BRANCH_5.15 = "yocto-5.15"
-SRCREV_meta_5.15 = "8df0d345ef202197eef82942933161213d4d1846"
+SRCREV_meta_5.15 = "d9c274fe802996c682ab54a2bdfe617cd2f0175a"
