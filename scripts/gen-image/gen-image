@@ -623,7 +623,7 @@ class GenImage(object):
         logger.info('Generating target image...')
 
         deploy_files = set()
-        is_x86 = 'intel' in self.machine or 'x86-64' in self.machine
+        is_x86 = ('intel' in self.machine and self.machine != "intel-socfpga-64") or 'x86-64' in self.machine
 
         for image in self.images:
             self.do_build(target=image)
@@ -640,11 +640,13 @@ class GenImage(object):
             ustart_images = ['ustart.img.bmap']
             if self.machine == 'nxp-s32g':
                 ustart_images += ['evb3.ustart.img.gz', 'rdb3.ustart.img.gz']
+            elif self.machine == 'intel-socfpga-64':
+                ustart_images = ['stratix10.ustart.img.bmap', 'stratix10.ustart.img.gz']
             else:
                 ustart_images.append('ustart.img.gz')
 
             for f in ustart_images:
-                if self.machine == 'nxp-s32g':
+                if self.machine == 'nxp-s32g' or self.machine == 'intel-socfpga-64':
                     newf = os.path.join(self.builddir, '%s-%s' % (basename, f))
                 else:
                     newf = os.path.join(self.builddir, '%s.%s' % (basename, f))
