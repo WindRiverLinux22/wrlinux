@@ -56,10 +56,6 @@ X11_SKIPLIST ?= "\
 "
 DEPENDS:remove = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', '${X11_SKIPLIST}', d)}"
 
-# u-boot-s32-tools-native is for nxp-s32g series only, and conflicted with
-# u-boot-tools-native
-DEPENDS:remove = "u-boot-s32-tools-native"
-
 do_deploy_sstate () {
     if [ -d "${SSTATE_DIR}" ]; then
         # Check the sstate cache files

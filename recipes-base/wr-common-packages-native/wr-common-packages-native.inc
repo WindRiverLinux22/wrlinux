@@ -220,7 +220,6 @@ DEPENDS = "\
     tcl-native \
     texinfo-dummy-native \
     tzcode-native \
-    u-boot-s32-tools-native \
     u-boot-tools-native \
     unifdef-native \
     unzip-native \
