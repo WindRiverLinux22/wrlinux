@@ -40,6 +40,7 @@ IMAGE_INSTALL:append = " ${@bb.utils.contains('OSTREE_BOOTLOADER', 'u-boot', 'u-
 
 # For nxp-s32g
 IMAGE_INSTALL:append:nxp-s32g = " u-boot-s32 atf-s32g"
+IMAGE_INSTALL:append:ti-j72xx = " u-boot-ti-staging"
 
 NO_RECOMMENDATIONS = "1"
 
