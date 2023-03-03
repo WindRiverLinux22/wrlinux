@@ -121,9 +121,17 @@ Set boot commands:
     $ saveenv
     $ boot
 
-    NOTE: The USB Host of AXM5516 is CI13612A EHCI USB 2.0 Host controller,
+    NOTE:
+    1. The USB Host of AXM5516 is CI13612A EHCI USB 2.0 Host controller,
     if the USB stick is 2.0, the access of the storage will be very slow.
     As a workaround, use SanDisk USB 3.x stick will be much faster
+    2. if you meet following error during start ustart image, you maybe need change
+    an new USB disk.
+    ```
+    ** Bad device usb 0 **
+    ## Executing script at 02000000
+    Wrong image format for "source" command
+    ```
 
 The image will be installed on the boot disk (SD card) by default, you can
 press any key except 'y' to stop the installation and select other disks to
