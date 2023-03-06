@@ -1,6 +1,11 @@
 This template adds kubernetes (Production-Grade Container
 Scheduling and Management) to the filesystem.
 
+To use kubernetes, either docker or a CRI runtime is needed.
+To use docker, enable feature/docker by passing '--templates feature/docker',
+or by adding 'feature/docker' to WRTEMPLATES.
+To use a CRI runtime, add 'cri-o' to IMAGE_INSTALL.
+
 To use this template, add the following to your setup line:
 
     --templates feature/kubernetes
