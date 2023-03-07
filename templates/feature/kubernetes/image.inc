@@ -1,1 +1,1 @@
-IMAGE_INSTALL += "kubernetes"
+IMAGE_INSTALL += "kubernetes kubernetes-misc"
