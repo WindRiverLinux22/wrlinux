@@ -676,6 +676,12 @@ class GenImage(object):
         else:
             logger.warning('No README: %s' % readme)
 
+        ks_readme = os.path.join(self.doc_dir, 'target_kickstart.README.md')
+        if os.path.exists(ks_readme):
+            deploy_files.add(ks_readme)
+        else:
+            logger.warning('No README: %s' % ks_readme)
+
         write_sd_sh = os.path.join(self.doc_dir, '%s-sd.sh' %  self.machine)
         if os.path.exists(write_sd_sh):
             deploy_files.add(write_sd_sh)
