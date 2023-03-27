@@ -436,7 +436,6 @@ class GenImage(object):
         if not bitbake_e:
             bitbake_e = self.do_build('-e')
 
-        self.support_lat = False
         for line in bitbake_e.split('\n'):
             if line.startswith('PACKAGE_FEED_ARCHS='):
                 self.feed_archs = line.split('=')[1].replace('"', '').split()
@@ -444,8 +443,6 @@ class GenImage(object):
                 all_archs = line.split('=')[1].replace('"', '').split()
             if line.startswith('TMPDIR='):
                 self.tmpdir = line.split('=')[1].replace('"', '')
-            if line.startswith('WRTEMPLATE='):
-                self.templates = line.split('=')[1].replace('"', '')
             if line.startswith('DEPLOY_DIR_RPM='):
                 self.deploy_dir_rpm = line.split('=')[1].replace('"', '')
             if line.startswith('OSTREE_REPO='):
@@ -456,9 +453,6 @@ class GenImage(object):
                 self.wrlinux_version = line.split('=')[1].replace('"', '')
             if line.startswith('WRLINUX_BRANCH='):
                 self.wrlinux_branch = line.split('=')[1].replace('"', '')
-
-        if 'feature/lat' in self.templates:
-            self.support_lat = True
 
         if not self.feed_archs:
             if not all_archs:
@@ -544,8 +538,7 @@ class GenImage(object):
             deploy_files.append(files[0])
 
         deploy_files.append(os.path.join(self.doc_dir, 'sdk.README.md'))
-        if self.support_lat:
-            deploy_files.append(os.path.join(self.doc_dir, 'appsdk.README.md'))
+        deploy_files.append(os.path.join(self.doc_dir, 'appsdk.README.md'))
 
         deploy_files.append(self.get_configinfo_file())
         self.do_deploy('%s/sdk' % self.machine, deploy_files)
