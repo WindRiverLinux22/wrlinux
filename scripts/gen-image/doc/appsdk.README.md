@@ -96,13 +96,14 @@ optional arguments:
 ### Generate example Yamls
 ```
 $ appsdk exampleyamls -h
-usage: appsdk exampleyamls [-h] [-o OUTDIR]
+usage: appsdk exampleyamls [-h] [--pkg-type {rpm,external-debian}] [-o OUTDIR]
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
+  --pkg-type {rpm,external-debian}
+                        Specify package type
   -o OUTDIR, --outdir OUTDIR
                         Specify output dir, default is current working directory
-
 $ appsdk exampleyamls
 appsdk - INFO: Deploy Directory: path-to-outdir/exampleyamls
 +-------------------+------------------------------------------+
@@ -112,13 +113,18 @@ appsdk - INFO: Deploy Directory: path-to-outdir/exampleyamls
 |                   | core-image-minimal-intel-x86-64.yaml     |
 |                   | core-image-sato-intel-x86-64.yaml        |
 |                   | initramfs-ostree-image-intel-x86-64.yaml |
+|                   | lat-image-multiple-intel-x86-64.yaml     |
 |                   | wrlinux-image-small-intel-x86-64.yaml    |
 |                   |                                          |
 +-------------------+------------------------------------------+
 | Feature           | feature/debug-tweaks.yaml                |
+|                   | feature/expire-root-passwd.yaml          |
+|                   | feature/install-over-wifi-eap.yaml       |
+|                   | feature/install-over-wifi-psk.yaml       |
 |                   | feature/package_management.yaml          |
+|                   | feature/set-wifi-eap.yaml                |
+|                   | feature/set-wifi-psk.yaml                |
 |                   | feature/set_root_password.yaml           |
-|                   | feature/startup-container.yaml           |
 |                   | feature/vboxguestdrivers.yaml            |
 |                   | feature/xfce_desktop.yaml                |
 |                   |                                          |
@@ -130,6 +136,12 @@ appsdk - INFO: Deploy Directory: path-to-outdir/exampleyamls
 |                   | sysdef/set-hostname.yaml                 |
 |                   | sysdef/set-ntp.yaml                      |
 |                   | sysdef/update-containers.yaml            |
+|                   |                                          |
++-------------------+------------------------------------------+
+| Kickstart         | kickstart/kickstart.README.md            |
+|                   | kickstart/lat-disk.ks                    |
+|                   | kickstart/lat-installer-static-ipv4.ks   |
+|                   | kickstart/lat-installer.ks               |
 |                   |                                          |
 +-------------------+------------------------------------------+
 appsdk - INFO: Then, run genimage or genyaml with Yaml Files:
@@ -167,16 +179,18 @@ Feature Yamls:
 ### Generate ostree repo and wic/vmdk/vdi/ustart image from package feed
 ```
 $ appsdk genimage -h
-usage: appsdk genimage [-h] [-t {wic,vmdk,vdi,ostree-repo,ustart,all}] [-o OUTDIR] [-w WORKDIR] [-n NAME] [-u URL] [-p PKG] [--pkg-external PKG_EXTERNAL]
-                       [--rootfs-post-script ROOTFS_POST_SCRIPT] [--rootfs-pre-script ROOTFS_PRE_SCRIPT] [--env ENV] [--no-clean] [--no-validate] [-g GPGPATH]
-                       [input [input ...]]
+usage: appsdk genimage [-h] [-t {wic,ostree-repo,ustart,all}] [-o OUTDIR] [-w WORKDIR] [-n NAME] [-u URL] [--pkg-type {rpm}] [-p PKG] [--pkg-external PKG_EXTERNAL]
+                       [--rootfs-post-script ROOTFS_POST_SCRIPT] [--rootfs-pre-script ROOTFS_PRE_SCRIPT][--env ENV] [--no-clean] [--no-validate] [-g GPGPATH]
+                       [--ostree-remote-url OSTREE_REMOTE_URL] [--install-net-mode {dhcp,static-ipv4}] [--install-net-params INSTALL_NET_PARAMS]
+                       [--install-kickstart-url INSTALL_KICKSTART_URL]
+                       [input ...]
 
 positional arguments:
   input                 Input yaml files that the tool can be run against a package feed to generate an image
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
-  -t {wic,vmdk,vdi,ostree-repo,ustart,all}, --type {wic,vmdk,vdi,ostree-repo,ustart,all}
+  -t {wic,ostree-repo,ustart,all}, --type {wic,ostree-repo,ustart,all}
                         Specify image type, it overrides 'image_type' in Yaml
   -o OUTDIR, --outdir OUTDIR
                         Specify output dir, default is current working directory
@@ -184,6 +198,7 @@ optional arguments:
                         Specify work dir, default is current working directory
   -n NAME, --name NAME  Specify image name, it overrides 'name' in Yaml
   -u URL, --url URL     Specify extra urls of rpm package feeds
+  --pkg-type {rpm}      Specify package type, it overrides 'package_type' in Yaml
   -p PKG, --pkg PKG     Specify extra package to be installed
   --pkg-external PKG_EXTERNAL
                         Specify extra external package to be installed
@@ -198,38 +213,69 @@ optional arguments:
                         Specify gpg homedir, it overrides 'gpg_path' in Yaml, default is /tmp/.lat_gnupg
   --ostree-remote-url OSTREE_REMOTE_URL
                         Specify ostree remote url, it overrides 'ostree_remote_url' in Yaml, default is None
+  --install-net-mode {dhcp,static-ipv4}
+                        Specify network dhcp or static-ipv4 during installation, it overrides 'install_net_mode' in Yaml, default is None
+  --install-net-params INSTALL_NET_PARAMS
+                        Specify network params during installation, it overrides 'install_net_params' in Yaml, default is None. For dhcp, it is interface name, such as eth0; For static-ipv4, use the kernel arg: ip=<client-ip>::<gw-
+                        ip>:<netmask>:<hostname>:<device>:off:<dns0-ip>:<dns1-ip>, such as ip=10.0.2.15::10.0.2.1:255.255.255.0:tgt:eth0:off:10.0.2.3:8.8.8.8
+  --install-kickstart-url INSTALL_KICKSTART_URL
+                        Specify kickstart url, it overrides 'install_kickstart_url' in Yaml, default is None
+
 ```
 ```
 $ appsdk genimage input.yaml --type all
 appsdk - INFO: Deploy Directory: path-to-outdir/deploy
-+------------------+-----------------------------------------------------------+
-|       Type       |                           Name                            |
-+==================+===========================================================+
-| Image Yaml File  | wrlinux-image-small-intel-x86-64.yaml                     |
-+------------------+-----------------------------------------------------------+
-| Ostree Repo      | ostree_repo                                               |
-+------------------+-----------------------------------------------------------+
-| WIC Image        | wrlinux-image-small-intel-x86-64.wic -> wrlinux-image-    |
-|                  | small-intel-x86-64-20200908060827.rootfs.wic              |
-+------------------+-----------------------------------------------------------+
-| WIC Image Doc    | wrlinux-image-small-intel-x86-64.wic.README.md            |
-+------------------+-----------------------------------------------------------+
-| WIC Image        | wrlinux-image-small-intel-x86-64.qemuboot.conf ->         |
-| Qemu Conf        | wrlinux-image-small-                                      |
-|                  | intel-x86-64-20200908060827.qemuboot.conf                 |
-+------------------+-----------------------------------------------------------+
-| VDI Image        | wrlinux-image-small-intel-x86-64.wic.vdi -> wrlinux-      |
-|                  | image-small-intel-x86-64-20200908060827.rootfs.wic.vdi    |
-+------------------+-----------------------------------------------------------+
-| VMDK Image       | wrlinux-image-small-intel-x86-64.wic.vmdk -> wrlinux-     |
-|                  | image-small-intel-x86-64-20200908060827.rootfs.wic.vmdk   |
-+------------------+-----------------------------------------------------------+
-| Ustart Image     | wrlinux-image-small-intel-x86-64.ustart.img.gz ->         |
-|                  | wrlinux-image-small-                                      |
-|                  | intel-x86-64-20200908060827.ustart.img.gz                 |
-+------------------+-----------------------------------------------------------+
-| Ustart Image Doc | wrlinux-image-small-intel-x86-64.ustart.img.gz.README.md  |
-+------------------+-----------------------------------------------------------+
++------------------------------+-----------------------------------------------+
+|             Type             |                     Name                      |
++==============================+===============================================+
+| Image Yaml File              | wrlinux-image-small-intel-x86-64.yaml         |
++------------------------------+-----------------------------------------------+
+| OSTree Repo                  | ostree_repo                                   |
++------------------------------+-----------------------------------------------+
+| WIC Image                    | wrlinux-image-small-intel-x86-64.wic ->       |
+|                              | wrlinux-image-small-                          |
+|                              | intel-x86-64-20230327072912.rootfs.wic        |
++------------------------------+-----------------------------------------------+
+| WIC Image Doc                | wrlinux-image-small-                          |
+|                              | intel-x86-64.wic.README.md                    |
++------------------------------+-----------------------------------------------+
+| WIC Image                    | wrlinux-image-small-                          |
+| Qemu Conf                    | intel-x86-64.qemuboot.conf -> wrlinux-image-  |
+|                              | small-                                        |
+|                              | intel-x86-64-20230327072912.qemuboot.conf     |
++------------------------------+-----------------------------------------------+
+| VDI Image                    | wrlinux-image-small-intel-x86-64.wic.vdi ->   |
+|                              | wrlinux-image-small-                          |
+|                              | intel-x86-64-20230327072912.rootfs.wic.vdi    |
++------------------------------+-----------------------------------------------+
+| VMDK Image                   | wrlinux-image-small-intel-x86-64.wic.vmdk ->  |
+|                              | wrlinux-image-small-                          |
+|                              | intel-x86-64-20230327072912.rootfs.wic.vmdk   |
++------------------------------+-----------------------------------------------+
+| Ustart Image                 | wrlinux-image-small-                          |
+|                              | intel-x86-64.ustart.img.gz -> wrlinux-image-  |
+|                              | small-                                        |
+|                              | intel-x86-64-20230327072912.ustart.img.gz     |
++------------------------------+-----------------------------------------------+
+| Ustart Image Doc             | wrlinux-image-small-                          |
+|                              | intel-x86-64.ustart.img.gz.README.md          |
++------------------------------+-----------------------------------------------+
+| ISO Image                    | wrlinux-image-small-intel-x86-64-cd.iso ->    |
+|                              | wrlinux-image-small-                          |
+|                              | intel-x86-64-20230327072912-cd.iso            |
++------------------------------+-----------------------------------------------+
+| ISO Image Doc                | wrlinux-image-small-                          |
+|                              | intel-x86-64-cd.iso.README.md                 |
++------------------------------+-----------------------------------------------+
+| TFTP dir of PXE Files        | pxe_tftp_wrlinux-image-small/                 |
++------------------------------+-----------------------------------------------+
+| Tarball of PXE TFTP dir      | pxe-tftp-wrlinux-image-small.tar -> pxe-tftp- |
+|                              | wrlinux-image-small-20230327072912.tar        |
++------------------------------+-----------------------------------------------+
+| PXE for EFI Boot Doc         | PXE-for-EFI_wrlinux-image-small.README.md     |
++------------------------------+-----------------------------------------------+
+| PXE for Legacy/BIOS Boot Doc | PXE-for-Legacy_wrlinux-image-small.README.md  |
++------------------------------+-----------------------------------------------+
 ```
 If no option --type, it generates ostree repo and ustart image by default
 
@@ -333,32 +379,41 @@ machine: intel-x86-64
 image_type:
 - ostree-repo
 - ustart
-- vdi
-- vmdk
 - wic
 package_feeds:
 - http://XXXX/lat/dist/intel-x86-64/repos/rpm/corei7_64
 - http://XXXX/lat/dist/intel-x86-64/repos/rpm/intel_x86_64
 - http://XXXX/lat/dist/intel-x86-64/repos/rpm/noarch
+package_type: rpm 
 ostree:
-  OSTREE_CONSOLE: console=ttyS0,115200 console=tty1
-  OSTREE_FDISK_BLM: '2506'
-  OSTREE_FDISK_BSZ: '200'
-  OSTREE_FDISK_FSZ: '32'
-  OSTREE_FDISK_RSZ: '4096'
-  OSTREE_FDISK_VSZ: '0'
-  OSTREE_GRUB_PW_FILE: $OECORE_NATIVE_SYSROOT/usr/share/bootfs/boot_keys/ostree_grub_pw
-  OSTREE_GRUB_USER: root
-  ostree_osname: wrlinux
-  ostree_remote_url: ''
-  ostree_skip_boot_diff: '2'
   ostree_use_ab: '0'
+  ostree_osname: wrlinux
+  ostree_skip_boot_diff: '2'
+  ostree_remote_url: ''
+  ostree_install_device: ''
+  ostree_extra_install_args: ''
+  install_kickstart_url: ''
+  install_net_params: ''
+  install_net_mode: ''
+  OSTREE_GRUB_USER: root
+  OSTREE_GRUB_PW_FILE: $OECORE_NATIVE_SYSROOT/usr/share/bootfs/boot_keys/ostree_grub_pw
+  OSTREE_FDISK_BLM: 2506
+  OSTREE_FDISK_BSZ: 200
+  OSTREE_FDISK_RSZ: 4096
+  OSTREE_FDISK_VSZ: 0
+  OSTREE_FDISK_FSZ: 32
+  OSTREE_CONSOLE: console=ttyS0,115200 console=tty1
 wic:
-  OSTREE_FLUX_PART: fluxdata
-  OSTREE_WKS_BOOT_SIZE: ''
-  OSTREE_WKS_EFI_SIZE: --size=32M
+  OSTREE_WKS_BOOT_SIZE: --size=300M --overhead-factor 1
+  OSTREE_WKS_EFI_SIZE: --size=32M --overhead-factor 1
+  OSTREE_WKS_ROOT_SIZE: --size=2048M --overhead-factor 1
   OSTREE_WKS_FLUX_SIZE: ''
-  OSTREE_WKS_ROOT_SIZE: ''
+  OSTREE_FLUX_PART: fluxdata
+  OSTREE_SD_BOOT_ALIGN: '4' 
+  OSTREE_SD_UBOOT_WIC1: part / --source rawcopy --sourceparams="file=${UBOOT_BINARY}" --ondisk mmcblk --no-table --align 1 --size 1
+  OSTREE_SD_UBOOT_WIC2: ''
+  OSTREE_SD_UBOOT_WIC3: ''
+  OSTREE_SD_UBOOT_WIC4: ''
 remote_pkgdatadir: http://XXXX/lat/dist/intel-x86-64/repos/rpm
 features:
   image_linguas: 'en-us'       # Specifies the list of locales to
@@ -376,6 +431,14 @@ gpg:
     BOOT_GPG_NAME: SecureBootCore
     BOOT_GPG_PASSPHRASE: SecureCore
     BOOT_KEYS_DIR: $OECORE_NATIVE_SYSROOT/usr/share/bootfs/boot_keys
+    BOOT_GPG_KEY: $OECORE_NATIVE_SYSROOT/usr/share/bootfs/boot_keys/BOOT-GPG-PRIVKEY-SecureBootCore
+    BOOT_SINGED_SHIM: ''
+    BOOT_SINGED_SHIMTOOL: ''
+    BOOT_SINGED_GRUB: ''
+    BOOT_EFITOOL: ''
+    BOOT_GRUB_CFG: $OECORE_TARGET_SYSROOT/boot/efi/EFI/BOOT/grub.cfg
+    BOOT_NOSIG_GRUB: $OECORE_TARGET_SYSROOT/boot/efi/EFI/BOOT/bootx64-nosig.efi
+    EFI_SECURE_BOOT: disable
   ostree:
     gpg_password: windriver
     gpgid: Wind-River-Linux-Sample
@@ -384,28 +447,26 @@ packages:
 - ca-certificates
 - glib-networking
 - grub-efi
-- i2c-tools
-- intel-microcode
-- iucode-tool
 - kernel-modules
 - lmsensors
 - os-release
 - ostree
 - ostree-upgrade-mgr
-- packagegroup-core-base-utils 
+- packagegroup-core-base-utils
 - packagegroup-core-boot
-- rtl8723bs-bt
 - run-postinsts
 - systemd
 external-packages: []
-include-default-packages: '0'
+include-default-packages: '0' 
 rootfs-pre-scripts:
 - echo "run script before do_rootfs in $IMAGE_ROOTFS"
 rootfs-post-scripts:
 - echo "run script after do_rootfs in $IMAGE_ROOTFS"
 environments:
-- KERNEL_PARAMS="key=value"
 - NO_RECOMMENDATIONS="0"
+- KERNEL_PARAMS="key=value"
+ustart-post-script: ''
+wic-post-script: ''
 ```
 
 ## Use case by simple hello-world example
