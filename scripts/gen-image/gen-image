@@ -133,6 +133,12 @@ def apply_extra_patches_internal(repo, patches_dir):
         except Exception as esc:
             logger.error('Failed to apply %s in %s: %s' % (patch_path, repo, esc))
 
+def get_bb_var(var, bitbake_e):
+    for line in bitbake_e.split('\n'):
+        if line.startswith('%s=' % var):
+            return line.split('=')[1].replace('"', '')
+    return ''
+
 class GenImage(object):
     """
     * Generate the following images in order:
@@ -383,21 +389,19 @@ class GenImage(object):
         line = 'require %s\n' % self.bin_image_conf
         check_and_write(self.local_conf, line)
 
-        bitbake_e = ''
         logger.info('Determining machine ...')
         bitbake_e = self.do_build('-e')
-        for line in bitbake_e.split('\n'):
-            if line.startswith('PKGDATA_DIR='):
-                self.machine = line.split('=')[1].replace('"', '')
-                self.machine = os.path.basename(self.machine)
-                break
+        self.machine = get_bb_var('PKGDATA_DIR', bitbake_e)
+        self.machine = os.path.basename(self.machine)
 
         # Only write MACHINE when self.args.machine != MACHINE from bitbake_e
         if self.args.machine and self.machine != self.args.machine:
             self.machine = self.args.machine
             with open(self.local_conf, 'a+') as f:
                 f.write('\nMACHINE = "%s"\n' % self.args.machine)
-                # Need need re-run 'bitbake -e'
+                # Need need re-run 'bitbake -e', remove invalid tmpdir
+                tmpdir = get_bb_var('TMPDIR', bitbake_e)
+                shutil.rmtree(tmpdir)
                 bitbake_e = ''
 
         logger.info('Preparing build for %s' % self.machine)
@@ -436,23 +440,14 @@ class GenImage(object):
         if not bitbake_e:
             bitbake_e = self.do_build('-e')
 
-        for line in bitbake_e.split('\n'):
-            if line.startswith('PACKAGE_FEED_ARCHS='):
-                self.feed_archs = line.split('=')[1].replace('"', '').split()
-            if line.startswith('ALL_MULTILIB_PACKAGE_ARCHS='):
-                all_archs = line.split('=')[1].replace('"', '').split()
-            if line.startswith('TMPDIR='):
-                self.tmpdir = line.split('=')[1].replace('"', '')
-            if line.startswith('DEPLOY_DIR_RPM='):
-                self.deploy_dir_rpm = line.split('=')[1].replace('"', '')
-            if line.startswith('OSTREE_REPO='):
-                self.ostree_repo = line.split('=')[1].replace('"', '')
-            if line.startswith('BBLAYERS='):
-                self.bblayers = line.split('=')[1].replace('"', '')
-            if line.startswith('WRLINUX_VERSION='):
-                self.wrlinux_version = line.split('=')[1].replace('"', '')
-            if line.startswith('WRLINUX_BRANCH='):
-                self.wrlinux_branch = line.split('=')[1].replace('"', '')
+        self.feed_archs = get_bb_var('PACKAGE_FEED_ARCHS', bitbake_e).split()
+        all_archs = get_bb_var('ALL_MULTILIB_PACKAGE_ARCHS', bitbake_e).split()
+        self.tmpdir = get_bb_var('TMPDIR', bitbake_e)
+        self.deploy_dir_rpm = get_bb_var('DEPLOY_DIR_RPM', bitbake_e)
+        self.ostree_repo = get_bb_var('OSTREE_REPO', bitbake_e)
+        self.bblayers = get_bb_var('BBLAYERS', bitbake_e)
+        self.wrlinux_version = get_bb_var('WRLINUX_VERSION', bitbake_e)
+        self.wrlinux_branch = get_bb_var('WRLINUX_BRANCH', bitbake_e)
 
         if not self.feed_archs:
             if not all_archs:
