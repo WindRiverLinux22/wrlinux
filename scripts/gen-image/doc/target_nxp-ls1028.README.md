@@ -90,6 +90,16 @@ This should give you a bootable micro SD card device. Insert the SD card into
 SD slot on the board, and then power on, then enter u-boot shell, the image
 should boot, enter the following commands if it doesn't:
 
+First, following uboot env may have wrong value, please set it as following:
+
+    $ setenv kernel_addr_r 0x80080000
+    $ setenv ramdisk_addr_r 0x90080000
+    $ setenv fdt_addr 0xa0000000
+    $ saveenv
+    $ run bootcmd
+
+If it still not boot up, try:
+
     $ fatsize mmc 0:1 firmware_ls1028ardb_uboot_xspiboot.img
     $ fatload mmc 0:1 0xa0000000 firmware_ls1028ardb_uboot_xspiboot.img $filesize
     $ sf probe 0:0
@@ -107,14 +117,14 @@ Enter u-boot shell again:
 The image will be installed on the boot disk (SD card) by default, you can
 press any key except 'y' to stop the installation and select other disks to
 install:
-
+```
 ## Erasing /dev/sda in 60 sec ## 'y' = start ## Any key to abort ##
 ## Erasing /dev/sda in 59 sec ## 'y' = start ## Any key to abort ##
     NAME   VENDOR    SIZE MODEL            TYPE LABEL
 0 - sda    QEMU        8G QEMU HARDDISK    disk
 B - Reboot
 Select disk to format and install:
-
+```
 You will see the login console after the installation is done and rebooted,
 login with root and change password for the first login.
 
