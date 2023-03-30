@@ -191,6 +191,9 @@ class GenImage(object):
         parser.add_argument('--update',
             default=False,
             help='Compared with the packages downloaded from repo-url, only deploy different or newly added packages, other packages will be dropped.', action="store_true")
+        parser.add_argument('-n', '--dry-run',
+            default=False,
+            help="Don't do the build, only go through the steps, this is useful for debug.", action="store_true")
         parser.add_argument('-p', '--product', choices=['lincd', 'lts-21', 'lts-22'], required=False,
             default='lts-22',
             help='Specify the product', action="store")
@@ -385,6 +388,12 @@ class GenImage(object):
                 if layer.endswith('/%s' % d):
                     apply_extra_patches_internal(layer, os.path.join(os.path.abspath('extra-patches'), d))
 
+    def check_dry_run(self, msg):
+        if self.args.dry_run:
+            logger.warning(msg)
+        else:
+            raise Exception(msg)
+
     def prepare(self):
         line = 'require %s\n' % self.bin_image_conf
         check_and_write(self.local_conf, line)
@@ -474,6 +483,9 @@ class GenImage(object):
             shutil.move(src, dst)
 
     def do_build(self, target=None, conf=None):
+        if self.args.dry_run and target != "-e":
+            logger.info("Skipping the build since --dry-run is specified")
+            return ""
         if conf:
             with open(self.local_conf, 'a') as f:
                 f.write(conf)
@@ -505,6 +517,9 @@ class GenImage(object):
         if self.image_minimal in ' '.join(files):
             copy_twice = True
         for f in files:
+            if self.args.dry_run and not os.path.exists(f):
+                logger.warning('Failed to find %s' % f)
+                continue
             if subdir.endswith('/sdk'):
                 do_copy(f, dst_dir_sdk)
             elif self.image_minimal in f:
@@ -529,8 +544,10 @@ class GenImage(object):
             wildcard = "%s/*-%s-%s-%s" % (deploy_dir, self.machine.replace('-', '_'), self.image, f)
             files = glob.glob(wildcard)
             if len(files) != 1:
-                raise Exception("Should be only one %s file but found %s: \n%s" % (f, len(files), '\n'.join(files)))
-            deploy_files.append(files[0])
+                msg = "Should be only one %s file but found %s: \n%s" % (f, len(files), '\n'.join(files))
+                self.check_dry_run(msg)
+            else:
+                deploy_files.append(files[0])
 
         deploy_files.append(os.path.join(self.doc_dir, 'sdk.README.md'))
         deploy_files.append(os.path.join(self.doc_dir, 'appsdk.README.md'))
@@ -558,7 +575,8 @@ class GenImage(object):
         for f in deploy_files:
             logger.debug('Deploy file: %s' % f)
             if not os.path.exists(f):
-                raise Exception('Failed to find %s' % f)
+                msg = "Failed to find %s" % f
+                self.check_dry_run(msg)
 
         return deploy_files
 
@@ -572,16 +590,20 @@ class GenImage(object):
         logger.info('Generating %s' % config_outfile)
         newlines = []
         logfile = '%s/log/cooker/%s/console-latest.log' % (self.tmpdir_bn, self.machine)
-        with open(logfile, 'r') as f:
-            for line in f.readlines():
-                line_strip = line.strip()
-                if line.startswith('Build Configuration:'):
-                    newlines.append(line)
-                    continue
-                if newlines and not line_strip:
-                    break
-                if newlines:
-                    newlines.append(line)
+        msg = "Failed to find %s" % logfile
+        if os.path.exists(logfile):
+            with open(logfile, 'r') as f:
+                for line in f.readlines():
+                    line_strip = line.strip()
+                    if line.startswith('Build Configuration:'):
+                        newlines.append(line)
+                        continue
+                    if newlines and not line_strip:
+                        break
+                    if newlines:
+                        newlines.append(line)
+        else:
+            self.check_dry_run(msg)
         if newlines:
             newlines.append('\n')
             # Add more build info
@@ -638,7 +660,11 @@ class GenImage(object):
                     newf = os.path.join(self.builddir, '%s-%s' % (basename, f))
                 else:
                     newf = os.path.join(self.builddir, '%s.%s' % (basename, f))
-                os.rename(f, newf)
+                msg = 'Failed to rename %s: File not found' % f
+                if os.path.exists(f):
+                    os.rename(f, newf)
+                else:
+                    self.check_dry_run(msg)
                 deploy_files.add(newf)
 
         deploy_files.add(self.get_configinfo_file())
@@ -685,8 +711,13 @@ class GenImage(object):
         self.do_build(targets)
 
         # Remove unneeded archs
+        existed_archs = []
         rpm_dir = os.path.join(self.tmpdir, 'deploy/rpm')
-        existed_archs = os.listdir(rpm_dir)
+        msg = "Failed to find %s" % rpm_dir
+        if os.path.exists(rpm_dir):
+            existed_archs = os.listdir(rpm_dir)
+        else:
+            self.check_dry_run(msg)
         for e in existed_archs:
             if e.startswith('.pkgdata.tar.bz2'):
                 continue
@@ -738,7 +769,11 @@ class GenImage(object):
 
         logger.info('Deploying %s'% rpm_dir)
         dst_dir = os.path.join(self.repos_dir, 'rpm')
-        shutil.copytree(rpm_dir, dst_dir)
+        msg = 'Failed to find %s' % rpm_dir
+        if os.path.exists(rpm_dir):
+            shutil.copytree(rpm_dir, dst_dir)
+        else:
+            self.check_dry_run(msg)
 
     def collect_extra_patches(self):
         """
@@ -800,11 +835,14 @@ class GenImage(object):
         tarname = os.path.basename(self.tmpdir) + '.tar.gz'
         self.mv_to_old('logs/%s' % tarname)
         cmd = "find %s/work/*/*/*/temp -name 'log.*' -exec cp -al --parent {} %s \;" % (self.tmpdir_bn, self.logs_dir)
-        run_cmd(cmd, cwd=self.builddir)
-        cmd = "tar --numeric-owner -czf %s %s" % (tarname, self.tmpdir_bn)
-        run_cmd(cmd, cwd=self.logs_dir)
-        shutil.rmtree(os.path.join(self.logs_dir, self.tmpdir_bn))
-
+        try:
+            run_cmd(cmd, cwd=self.builddir)
+            cmd = "tar --numeric-owner -czf %s %s" % (tarname, self.tmpdir_bn)
+            run_cmd(cmd, cwd=self.logs_dir)
+            shutil.rmtree(os.path.join(self.logs_dir, self.tmpdir_bn))
+        except Exception:
+            msg = "Failed to run: %s" % cmd
+            self.check_dry_run(msg)
         self.collect_extra_patches()
 
         if self.recipes:
