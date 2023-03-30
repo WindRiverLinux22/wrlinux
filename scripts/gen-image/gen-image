@@ -408,9 +408,8 @@ class GenImage(object):
             self.machine = self.args.machine
             with open(self.local_conf, 'a+') as f:
                 f.write('\nMACHINE = "%s"\n' % self.args.machine)
-                # Need need re-run 'bitbake -e', remove invalid tmpdir
+                # Need re-run 'bitbake -e', remove invalid tmpdir
                 tmpdir = get_bb_var('TMPDIR', bitbake_e)
-                shutil.rmtree(tmpdir)
                 bitbake_e = ''
 
         logger.info('Preparing build for %s' % self.machine)
