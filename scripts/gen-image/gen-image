@@ -269,7 +269,6 @@ class GenImage(object):
         if self.args.recipes.strip():
             self.recipes = ' '.join(self.args.recipes.split(','))
 
-        self.deploy_dir_rpm = ""
         self.ostree_repo = ""
 
         self.extra_patches_dir = os.path.join(self.handoff_dir, 'extra-patches')
@@ -452,10 +451,14 @@ class GenImage(object):
         all_archs = get_bb_var('ALL_MULTILIB_PACKAGE_ARCHS', bitbake_e).split()
         self.tmpdir = get_bb_var('TMPDIR', bitbake_e)
         self.deploy_dir_rpm = get_bb_var('DEPLOY_DIR_RPM', bitbake_e)
+        self.deploy_dir_image = get_bb_var('DEPLOY_DIR_IMAGE', bitbake_e)
         self.ostree_repo = get_bb_var('OSTREE_REPO', bitbake_e)
         self.bblayers = get_bb_var('BBLAYERS', bitbake_e)
         self.wrlinux_version = get_bb_var('WRLINUX_VERSION', bitbake_e)
         self.wrlinux_branch = get_bb_var('WRLINUX_BRANCH', bitbake_e)
+        self.pkgdata_dir = get_bb_var('PKGDATA_DIR', bitbake_e)
+
+        self.supported_packages = os.path.join(self.deploy_dir_image, 'supported_packages.txt')
 
         if not self.feed_archs:
             if not all_archs:
@@ -494,7 +497,7 @@ class GenImage(object):
         output = run_bitbake_cmd(target, logger)
         return output
 
-    def do_deploy(self, subdir, files):
+    def do_deploy(self, subdir, files, copy_twice=False):
         logger.info('Deploying %s' % subdir)
 
         def do_copy(src, dst_dir):
@@ -512,7 +515,6 @@ class GenImage(object):
         dst_dir_minimal = '%s-minimal-%s' % (dst_dir, self.machine)
         dst_dir_full = '%s-full-%s' % (dst_dir, self.machine)
         dst_dir_sdk = '%s-%s' % (dst_dir, self.machine)
-        copy_twice = False
         if self.image_minimal in ' '.join(files):
             copy_twice = True
         for f in files:
@@ -537,10 +539,10 @@ class GenImage(object):
         self.do_build('%s -cpopulate_sdk' % self.image)
         deploy_files = []
 
-        deploy_dir = os.path.join(self.tmpdir, 'deploy/sdk')
+        deploy_dir_sdk = os.path.join(self.tmpdir, 'deploy/sdk')
         suffixes = ['sdk.sh', 'sdk.host.manifest', 'sdk.target.manifest']
         for f in suffixes:
-            wildcard = "%s/*-%s-%s-%s" % (deploy_dir, self.machine.replace('-', '_'), self.image, f)
+            wildcard = "%s/*-%s-%s-%s" % (deploy_dir_sdk, self.machine.replace('-', '_'), self.image, f)
             files = glob.glob(wildcard)
             if len(files) != 1:
                 msg = "Should be only one %s file but found %s: \n%s" % (f, len(files), '\n'.join(files))
@@ -555,21 +557,20 @@ class GenImage(object):
         self.do_deploy('%s/sdk' % self.machine, deploy_files)
 
     def get_deploy_files(self, type='', uboot=True, images=[]):
-        deploy_dir = os.path.join(self.tmpdir, 'deploy/images/%s' % self.machine)
         deploy_files = []
         if not images:
             images = self.images
         for image in images:
-            prefix = '%s/%s-%s' % (deploy_dir, image, self.machine)
+            prefix = '%s/%s-%s' % (self.deploy_dir_image, image, self.machine)
             if type:
                 deploy_files.append('%s.%s' % (prefix, type))
             deploy_files.append('%s.manifest' % prefix)
-        ovmf = os.path.join(deploy_dir, 'ovmf.qcow2')
+        ovmf = os.path.join(self.deploy_dir_image, 'ovmf.qcow2')
         if os.path.exists(ovmf):
             deploy_files.append(ovmf)
         if uboot:
             if self.machine == "bcm-2xxx-rpi4":
-                qemu_u_boot = os.path.join(deploy_dir, 'qemu-u-boot-bcm-2xxx-rpi4.bin')
+                qemu_u_boot = os.path.join(self.deploy_dir_image, 'qemu-u-boot-bcm-2xxx-rpi4.bin')
                 deploy_files.append(qemu_u_boot)
         for f in deploy_files:
             logger.debug('Deploy file: %s' % f)
@@ -698,6 +699,7 @@ class GenImage(object):
 
         deploy_files.append(os.path.join(self.doc_dir, 'container.README.md'))
         deploy_files.append(self.get_configinfo_file())
+        deploy_files.append(self.supported_packages)
         self.do_deploy('%s/container' % self.machine, deploy_files)
 
     def gen_feeds(self):
@@ -708,6 +710,17 @@ class GenImage(object):
         else:
             targets = 'world docker %s' % ' '.join(self.images)
         self.do_build(targets)
+
+        # Get supported pkgs list
+        if not self.recipes:
+            logger.info("Generating %s..." % self.supported_packages)
+            with open(self.supported_packages, 'w') as f:
+                for i in os.listdir(self.pkgdata_dir):
+                    f.write('%s\n' % i)
+
+        # Add supported packages list to the tarball
+        self.do_deploy('%s/target' % self.machine, [self.supported_packages], copy_twice=True)
+        self.do_deploy('%s/container' % self.machine, [self.supported_packages], copy_twice=True)
 
         # Remove unneeded archs
         existed_archs = []
