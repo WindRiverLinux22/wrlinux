@@ -457,6 +457,7 @@ class GenImage(object):
         self.wrlinux_version = get_bb_var('WRLINUX_VERSION', bitbake_e)
         self.wrlinux_branch = get_bb_var('WRLINUX_BRANCH', bitbake_e)
         self.pkgdata_dir = get_bb_var('PKGDATA_DIR', bitbake_e)
+        self.base_workdir = get_bb_var('BASE_WORKDIR', bitbake_e)
 
         self.supported_packages = os.path.join(self.deploy_dir_image, 'supported_packages.txt')
 
@@ -902,9 +903,10 @@ class GenImage(object):
 
     def ip_review(self):
         logger.info('Generating sources for IP review')
-        if os.path.exists(self.tmpdir):
-            logger.info('Removing %s' % self.tmpdir)
-            shutil.rmtree(self.tmpdir)
+        # Remove base_workdir to save disk space
+        if os.path.exists(self.base_workdir) and not self.args.dry_run:
+            logger.info('Removing %s' % self.base_workdir)
+            shutil.rmtree(self.base_workdir)
         logger.info('Using prefile %s' % self.ip_conf)
         # The docker won't be built in a world build since it is started with "virtual/".
         self.do_build('world docker %s -r %s --runall=deploy_archives' % (' '.join(self.images), self.ip_conf))
@@ -929,11 +931,15 @@ class GenImage(object):
         self.mv_to_old('sources-%s' % self.machine)
         os.makedirs(dst_dir)
         # Use hardlinks
-        cmd = 'cp -al %s/*/* %s' % (src_dir, dst_dir)
-        run_cmd(cmd)
-        # Remove natives
-        cmd = 'rm -fr %s/*-native-*' % dst_dir
-        run_cmd(cmd)
+        try:
+            cmd = 'cp -al %s/*/* %s' % (src_dir, dst_dir)
+            run_cmd(cmd)
+            # Remove natives
+            cmd = 'rm -fr %s/*-native-*' % dst_dir
+            run_cmd(cmd)
+        except Exception:
+            msg = "Failed to run: %s" % cmd
+            self.check_dry_run(msg)
 
         # Archive the sources
         if os.path.exists(dst_dir):
