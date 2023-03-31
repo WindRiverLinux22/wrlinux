@@ -407,7 +407,7 @@ class GenImage(object):
             self.machine = self.args.machine
             with open(self.local_conf, 'a+') as f:
                 f.write('\nMACHINE = "%s"\n' % self.args.machine)
-                # Need re-run 'bitbake -e', remove invalid tmpdir
+                # Need re-run 'bitbake -e'
                 tmpdir = get_bb_var('TMPDIR', bitbake_e)
                 bitbake_e = ''
 
