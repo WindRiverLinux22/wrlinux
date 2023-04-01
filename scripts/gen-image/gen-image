@@ -435,7 +435,7 @@ class GenImage(object):
             logger.info('Removing %s' % self.pr_db)
             os.remove(self.pr_db)
 
-        if self.args.build_images or (self.machine and not self.args.ip_review):
+        if self.args.build_images or self.recipes or (self.machine and not self.args.ip_review):
             self.mv_to_old(self.machine)
             self.mv_to_old(self.handoff_name_ws)
 
@@ -719,9 +719,9 @@ class GenImage(object):
                 for i in os.listdir(self.pkgdata_dir):
                     f.write('%s\n' % i)
 
-        # Add supported packages list to the tarball
-        self.do_deploy('%s/target' % self.machine, [self.supported_packages], copy_twice=True)
-        self.do_deploy('%s/container' % self.machine, [self.supported_packages], copy_twice=True)
+            # Add supported packages list to the tarball
+            self.do_deploy('%s/target' % self.machine, [self.supported_packages], copy_twice=True)
+            self.do_deploy('%s/container' % self.machine, [self.supported_packages], copy_twice=True)
 
         # Remove unneeded archs
         existed_archs = []
@@ -909,21 +909,26 @@ class GenImage(object):
             shutil.rmtree(self.base_workdir)
         logger.info('Using prefile %s' % self.ip_conf)
         # The docker won't be built in a world build since it is started with "virtual/".
-        self.do_build('world docker %s -r %s --runall=deploy_archives' % (' '.join(self.images), self.ip_conf))
+        if self.recipes:
+            targets = '%s -c deploy_archives' % self.recipes
+        else:
+            targets = "world docker --runall=deploy_archives %s" % ' '.join(self.images)
+        self.do_build('%s -r %s' % (targets, self.ip_conf))
 
         # And sdk
         # The "bitbake wrlinux-image-full --runall=deploy_archives -cpopulate_sdk"
         # doesn't work, so we figure out the list and build them one by one
-        self.do_build('%s -r %s -cpopulate_sdk -g' % (self.image, self.ip_conf))
-        recipes = []
-        with open('pn-buildlist') as f:
-            for line in f.readlines():
-                line = line.strip()
-                # Only native sdk recipes are needed since others have already been built
-                if line.startswith('nativesdk-') and line != 'nativesdk-libgcc-initial':
-                    recipes.append(line)
+        if not self.recipes:
+            self.do_build('%s -r %s -cpopulate_sdk -g' % (self.image, self.ip_conf))
+            recipes = []
+            with open('pn-buildlist') as f:
+                for line in f.readlines():
+                    line = line.strip()
+                    # Only native sdk recipes are needed since others have already been built
+                    if line.startswith('nativesdk-') and line != 'nativesdk-libgcc-initial':
+                        recipes.append(line)
 
-        self.do_build('%s -r %s  -cdeploy_archives' % (' '.join(recipes), self.ip_conf))
+            self.do_build('%s -r %s  -cdeploy_archives' % (' '.join(recipes), self.ip_conf))
 
         src_dir = os.path.join(self.tmpdir, 'deploy/sources')
         logger.info('Deploying sources-%s' % self.machine)
@@ -1163,7 +1168,7 @@ def main():
     else:
         gen.prepare()
         # Generate both images and sources
-        if gen.args.ip_review and gen.args.build_images:
+        if gen.args.ip_review and (gen.args.build_images or gen.args.recipes):
             gen.gen_images()
             gen.ip_review()
         # Generate sources only
