@@ -706,7 +706,6 @@ class GenImage(object):
 
         deploy_files.append(os.path.join(self.doc_dir, 'container.README.md'))
         deploy_files.append(self.get_configinfo_file())
-        deploy_files.append(self.supported_packages)
         self.do_deploy('%s/container' % self.machine, deploy_files)
 
     def gen_feeds(self):
