@@ -721,8 +721,12 @@ class GenImage(object):
         if not self.recipes:
             logger.info("Generating %s..." % self.supported_packages)
             with open(self.supported_packages, 'w') as f:
-                for i in os.listdir(self.pkgdata_dir):
-                    f.write('%s\n' % i)
+                if os.path.exists(self.pkgdata_dir):
+                    for i in os.listdir(self.pkgdata_dir):
+                        f.write('%s\n' % i)
+                else:
+                    msg = "%s doesn't exist" % self.pkgdata_dir
+                    self.check_dry_run(msg)
 
             # Add supported packages list to the tarball
             self.do_deploy('%s/target' % self.machine, [self.supported_packages], copy_twice=True)
