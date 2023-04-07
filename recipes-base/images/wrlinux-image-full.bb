@@ -17,54 +17,8 @@ IMAGE_INSTALL += "\
     ca-certificates \
     "
 
-# Not needed by container image.
-CONTAINER_IMAGE_REMOVE ?= "\
-    ostree ostree-upgrade-mgr \
-    docker \
-    virtual-containerd \
-    python3-docker-compose \
-    linux-firmware-bcm43455 \
-    linux-firmware-bcm43430 \
-    u-boot-uenv \
-    i2c-tools \
-    alsa-utils \
-    pm-utils \
-    kernel-devicetree \
-    kernel-image-image \
-    kernel-module-brcmfmac \
-    kernel-module-btbcm \
-    kernel-module-bnep \
-    kernel-module-hci-uart \
-    kernel-module-snd-bcm2835 \
-    kernel-module-spi-bcm2835 \
-    kernel-module-i2c-bcm2835 \
-    kernel-module-bcm2835-v4l2 \
-    kernel-module-vc4 \
-    kernel-module-v3d \
-    kernel-module-bcm2835-gpiomem \
-    u-boot \
-    wr-themes \
-    packagegroup-xfce-extended \
-    intel-microcode \
-    iucode-tool \
-    rtl8723bs-bt \
-    grub-efi \
-    lmsensors \
-    efibootmgr \
-"
-
-IMAGE_INSTALL:remove = "\
-    ${@bb.utils.contains('IMAGE_ENABLE_CONTAINER', '1', '${CONTAINER_IMAGE_REMOVE}', '', d)} \
-"
-
-# No recomendations for container image
-NO_RECOMMENDATIONS = "${@bb.utils.contains('IMAGE_ENABLE_CONTAINER', '1', '1', '0', d)}"
-
 # Remove debug-tweaks
 IMAGE_FEATURES:remove = "debug-tweaks"
-
-# Remove x11-base for container image
-IMAGE_FEATURES:remove = "${@['', 'x11-base'][bb.utils.to_boolean(d.getVar('IMAGE_ENABLE_CONTAINER') or '0')]}"
 
 # Remove x11 packages since the board doesn't support graphic display
 IMAGE_FEATURES:remove_intel-socfpga-64 = "x11-base"

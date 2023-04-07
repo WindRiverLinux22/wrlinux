@@ -30,9 +30,6 @@ IMAGE_INSTALL = "\
 # - The ostree are not needed for container image.
 IMAGE_INSTALL:remove = "\
     packagegroup-core-base-utils \
-    ${@bb.utils.contains('IMAGE_ENABLE_CONTAINER', '1', 'ostree ostree-upgrade-mgr linux-firmware', '', d)} \
-    ${@bb.utils.contains('IMAGE_ENABLE_CONTAINER', '1', 'u-boot u-boot-uenv', '', d)} \
-    ${@bb.utils.contains('IMAGE_ENABLE_CONTAINER', '1', 'efibootmgr', '', d)} \
 "
 
 # For ostree

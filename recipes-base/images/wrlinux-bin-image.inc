@@ -12,16 +12,9 @@ CONTAINER_CORE_BOOT ?= " \
 
 TARGET_CORE_BOOT:append:x86-64 = " efibootmgr"
 
-# Only need tar.bz2 for container image
-IMAGE_FSTYPES:remove = " \
-    ${@bb.utils.contains('IMAGE_ENABLE_CONTAINER', '1', 'live wic wic.bmap otaimg', '', d)} \
-"
-
 # No bsp packages for container
 python () {
-    if bb.utils.to_boolean(d.getVar('IMAGE_ENABLE_CONTAINER')):
-        d.setVar('WRTEMPLATE_CONF_WRIMAGE_MACH', 'wrlnoimage_mach.inc')
-    else:
+    if not bb.utils.to_boolean(d.getVar('IMAGE_ENABLE_CONTAINER')):
         d.appendVar('IMAGE_FEATURES', ' wr-bsps')
         d.appendVar('IMAGE_FEATURES', ' x11-base')
 }
