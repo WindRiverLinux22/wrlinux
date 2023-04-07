@@ -495,7 +495,18 @@ class GenImage(object):
 
         if not target:
             target = self.image
-        output = run_bitbake_cmd(target, logger)
+        target_list = target.split()
+        ignore_errors = False
+        if '-k' in target_list:
+            ignore_errors = True
+        output = ''
+        try:
+            output = run_bitbake_cmd(target, logger)
+        except:
+            if ignore_errors:
+                logger.error('Failed to build "%s"' % target)
+            else:
+                raise
         return output
 
     def do_deploy(self, subdir, files, copy_twice=False):
@@ -714,7 +725,7 @@ class GenImage(object):
         if self.recipes:
             targets = self.recipes
         else:
-            targets = 'world docker %s' % ' '.join(self.images)
+            targets = '-k world docker %s' % ' '.join(self.images)
         self.do_build(targets)
 
         # Get supported pkgs list
