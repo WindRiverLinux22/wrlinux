@@ -53,10 +53,8 @@ CONTAINER_IMAGE_REMOVE ?= "\
     efibootmgr \
 "
 
-# No k8s by default
 IMAGE_INSTALL:remove = "\
     ${@bb.utils.contains('IMAGE_ENABLE_CONTAINER', '1', '${CONTAINER_IMAGE_REMOVE}', '', d)} \
-    kubernetes \
 "
 
 # No recomendations for container image
