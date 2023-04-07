@@ -721,7 +721,6 @@ class GenImage(object):
 
     def gen_feeds(self):
         logger.info('Generating packages feeds...')
-        # The docker won't be built in a world build since it is started by virtual.
         if self.recipes:
             targets = self.recipes
         else:
@@ -928,11 +927,10 @@ class GenImage(object):
             logger.info('Removing %s' % self.base_workdir)
             shutil.rmtree(self.base_workdir)
         logger.info('Using prefile %s' % self.ip_conf)
-        # The docker won't be built in a world build since it is started with "virtual/".
         if self.recipes:
             targets = '%s -c deploy_archives' % self.recipes
         else:
-            targets = "world docker --runall=deploy_archives %s" % ' '.join(self.images)
+            targets = "world --runall=deploy_archives %s" % ' '.join(self.images)
         self.do_build('%s -r %s' % (targets, self.ip_conf))
 
         # And sdk
