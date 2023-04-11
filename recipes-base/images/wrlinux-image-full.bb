@@ -15,6 +15,7 @@ IMAGE_INSTALL += "\
     ${@bb.utils.contains('IMAGE_ENABLE_CONTAINER', '1', '${CONTAINER_CORE_BOOT}', '${TARGET_CORE_BOOT}', d)} \
     openssh \
     ca-certificates \
+    packagegroup-wr-core-interactive \
     "
 
 # Remove debug-tweaks
