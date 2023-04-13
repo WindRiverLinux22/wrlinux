@@ -14,9 +14,9 @@ python transfer_security_cflags () {
             e.data.setVar("SECURITY_CFLAGS:pn-%s" % pn, cflags)
 
         arch = e.data.getVar('HOST_ARCH', True)
-        cflags = e.data.getVar("SECURITY_CFLAGS:pn-%s_%s" %(bpn, arch), True)
+        cflags = e.data.getVar("SECURITY_CFLAGS:pn-%s:%s" %(bpn, arch), True)
         if cflags is not None:
-            e.data.setVar("SECURITY_CFLAGS:pn-%s_%s" %(pn, arch), cflags)
+            e.data.setVar("SECURITY_CFLAGS:pn-%s:%s" %(pn, arch), cflags)
 }
 
 addhandler transfer_security_cflags
