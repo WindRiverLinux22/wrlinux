@@ -733,7 +733,9 @@ class GenImage(object):
             with open(self.supported_packages, 'w') as f:
                 if os.path.exists(self.pkgdata_dir):
                     for i in os.listdir(self.pkgdata_dir):
-                        f.write('%s\n' % i)
+                        i_path = os.path.join(self.pkgdata_dir, i)
+                        if os.path.isfile(i_path):
+                            f.write('%s\n' % i)
                 else:
                     msg = "%s doesn't exist" % self.pkgdata_dir
                     self.check_dry_run(msg)
