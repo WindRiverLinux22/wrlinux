@@ -14,6 +14,9 @@ No upstream definition, newly added by LAT
  
 --fat-size=
     MB size of fat partition
+    NOTE: Only works if installer image (SRC) and install device (DEST) are
+    not on the same device. Such as the installer image is on device /dev/sda,
+    and the install device is /dev/sdb
  
 --boot-size=
     MB size of boot partition
@@ -31,10 +34,10 @@ Example:
     # Try to install a list of available devices
     # /dev/nvme0n1,/dev/mmcblk0,/dev/sda,/dev/vda
     # It is useful while install device is not clear
-    # The fat size is 32MB, boot size is 512MB, root size is 8096MB,
+    # The boot size is 512MB, root size is 8096MB,
     # the rest free disk space is expanded to /var,
     # wait 60 seconds before erasing disk
-    lat-disk --install-device=/dev/nvme0n1,/dev/mmcblk0,/dev/sda,/dev/vda --fat-size=32 --boot-size=512 --root-size=8096 --var-size=0 --timeout=60
+    lat-disk --install-device=/dev/nvme0n1,/dev/mmcblk0,/dev/sda,/dev/vda --boot-size=512 --root-size=8096 --var-size=0 --timeout=60
  
     # Prompt for the installation target device, without wait to ignore option --timeout
     lat-disk --install-device=ask
