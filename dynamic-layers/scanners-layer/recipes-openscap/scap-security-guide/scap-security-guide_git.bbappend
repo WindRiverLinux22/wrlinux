@@ -3,8 +3,7 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=9bfa86579213cb4c6adaffface6b2820"
 
-SRCREV = "30b8273257ea357335def3f18d603d2024d13a18"
-SRC_URI = "git://github.com/OpenSCAP/scap-security-guide.git;branch=stable;protocol=https \
+SRC_URI = "https://github.com/ComplianceAsCode/content/releases/download/v0.1.62/scap-security-guide-0.1.62.tar.bz2 \
            file://0001-Add-product-WRLinux-LTS22.patch \
            file://0002-Add-prodtype-wrlinuxlts22-to-rules.patch \
            file://0003-Set-correct-package-names-for-wrlinuxlts22.patch \
@@ -38,7 +37,11 @@ SRC_URI = "git://github.com/OpenSCAP/scap-security-guide.git;branch=stable;proto
            file://0031-Replace-aide-with-samhain.patch \
           "
 
+SRC_URI[md5sum] = "762fa4b736086834081ededa5ec24310"
+SRC_URI[sha256sum] = "6d3398716bb0c7d2c01526af89f8cf42c0581ee10771e1dfbad98434d18098bf"
+
 PV = "0.1.62"
+S = "${WORKDIR}/scap-security-guide-${PV}"
 
 EXTRA_OECMAKE += "-DSSG_PRODUCT_CHROMIUM=OFF"
 EXTRA_OECMAKE += "-DSSG_PRODUCT_DEBIAN9=OFF"
