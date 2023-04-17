@@ -206,6 +206,31 @@ B - Reboot
 Select disk to format and install: 
 ```
 
+
+## FAQ
+### How to configure network during installation for kickstart
+Due to the kickstart configuration is an URL which requires networks
+and IP is available. Provide two ways to set boot args to configure
+network for kickstart
+
+1. Static IP
+
+   instnet=0 ip=<client-ip>::<gw-ip>:<netmask>:<hostname>:<device>:off:<dns0-ip>:<dns1-ip>
+   Example:
+    ip=10.0.2.15::10.0.2.1:255.255.255.0:tgt:eth0:off:10.0.2.3:8.8.8.8
+
+2. DHCP IPv4
+   instnet=dhcp - use dhcp ipv4
+   instnet=dhcp dhcpargs=DHCP_ARGS - use dhcp ipv4, specify which interface to use
+   instnet=dhcp BOOTIF=BOOT_IF_MAC - use dhcp ipv4, MAC address of the net interface,
+                                     its interface is used by dhcp client. MAC format,
+                                     such as BOOTIF=52:54:00:12:34:56 or BOOTIF=01-52-54-00-12-34-56
+   Example:
+     instnet=dhcp
+     instnet=dhcp dhcpargs=eth0
+     instnet=dhcp BOOTIF=52:54:00:12:34:56
+
+
 ## License
 The image is provided under the GPL-2.0 license.
 
