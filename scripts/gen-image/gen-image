@@ -1052,52 +1052,55 @@ class GenImage(object):
 
     def do_upload(self):
         logger.info('Preparing upload files...')
-        self.local_upload_dir = os.path.join(self.outdir, 'upload')
+        # Files which need to be uploaded are in self.local_upload
+        # including files which are used for internal testing and release
+        self.local_upload = os.path.join(self.outdir, 'upload')
         date = time.strftime("%Y-%m-%d")
-        self.local_upload_dir_date = os.path.join(self.local_upload_dir, date)
-        if os.path.exists(self.local_upload_dir):
+        local_upload_date = os.path.join(self.local_upload, date)
+        if os.path.exists(self.local_upload):
             self.mv_to_old('../upload')
 
-        os.makedirs(self.local_upload_dir)
+        os.makedirs(self.local_upload)
 
-        local_handoff_dir = os.path.join(self.local_upload_dir_date, self.handoff_name)
-        if not os.path.exists(local_handoff_dir):
-            os.makedirs(local_handoff_dir)
+        # Files which need to be released are in local_upload_handoff
+        local_upload_handoff = os.path.join(local_upload_date, self.handoff_name)
+        if not os.path.exists(local_upload_handoff):
+            os.makedirs(local_upload_handoff)
 
-        dst_dir_container = os.path.join(self.local_upload_dir_date, 'containers')
-        dst_dir_ws = os.path.join(self.local_upload_dir_date, 'ws')
-        dst_dir_readmes = os.path.join(self.local_upload_dir_date, 'READMEs')
+        dst_dir_container = os.path.join(local_upload_date, 'containers')
+        dst_dir_ws = os.path.join(local_upload_date, 'ws')
+        dst_dir_readmes = os.path.join(local_upload_date, 'READMEs')
         os.makedirs(dst_dir_container)
         os.makedirs(dst_dir_ws)
         os.makedirs(dst_dir_readmes)
-        local_sources = os.path.join(local_handoff_dir, 'sources')
+        local_sources = os.path.join(local_upload_handoff, 'sources')
         os.makedirs(local_sources)
         for m in os.listdir(self.handoff_dir):
             if m in ('prserv', 'logs', "extra-patches"):
                 continue
-            file_prefix = os.path.join(self.handoff_dir, m)
-            if os.path.exists(file_prefix):
+            m_path = os.path.join(self.handoff_dir, m)
+            if os.path.exists(m_path):
                 if m.startswith('sources-'):
-                    cmd = 'cp -aln %s/* %s' % (file_prefix, local_sources)
+                    cmd = 'cp -aln %s/* %s' % (m_path, local_sources)
                     run_cmd(cmd)
                     continue
 
-                wildcard = "%s/*/*.README.md" % file_prefix
+                wildcard = "%s/*/*.README.md" % m_path
                 files = glob.glob(wildcard)
                 if len(files) >= 1:
                     cmd = 'cp -aln %s %s' % (wildcard, dst_dir_readmes)
                     run_cmd(cmd)
 
                 if m.startswith('%s-' % self.handoff_name):
-                    cmd = 'cp -alf %s %s' % (file_prefix, dst_dir_ws)
+                    cmd = 'cp -alf %s %s' % (m_path, dst_dir_ws)
                     run_cmd(cmd)
                     continue
 
-                dst_dir_tgt = os.path.join(local_handoff_dir, m)
+                dst_dir_tgt = os.path.join(local_upload_handoff, m)
                 if not os.path.exists(dst_dir_tgt):
                     os.makedirs(dst_dir_tgt)
-                for d in os.listdir(file_prefix):
-                    d_path = os.path.join(file_prefix, d)
+                for d in os.listdir(m_path):
+                    d_path = os.path.join(m_path, d)
                     cmd = ""
                     if d.startswith('lat-'):
                         continue
@@ -1115,15 +1118,15 @@ class GenImage(object):
                         run_cmd(cmd)
 
         if os.path.exists(self.pr_dir):
-            shutil.copytree(self.pr_dir, os.path.join(local_handoff_dir, 'prserv'))
+            shutil.copytree(self.pr_dir, os.path.join(local_upload_handoff, 'prserv'))
 
-        dst_dir_logs = os.path.join(self.local_upload_dir_date, 'logs')
+        dst_dir_logs = os.path.join(local_upload_date, 'logs')
         if os.path.exists(self.logs_dir):
             shutil.copytree(self.logs_dir, dst_dir_logs)
 
         # Create a tarball for all the extra patches
         if os.path.exists(self.extra_patches_dir):
-            dst_dir_extra_patches = os.path.join(local_handoff_dir, 'extra-patches')
+            dst_dir_extra_patches = os.path.join(local_upload_handoff, 'extra-patches')
             for d in os.listdir(self.extra_patches_dir):
                 if not os.path.exists(dst_dir_extra_patches):
                     os.makedirs(dst_dir_extra_patches)
@@ -1132,14 +1135,14 @@ class GenImage(object):
                 run_cmd(cmd, cwd=self.extra_patches_dir)
 
         # Create a symlink to latest dir
-        os.symlink(date, os.path.join(self.local_upload_dir, 'latest'))
+        os.symlink(date, os.path.join(self.local_upload, 'latest'))
 
-        logger.info('Done. Files are prepared in %s' % self.local_upload_dir)
+        logger.info('Done. Files are prepared in %s' % self.local_upload)
 
         # Run rsync to remote url. Note, the slash '/' in cmd is very
         # important, otherwise, rsync would sync upload itself, but not the
         # files inside it.
-        cmd = 'rsync -a %s/ %s' % (self.local_upload_dir, self.args.upload_url)
+        cmd = 'rsync -a %s/ %s' % (self.local_upload, self.args.upload_url)
         logger.info('Running %s' % cmd)
         subprocess.check_call(cmd, shell=True)
 
