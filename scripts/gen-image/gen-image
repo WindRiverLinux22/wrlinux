@@ -920,6 +920,10 @@ class GenImage(object):
                             os.makedirs(self.handoff_dir_ws)
                         shutil.copy(tarname_path, self.handoff_dir_ws)
 
+        # Create a machine.done when the build is done
+        done = os.path.join(self.handoff_dir, '%s.done' % self.machine)
+        f = open(done, 'w')
+        f.close()
         logger.info('Deploy files: %s and WRLinux-lts-22-Images-%s' % (os.path.join(self.handoff_dir, self.machine), self.machine))
 
     def ip_review(self):
@@ -1079,6 +1083,9 @@ class GenImage(object):
             if m in ('prserv', 'logs', "extra-patches"):
                 continue
             m_path = os.path.join(self.handoff_dir, m)
+            if os.path.isfile(m_path) and m_path.endswith('.done'):
+                shutil.copy(m_path, self.local_upload)
+                continue
             if os.path.exists(m_path):
                 if m.startswith('sources-'):
                     cmd = 'cp -aln %s/* %s' % (m_path, local_sources)
