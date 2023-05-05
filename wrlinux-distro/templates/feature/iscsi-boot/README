@@ -1,0 +1,115 @@
+
+	Booting over the iSCSI network
+
+1. Supported BSP
+===============
+Currently, this feature is only verified on the following BSP(s):
+
+    intel-x86
+
+2. iSCSI target
+===============
+The iSCSI target is the server where the real root filesystem resides.
+It could also contain bootloader, kernel and initramfs, if required.
+
+3. Booting process
+==================
+There are several ways to boot into iSCSI target.
+
+1) Use a PXE firmware, such as iPXE to initiate iSCSI connection and
+run booloader, bzImage and initramfs, and then switch to real root.
+
+2) Use iPXE to download kernel and initramfs through tftp service and
+boot initramfs, then switch to real root.
+
+3) Some BIOS and UEFI can work as iSCSI initiator and connect iSCSI target
+themselves, and run the bootloader which is contained in iSCSI target.
+Then boot the kernel and mount real root.
+
+Wind River Linux can be used for the first two methods. You may need to
+consult with BIOS vender for the third method.
+
+4. Set up iSCSI target
+======================
+iSCSI target can be installed and enabled on most Linux distros.
+
+Here is an example of building a very simple iSCSI target.
+
+    # dnf install targetcli
+    # targetcli
+    targetcli shell version 2.1.54
+
+    /> cd backstores/block
+
+    /backstores/block> create dev=/dev/nvme0n1p4 name=sda
+    Created block storage object sda using /dev/nvme0n1p4
+
+    /> cd /iscsi
+
+    /iscsi> create wwn=iqn.2023-04.com.example:server
+
+    /iscsi> cd iqn.2023-04.com.example:server/tpg1/acls
+
+    /iscsi/iqn.20...ers/tpg1/acls> create wwn=iqn.2023-04.com.example:node
+    Created Node ACL for iqn.2023-04.com.example:node
+
+    /> cd /iscsi/iqn.2023-04.com.example:server/tpg1/luns
+
+    /iscsi/iqn.20...ers/tpg1/luns> create /backstores/block/sda
+    Created LUN 0.
+    Created LUN 0->0 mapping in node ACL iqn.2023-04.com.example:node
+
+    /iscsi/iqn.20...ver/tpg1/luns> cd /
+
+    /> ls
+    o- / .............................................................. [...]
+      o- backstores ................................................... [...]
+      | o- block ....................................... [Storage Objects: 1]
+      | | o- sda. ............./dev/nvme0n1p4 (50.0GiB) write-thru activated]
+      | |   o- alua ........................................ [ALUA Groups: 1]
+      | |     o- default_tg_pt_gp ............ [ALUA state: Active/optimized]
+      | o- fileio ...................................... [Storage Objects: 0]
+      | o- pscsi ....................................... [Storage Objects: 0]
+      | o- ramdisk ..................................... [Storage Objects: 0]
+      o- iscsi ................................................. [Targets: 1]
+      | o- iqn.2023-04.com.example:server ......................... [TPGs: 1]
+      |   o- tpg1 .................................... [no-gen-acls, no-auth]
+      |     o- acls ............................................... [ACLs: 1]
+      |     | o- iqn.2023-04.com.example:node .............. [Mapped LUNs: 1]
+      |     |   o- mapped_lun0 ....................... [lun0 block/sda1 (rw)]
+      |     o- luns ............................................... [LUNs: 1]
+      |     | o- lun0 ........[block/sda (/dev/nvme0n1p4) (default_tg_pt_gp)]
+      |     o- portals ......................................... [Portals: 1]
+      |       o- 0.0.0.0:3260 .......................................... [OK]
+      o- loopback .............................................. [Targets: 0]
+      o- vhost ................................................. [Targets: 0]
+
+    /> exit
+
+    # systemctl start target
+    # systemctl enable target
+
+Now, you have created the iSCSI target based on a real device /dev/nvme0n1p4.
+
+5. Build WRLinux
+================
+You must include the feature in your call to setup.sh.
+
+   --template=feature/iscsi-boot
+
+6. Continue to read
+===================
+If you run iSCSI boot on intel-x86 platform, please continue with
+README.intel-x86 in the same folder.
+
+7. Notes
+========
+1) If you want to boot into console of initramfs, append "rd.systemd.mask=initrd.target"
+to kernel boot command line.
+
+2) In order to customize iSCSI target connection script, you need to modify
+recipes-core/initrdscripts/files/init-iscsi.sh.
+
+#@TYPE: Wrtemplate
+#@NAME: iscsi-boot
+#@DESCRIPTION: To build iscsi boot images for Wind River Linux

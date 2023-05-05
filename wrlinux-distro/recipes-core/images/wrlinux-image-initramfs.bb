@@ -9,7 +9,8 @@ IMAGE_FSTYPES = "${INITRAMFS_FSTYPES}"
 
 inherit wrlinux-image
 
-IMAGE_INSTALL_INITRAMFS += "packagegroup-core-boot-wrs shadow"
+IMAGE_INSTALL_INITRAMFS += "packagegroup-core-boot-wrs shadow \
+                            ${@bb.utils.contains("DISTRO_FEATURES", "iscsi-boot", "initramfs-iscsi-boot", "", d)}"
 IMAGE_LINGUAS = ""
 
 QB_DEFAULT_FSTYPE = "cpio.gz"

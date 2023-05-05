@@ -1,0 +1,150 @@
+
+	Using iscsi-boot with intel-x86 BSP
+
+1. Overview
+===========
+You should read the general README in the same directory first before
+going with this intel-x86 spcific readme file.
+
+2. Build WRLinux
+================
+You must include the feature in your call to setup.sh.
+
+   --template=feature/iscsi-boot
+
+After the build is done, you will get the images in
+<build dir>/tmp-glibc/deploy/images/intel-x86-64/.
+
+    bootloader: grub-efi-bootx64.efi
+    kernel: bzImage
+    initramfs: wrlinux-image-initramfs-intel-x86-64.cpio.gz
+    real root: wrlinux-image-std-intel-x86-64.rootfs.tar.bz2
+
+3. Deploy Wind River Linux on iSCSI target
+==========================================
+On iSCSI target:
+
+    # cat /etc/iscsi/initiatorname.iscsi
+    InitiatorName=iqn.2023-04.com.example:node
+
+    # iscsiadm --mode discovery --type sendtargets --portal <iSCSI target IP address> --discover
+    # iscsiadm --mode node --targetname iqn.2023-04.com.example:server --login
+
+    # lsscsi
+    [8:0:0:0]    disk    LIO-ORG  sda              4.0   /dev/sda
+
+Now you need to create partitons on /dev/sda, format and deploy WRLinux image to it.
+
+Here is the typical layout of the iSCSI target.
+
+    +-----------------------------------------------------------+
+    |  EFI System (sda1) |             ext4 (sda2)              |
+    |-----------------------------------------------------------|
+    |     UEFI(grub)     |                                      |
+    |     kernel         |            real root filssystem      |
+    |     initramfs      |                                      |
+    +-----------------------------------------------------------+
+
+    /dev/sda1
+    |-- EFI
+    |   `-- BOOT
+    |       |-- bootx64.efi
+    |       `-- grub.cfg
+    |-- bzImage
+    `-- wrlinux-image-initramfs-intel-x86-64.cpio.gz
+
+    /dev/sda2
+    |-- bin
+    |-- boot
+    |-- dev
+    |-- etc
+    |-- home
+    |-- lib
+    |-- lib64
+    |-- log_lock.pid
+    |-- media
+    |-- mnt
+    |-- opt
+    |-- proc
+    |-- root
+    |-- run
+    |-- sbin
+    |-- srv
+    |-- sys
+    |-- tmp
+    |-- usr
+    `-- var
+
+Here is the content of grub.cfg.
+
+    <EFI/BOOT/grub.cfg>
+
+    serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1
+    timeout=5
+
+    menuentry 'WRLinux iSCSI boot'{
+    linux /bzImage root=/dev/sda2 rw rootwait console=ttyS0,115200 \
+                   ip=dhcp \
+                   initrd=wrlinux-image-initramfs-intel-x86-64.cpio.gz \
+                   initiator_name=iqn.2023-04.com.example:node \
+                   iscsi_target_ip=<IP address of iSCSI target> \
+                   iscsi_target_name=iqn.2023-04.com.example:server
+
+    initrd /wrlinux-image-initramfs-intel-x86-64.cpio.gz
+    }
+
+In the above example, "root=/dev/sda2" means the real root will be mounted as
+"sda2" on your board. You need to change it to "root=/dev/sdXx" according to your
+own hardware setup.
+
+Last, disconnect the target.
+
+    # umount /dev/sda1
+    # umount /dev/sda2
+    # iscsiadm --mode node --targetname iqn.2023-04.com.example:server  -u
+
+4. Boot from iPXE
+=================
+The feature of iSCSI must be enabled in ipxe.efi.
+
+Here is an example of the commands and boot log.
+
+    iPXE> dhcp
+    iPXE> set initiator-iqn iqn.2023-04.com.example:node
+    iPXE> sanboot iscsi:<IP address of iSCSI target>::::iqn.2023-04.com.example:server
+    .
+    .
+    .
+    Welcome to GRUB!
+
+    *WRLinux iSCSI boot
+
+    Linux version 5.15.110-yocto-standard (oe-user@oe-host)...
+    Command line: BOOT_IMAGE=/bzImage root=/dev/sda2 rw rootwait console=ttyS0,115200...
+    KERNEL supported cpus:
+    .
+    .
+    .
+    systemd[1]: Running in initial RAM disk.
+    .
+    .
+    .
+    Starting Mount real root file system through iSCSI connection
+    .
+    .
+    .
+    [  OK  ] Finished Mount real root file system through iSCSI connection.
+    .
+    .
+    .
+    [  OK  ] Reached target Switch Root.
+    Starting Switch Root...
+    .
+    .
+    .
+    [  OK  ] Reached target Multi-User System.
+    [  OK  ] Reached target Graphical Interface.
+
+    Wind River Linux Graphics LTS 22.33 Update 9 intel-x86-64 ttyS0
+
+    intel-x86-64 login:
