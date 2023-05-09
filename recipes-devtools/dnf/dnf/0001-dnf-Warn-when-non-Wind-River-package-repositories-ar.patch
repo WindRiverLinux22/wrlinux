@@ -1,0 +1,65 @@
+From 9cf96a4bf1e8ca88be5228aebcd010dba2376066 Mon Sep 17 00:00:00 2001
+From: Robert Yang <liezhi.yang@windriver.com>
+Date: Tue, 9 May 2023 09:21:04 +0000
+Subject: [PATCH] dnf: Warn when non-Wind River package repositories are being
+ used
+
+* Print a warning when non-Wind River package repositories are being used
+* Require confirm to use of non-Wind River package repositories
+
+Upstream-Status: Inappropriate [WRL distro only]
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ dnf/cli/cli.py    |  6 ++++++
+ dnf/cli/output.py | 17 +++++++++++++++++
+ 2 files changed, 23 insertions(+)
+
+diff --git a/dnf/cli/cli.py b/dnf/cli/cli.py
+index a02f2b61..a6eddabe 100644
+--- a/dnf/cli/cli.py
++++ b/dnf/cli/cli.py
+@@ -203,6 +203,12 @@ class BaseCli(dnf.Base):
+             if not install_pkgs:
+                 self.output.reportRemoveSize(rmpkgs)
+             else:
++                is_third_party = self.output.isThirdParty(install_pkgs)
++                if is_third_party and self._promptWanted():
++                    if self.conf.assumeno or not self.output.userconfirm():
++                        raise CliError(_("Operation aborted."))
++                    print()
++
+                 self.output.reportDownloadSize(install_pkgs, install_only)
+ 
+         if trans or self._moduleContainer.isChanged() or \
+diff --git a/dnf/cli/output.py b/dnf/cli/output.py
+index ecf05c2b..4a48cd24 100644
+--- a/dnf/cli/output.py
++++ b/dnf/cli/output.py
+@@ -904,6 +904,23 @@ class Output(object):
+         """
+         return self.matchcallback(po, values, matchfor, verbose=True)
+ 
++    def isThirdParty(self, packages):
++        vendor_name = "Wind River"
++        third_party_pkgs = []
++        for pkg in packages:
++            packager = pkg.packager if pkg.packager else ""
++            if vendor_name not in packager:
++                third_party_pkgs.append("%s\t\t\t%s" % (pkg.name, pkg.packager))
++
++        if third_party_pkgs:
++            logger.warning('Warning: The following packages are NOT from %s, please confirm before continue:' % vendor_name)
++            logger.warning('Package\t\t\tVendor')
++            logger.warning(' %s' % '\n '.join(third_party_pkgs))
++            print()
++            return True
++        else:
++            return False
++
+     def reportDownloadSize(self, packages, installonly=False):
+         """Report the total download size for a set of packages
+ 
+-- 
+2.35.5
+

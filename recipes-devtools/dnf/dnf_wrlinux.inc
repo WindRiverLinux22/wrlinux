@@ -12,3 +12,16 @@ SRC_URI:append:rpm-keyring-path = " \
 do_install:append:rpm-keyring-path () {
         mkdir -p ${D}${sysconfdir}/yum.repos.d
 }
+
+# For Distro only
+python() {
+    bbincluded = (d.getVar('BBINCLUDED') or '').split()
+    skip = '/wrlinux-bin-image.conf'
+    for i in bbincluded:
+        if i.endswith(skip):
+            skip = ''
+            break
+    if not skip:
+        d.appendVar('SRC_URI', ' file://0001-dnf-Warn-when-non-Wind-River-package-repositories-ar.patch')
+}
+# End of Distro
