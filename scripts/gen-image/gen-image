@@ -28,6 +28,7 @@ import git
 import socket
 import datetime
 import tarfile
+import re
 
 logger = logging.getLogger('gen-image')
 
@@ -515,7 +516,25 @@ class GenImage(object):
         def do_copy(src, dst_dir):
             if not os.path.exists(dst_dir):
                 os.makedirs(dst_dir)
-            shutil.copy(src, dst_dir)
+            # Replace @foo@ with the file in README:
+            if src.endswith('README.md'):
+                new_lines = []
+                with open(src) as f:
+                    for line in f.readlines():
+                        m = re.match('@(.*)@', line)
+                        if m:
+                            replace_file = os.path.join(self.doc_dir, m.group(1))
+                            with open(replace_file) as fin:
+                                new_lines += fin.readlines()
+                        else:
+                            new_lines.append(line)
+                bn = os.path.basename(src)
+                dst_file = os.path.join(dst_dir, bn)
+                with open(dst_file, 'w') as f:
+                    f.write(''.join(new_lines))
+
+            else:
+                shutil.copy(src, dst_dir)
 
         # The image file copy once, ovmf and document copy twice into the
         # following dirs:
