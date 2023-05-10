@@ -105,28 +105,4 @@ Select disk to format and install:
 You will see the login console after the installation is done and rebooted,
 login with root and change password for the first login.
 
-## Install a package
-Because dnf can't upgrade kernel on the ostree image, so run the following
-command to ensure kernel is up to date and reboot, this action is only needed
-when kernel is upgraded in the repo.
-    $ ostree_upgrade.sh -b
-
-The images are locked by default, so need unlock firstly:
-    $ ostree admin unlock --hotfix
-
-To install a package
-    $ dnf install <package>
-
-To remove a package
-    $ dnf remove <package>
-
-### Install Graphical Desktop (XFCE) to minimal image
-Here are the steps to install XFCE on minimal image:
-    $ ostree admin unlock --hotfix
-    $ dnf install -y packagegroup-xfce-base \
-                     packagegroup-core-x11-base \
-                     gsettings-desktop-schemas \
-                     wr-themes
-    $ systemctl set-default graphical.target
-    $ reboot
-
+@common_package_manager.md@
