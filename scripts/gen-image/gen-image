@@ -564,6 +564,7 @@ class GenImage(object):
 
         deploy_files.append(os.path.join(self.doc_dir, 'sdk.README.md'))
         deploy_files.append(os.path.join(self.doc_dir, 'appsdk.README.md'))
+        deploy_files.append(os.path.join(self.doc_dir, 'LICENSE.README.md'))
 
         deploy_files.append(self.get_configinfo_file())
         self.do_deploy('%s/sdk' % self.machine, deploy_files)
@@ -693,6 +694,8 @@ class GenImage(object):
         else:
             logger.warning('No README: %s' % ks_readme)
 
+        deploy_files.add(os.path.join(self.doc_dir, 'LICENSE.README.md'))
+
         write_sd_sh = os.path.join(self.doc_dir, '%s-sd.sh' %  self.machine)
         if os.path.exists(write_sd_sh):
             deploy_files.add(write_sd_sh)
@@ -716,6 +719,7 @@ class GenImage(object):
         deploy_files = self.get_deploy_files(type='tar.bz2', uboot=False)
 
         deploy_files.append(os.path.join(self.doc_dir, 'container.README.md'))
+        deploy_files.append(os.path.join(self.doc_dir, 'LICENSE.README.md'))
         deploy_files.append(self.get_configinfo_file())
         self.do_deploy('%s/container' % self.machine, deploy_files)
 
