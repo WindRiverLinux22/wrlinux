@@ -9,18 +9,7 @@ boards, run "update-grub-console.sh --help" to see more info.
 ## How to install/boot binary image
 
 ### On Host PC
-Under Linux, insert a USB flash drive.  Assuming the USB flash drive
-takes device /dev/sdX, use dd to copy the image to it.  Before the image
-can be burned onto a USB drive, it should be un-mounted. Some Linux distros
-may automatically mount a USB drive when it is plugged in. Using USB device
-/dev/sdX as an example, find all mounted partitions:
-
-    $ mount | grep sdX
-
-and un-mount those that are mounted, for example:
-
-    $ sudo umount /dev/sdX*
-
+@target_common_usb.md@
 Now burn the image onto the USB drive:
     For full image
     $ zcat wrlinux-image-full-amd-snowyowl-64.ustart.img.gz | sudo dd of=/dev/sdX bs=1M status=progress
