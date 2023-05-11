@@ -17,7 +17,7 @@ boards, run "update-grub-console.sh --help" to see more info.
 @target_common_usb.md@
 Now burn the image onto the USB drive:
     For full image
-    $ zcat image-full-intel-x86-64.ustart.img.gz | sudo dd of=/dev/sdX bs=1M status=progress
+    $ zcat wrlinux-image-full-intel-x86-64.ustart.img.gz | sudo dd of=/dev/sdX bs=1M status=progress
 
     Or minimal image
     $ zcat wrlinux-image-minimal-intel-x86-64.ustart.img.gz | sudo dd of=/dev/sdX bs=1M status=progress
