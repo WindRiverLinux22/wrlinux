@@ -30,6 +30,9 @@ This should give you a bootable USB flash device.
 ### On Board
 Insert the device into a bootable USB socket on the target, and power on.
 
+WARNING, the board must be in UEFI or UEFI/BIOS mode, otherwise, the image can't
+be installed or boot.
+
 @target_common_installer.md@
 
 ### On Qemu
