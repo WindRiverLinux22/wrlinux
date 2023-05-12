@@ -58,3 +58,25 @@ Publisher side:
     Publishing: {"msgnum": "2"}
     mid: 3
 
+## Add a package repository
+Add a file named with .repo in /etc/yum.repos.d, for example myrepo.repo:
+$ cat /etc/yum.repos.d/myrepo.repo
+[myrepo]
+name=myrepo
+baseurl=</url/to/repo>
+gpgcheck=0
+
+$ dnf makecache
+$ dnf install <package from myrepo>
+
+There will be a warning when use non-Wind River packages:
+Warning: The following packages are NOT from Wind River, please confirm before continue:
+Package                 Vendor
+ pkgname                <Vendor name>
+
+Is this ok [y/N]:
+
+You need confirm before install it. Or you can use 'dnf install -y' to assume
+yes for the answer:
+$ dnf install -y <package from myrepo>
+
