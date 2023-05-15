@@ -204,14 +204,21 @@ def package_compare_impl(pkgtype, d):
                     oldfile = None
                     oldfiles = sorted(glob.glob(destpathspec), key=os.path.getmtime)
                     if oldfiles:
+                        # Only need the latest one, others will be removed
                         oldfile = oldfiles[-1]
+                        oldfile_s = oldfile + '\n'
                         # Save old packages for removing in case this is a
                         # fresh build with old packges
-                        for oldline in oldfiles:
-                            oldline += '\n'
-                            if not oldline in pcmanifest_oldlines:
-                                with open(pcmanifest, 'a') as f:
-                                    f.write(oldline)
+                        if not oldfile_s in pcmanifest_oldlines:
+                            with open(pcmanifest, 'a') as f:
+                                f.write(oldfile_s)
+
+                        # Remove all other ones except the newest one.
+                        for fn in oldfiles[:-1]:
+                            if fn and os.path.exists(fn):
+                                os.remove(fn)
+                                bb.note('Removed old package %s' % fn)
+
                     if not docopy:
                         if oldfile:
                             result = subprocess.call(['env', 'PSEUDO_DISABLED=1', 'pkg-diff.sh', oldfile, srcpath])
