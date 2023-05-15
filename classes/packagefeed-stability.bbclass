@@ -208,7 +208,7 @@ def package_compare_impl(pkgtype, d):
                         # Save old packages for removing in case this is a
                         # fresh build with old packges
                         for oldline in oldfiles:
-                            oldline = '%s\n' % oldfile
+                            oldline += '\n'
                             if not oldline in pcmanifest_oldlines:
                                 with open(pcmanifest, 'a') as f:
                                     f.write(oldline)
