@@ -1,0 +1,15 @@
+This template adds qt6 examples to the filesystem.
+
+This template is often used with a desktop environment.
+As a demonstration, a desktop environment such as XFCE can be used when
+exploring this feature. Please add feature/xfce and layer meta-qt6:
+  --layers meta-qt6 --templates feature/xfce feature/qt-examples
+
+Build the platform project image:
+$ bitbake wrlinux-image-std
+
+Examples are located in /usr/share/examples/ directory.
+
+#@TYPE: Wrtemplate
+#@NAME: qt-examples
+#@DESCRIPTION: Adds qt6 examples to the image
