@@ -29,6 +29,7 @@ import socket
 import datetime
 import tarfile
 import re
+import difflib
 
 logger = logging.getLogger('gen-image')
 
@@ -461,6 +462,8 @@ class GenImage(object):
         self.pkgdata_dir = get_bb_var('PKGDATA_DIR', bitbake_e)
         self.base_workdir = get_bb_var('BASE_WORKDIR', bitbake_e)
         self.rpm_bin = os.path.join(self.tmpdir, 'sysroots/x86_64/usr/bin/rpm')
+        self.readme_hardware = get_bb_var('README_HARDWARE', bitbake_e)
+        self.readme_hardware_updated = os.path.join(self.deploy_dir_image, 'README.hardware')
 
         self.supported_packages = os.path.join(self.deploy_dir_image, 'supported_packages.txt')
 
@@ -665,6 +668,58 @@ class GenImage(object):
 
         return (config_outfile)
 
+    def update_readme_hardware(self):
+        """
+        Update README.hardware
+        """
+        # Skip values:
+        # 0: Not skip
+        # 1: May start skipping
+        # 2: Skip begins
+        skip = 0
+        old_lines = []
+        new_lines = []
+        with open(self.readme_hardware, 'r') as f:
+            counter = -1
+            old_lines = f.readlines()
+            for line in old_lines:
+                counter += 1
+                if skip != 2:
+                    new_lines.append(line)
+
+                if "Supported Boards" in line:
+                    # Start skipping if the next line is "========"
+                    skip = 1
+
+                if skip == 1 and line.startswith('========'):
+                    # Start skipping
+                    skip = 2
+                    new_lines.append('\nSee "Supported BSPs" section in target_%s.README.md\n\n' %  self.machine)
+                    continue
+
+                if skip == 2 and line.startswith('========'):
+                    # Stop skipping
+                    new_lines.append(old_lines[counter - 1])
+                    new_lines.append(line)
+                    skip = 0
+
+        with open(self.readme_hardware_updated, 'w') as f:
+            f.write("\nNOTE: This README.hardware is from Wind River Linux Source product,\n")
+            f.write("      part of the function's may not be supported by Distro.\n\n\n")
+            f.write(''.join(new_lines))
+
+        # Sanity check
+        d = difflib.Differ()
+        diff_list = list(d.compare(old_lines, new_lines))
+        diff_lines = []
+        for i in diff_list:
+            if i.startswith('+') or i.startswith('-'):
+                diff_lines.append(i)
+
+        # Something is very wrong if the diff lines are longer than 100
+        if len(diff_lines) > 100:
+            logger.error('The updated %s should be very wrong' % self.readme_hardware_updated)
+
     def gen_ostree(self):
         logger.info('Generating target image...')
 
@@ -706,18 +761,18 @@ class GenImage(object):
         deploy_files.add(self.get_configinfo_file())
 
         readme = os.path.join(self.doc_dir, 'target_%s.README.md' %  self.machine)
-        if os.path.exists(readme):
-            deploy_files.add(readme)
-        else:
-            logger.warning('No README: %s' % readme)
+        readme_ks = os.path.join(self.doc_dir, 'target_kickstart.README.md')
+        readme_lic = os.path.join(self.doc_dir, 'LICENSE.README.md')
 
-        ks_readme = os.path.join(self.doc_dir, 'target_kickstart.README.md')
-        if os.path.exists(ks_readme):
-            deploy_files.add(ks_readme)
-        else:
-            logger.warning('No README: %s' % ks_readme)
+        self.update_readme_hardware()
 
-        deploy_files.add(os.path.join(self.doc_dir, 'LICENSE.README.md'))
+        readmes = (readme, readme_ks, readme_lic, self.readme_hardware_updated)
+
+        for r in readmes:
+            if os.path.exists(r):
+                deploy_files.add(r)
+            else:
+                logger.error('File not found: %s' % r)
 
         write_sd_sh = os.path.join(self.doc_dir, '%s-sd.sh' %  self.machine)
         if os.path.exists(write_sd_sh):
