@@ -235,6 +235,7 @@ class GenImage(object):
             self.images = [self.image_minimal, self.image_full]
 
         self.doc_dir = os.path.join(os.path.dirname(sys.argv[0]), 'doc')
+        self.cleanup_repos_cmd = os.path.join(os.path.dirname(sys.argv[0]), 'cleanup-repos.py')
 
         self.local_layer = os.path.join(self.project, 'layers/local')
 
@@ -459,6 +460,7 @@ class GenImage(object):
         self.wrlinux_branch = get_bb_var('WRLINUX_BRANCH', bitbake_e)
         self.pkgdata_dir = get_bb_var('PKGDATA_DIR', bitbake_e)
         self.base_workdir = get_bb_var('BASE_WORKDIR', bitbake_e)
+        self.rpm_bin = os.path.join(self.tmpdir, 'sysroots/x86_64/usr/bin/rpm')
 
         self.supported_packages = os.path.join(self.deploy_dir_image, 'supported_packages.txt')
 
@@ -476,6 +478,8 @@ class GenImage(object):
 
         if self.args.repo_url:
             self.download_repos()
+
+        self.cleanup_repos()
 
     def mv_to_old(self, src_name):
         src = os.path.join(self.handoff_dir, src_name)
@@ -1188,7 +1192,7 @@ class GenImage(object):
         return False
 
     def download_repos(self):
-        logger.info('Downloading rpm packages ...')
+        logger.info('Downloading rpm packages...')
         if not os.path.exists(self.deploy_dir_rpm):
             os.makedirs(self.deploy_dir_rpm)
         cmd = 'rsync -a --delete %s/%s/repos/rpm/ %s' % (self.args.repo_url, self.machine, self.deploy_dir_rpm)
@@ -1199,6 +1203,21 @@ class GenImage(object):
             os.makedirs(self.ostree_repo)
         cmd = 'rsync -a --delete %s/%s/repos/ostree_repo/ %s' % (self.args.repo_url, self.machine, self.ostree_repo)
         run_cmd(cmd)
+
+    def cleanup_repos(self):
+        # Cleanup repos
+        logger.info('Cleanup rpm repos...')
+
+        if not os.path.exists(self.rpm_bin):
+            self.do_build('rpm-native')
+            self.do_build('build-sysroots')
+
+        # For dry run
+        if os.path.exists(self.rpm_bin):
+            cmd = '%s %s %s' % (self.cleanup_repos_cmd, self.rpm_bin, self.deploy_dir_rpm)
+            logger.info(run_cmd(cmd))
+        else:
+            logger.warning('Skipping cleanup rpm repos since rpm command not found')
 
     def gen_images(self):
         if not self.recipes:
