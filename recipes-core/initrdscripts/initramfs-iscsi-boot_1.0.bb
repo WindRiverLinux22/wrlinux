@@ -2,7 +2,9 @@ SUMMARY = "initramfs for iSCSI boot"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-inherit systemd
+inherit systemd features_check
+
+REQUIRED_DISTRO_FEATURES = "iscsi-boot"
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 SRC_URI = "file://init-iscsi.sh \
