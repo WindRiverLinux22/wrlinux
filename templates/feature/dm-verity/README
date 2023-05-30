@@ -1,0 +1,13 @@
+This template adds dm-verity support. This will create a dm-verity protected
+partition image and generate a standalone initramfs image which will be used
+for the device-mapper mapping and verification. If you prefer the initramfs to
+be bundled inside the kernel image, please uncomment the 'INITRAMFS_IMAGE_BUNDLE = "1"'
+in template.conf.
+
+To use this template, add the following to your setup line:
+
+    --templates feature/dm-verity
+
+#@TYPE: Wrtemplate
+#@NAME: dm-verity
+#@DESCRIPTION: Enable dm-verity support
