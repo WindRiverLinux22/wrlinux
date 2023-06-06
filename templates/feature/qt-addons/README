@@ -1,0 +1,13 @@
+This template adds the additional qt6 modules to the filesystem.
+
+This template is often used with a desktop environment.
+As a demonstration, a desktop environment such as XFCE can be used when
+exploring this feature. Please add feature/xfce and layer meta-qt6:
+    --layers meta-qt6 --templates feature/xfce feature/qt-addons
+
+Build the platform project image:
+$ bitbake wrlinux-image-std
+
+#@TYPE: Wrtemplate
+#@NAME: qt-addons
+#@DESCRIPTION: Adds additional qt6 modules to the image
