@@ -2,4 +2,32 @@ IMAGE_INSTALL += "\
     qtbase-examples \
     qtdeclarative-examples \
     qttools-examples \
+    qt3d-examples \
+    qtapplicationmanager-examples \
+    qtcharts-examples \
+    qtcoap-examples \
+    qtconnectivity-examples \
+    qtdatavis3d-examples \
+    qtdeviceutilities-examples \
+    qtgrpc-examples \
+    qthttpserver-examples \
+    qtinterfaceframework-examples \
+    qtlocation-examples \
+    qtmqtt-examples \
+    qtmultimedia-examples \
+    qtnetworkauth-examples \
+    qtopcua-examples \
+    qtpositioning-examples \
+    qtquick3d-examples \
+    qtquick3dphysics-examples \
+    qtremoteobjects-examples \
+    qtscxml-examples \
+    qtserialbus-examples \
+    qtserialport-examples \
+    qtspeech-examples \
+    qtsvg-examples \
+    qtvirtualkeyboard-examples \
+    qtwayland-examples \
+    qtwebchannel-examples \
+    qtwebsockets-examples \
 "
