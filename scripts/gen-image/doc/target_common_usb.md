@@ -10,7 +10,7 @@ and un-mount those that are mounted, for example:
 
     $ sudo umount /dev/sdX*
 
-#### Verify checkum for the downloaded image
+#### Verify checksum for the downloaded image
 There is a sha256sum.txt which saves the image's checksum, you can verify it by
 command sha256sum, for example:
 
