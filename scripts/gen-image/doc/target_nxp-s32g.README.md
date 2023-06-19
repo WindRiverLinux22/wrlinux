@@ -37,7 +37,7 @@ J50         1 x x           x x 3           x x 3
 SW6         6,7 on          7 on            all off
 -------------------------------------------------------
 
-Note, 'x' means connected.
+Note, 'x' means connected, "1 x x" means pin1 is unused, pin2 and pin3 is connected.
 
 Insert the SD card into SD slot, and then power on.
 
