@@ -30,12 +30,14 @@ This should give you a bootable micro SD card device.
 Note for EVB3, the board must enable MMC and disable eMMC, otherwise, it may
 fail to boot, the Jumper J50 should have the following values:
 
-+-------+-------+-------+
-| pin 1 | pin 2 | pin 3 |
-+-------+-------+-------+
-|  on   |  on   |  off  |
-+-------+-------+-------+
+            eMMC            SD              QSPI
+-------------------------------------------------------
+J50         1 x x           x x 3           x x 3
+-------------------------------------------------------
+SW6         6,7 on          7 on            all off
+-------------------------------------------------------
 
+Note, 'x' means connected.
 
 Insert the SD card into SD slot, and then power on.
 
