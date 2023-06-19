@@ -9,7 +9,7 @@ Build bootloader
     NOTE: The following u-boot.img is from WRLinux LAB, it isn't integrated into
     WRLinux image because of the license issue. Here is the steps to create:
     $ mkdir path_to_your_project && cd path_to_your_project
-    $ git clone --branch WRLINUX_10_21_BASE --single-branch  https://github.com/WindRiver-Labs/wrlinux-x.git
+    $ git clone --branch WRLINUX_10_22_BASE --single-branch  https://github.com/WindRiver-Labs/wrlinux-x.git
     $ ./wrlinux-x/setup.sh --machines=axxiaarm --accept-eula=yes
     $ . ./environment-setup-x86_64-wrlinuxsdk-linux
     $ . ./oe-init-build-env
