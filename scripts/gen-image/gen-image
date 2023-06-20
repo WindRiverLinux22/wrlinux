@@ -807,6 +807,9 @@ class GenImage(object):
             targets = self.recipes
         else:
             targets = '-k world docker %s' % ' '.join(self.images)
+            # qt6 can't be built on amd-snowyowl-64
+            if self.machine != "amd-snowyowl-64":
+                targets += ' packagegroup-qt6-addons packagegroup-qt6-essentials'
         self.do_build(targets)
 
         # Get supported pkgs list
