@@ -1,6 +1,11 @@
-This template adds lapack (Linear Algebra PACKage)
-to the filesystem.
+This template adds LAPACK (Linear Algebra PACKage) and LAPACKE
+which is the C wrapper for the standard F90 LAPACK library to the filesystem.
 
 To use this template, add the following to your setup line:
 
     --templates feature/lapack
+
+#@TYPE: Wrtemplate
+#@NAME: lapack
+#@DESCRIPTION: Add LAPACK and LAPACKE to the image
+
